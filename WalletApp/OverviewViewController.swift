@@ -53,7 +53,7 @@ class OverviewViewController: UIViewController {
     private func fetchItemsFromCoreData() {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: true) ]
+        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
 
         fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: AppDelegate.context, sectionNameKeyPath: nil, cacheName: nil)
         fetchResultsController.delegate = self
@@ -69,7 +69,7 @@ class OverviewViewController: UIViewController {
     func reloadData(predicate: NSPredicate? = nil) {
         
         fetchResultsController.fetchRequest.predicate = predicate
-        
+
         do {
             try fetchResultsController.performFetch()
             print("loading")
@@ -114,10 +114,14 @@ class OverviewViewController: UIViewController {
             
             if tempExpense.isExpense {
                 totalExpense += tempExpense.amount
-                allExpenses.append(tempExpense)
+                if allExpenses.count < 10 {
+                    allExpenses.append(tempExpense)
+                }
             } else {
                 totalIncoming += tempExpense.amount
-                allIncomings.append(tempExpense)
+                if allIncomings.count < 10 {
+                    allIncomings.append(tempExpense)
+                }
             }
             
         }
@@ -152,6 +156,8 @@ class OverviewViewController: UIViewController {
         incomeChart.chartDescription?.text = ""
         incomeChart.legend.enabled = false // hides bottom legends
         incomeChart.drawEntryLabelsEnabled = false // hides description labels
+        incomeChart.holeColor = .clear
+
         //end of incoming chart
 
         
@@ -172,6 +178,8 @@ class OverviewViewController: UIViewController {
         expensesChart.chartDescription?.text = ""
         expensesChart.legend.enabled = false // hides bottom legends
         expensesChart.drawEntryLabelsEnabled = false // hides description labels
+        expensesChart.holeColor = .clear
+
         //end of expense chart
         
         
@@ -207,17 +215,16 @@ extension OverviewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == incomeTableView {
-            print("incoming", allIncomings.count)
-            return allIncomings.count
 
+            return allIncomings.count
         }
-        print("expenses", allExpenses.count)
+
         return allExpenses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ExpenseTableViewCell
         
         var expense: Expense!
 
@@ -227,10 +234,11 @@ extension OverviewViewController: UITableViewDataSource {
             expense = allExpenses[indexPath.row]
         }
         
-        cell.textLabel?.text = expense.nameDescription
-        cell.detailTextLabel?.text = "\(expense.amount)"
+        cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row))
         
         return cell
     }
+    
+
 
 }

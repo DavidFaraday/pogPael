@@ -10,13 +10,16 @@ import UIKit
 
 class TransactionTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var imageBackgroundView: UIView!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
+        imageBackgroundView.layer.cornerRadius = imageBackgroundView.frame.width / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -26,10 +29,12 @@ class TransactionTableViewCell: UITableViewCell {
     
     func generateCell(expense: Expense) {
         if expense.category != nil {
-            iconImageView.image = UIImage.init(named: expense.category!)
+            categoryImageView.image = getImageFor(expense.category ?? "")
         }
         descriptionLabel.text = expense.nameDescription
-        amountLabel.text = convertToCurrency(number: expense.amount)
+        amountLabel.text = convertToCurrency(number: expense.amount).replacingOccurrences(of: ".00", with: "")
+        dateLabel.text = expense.date?.longDate()
+        amountLabel.textColor = ColorFromExpenseType(expense.isExpense)
     }
 
 

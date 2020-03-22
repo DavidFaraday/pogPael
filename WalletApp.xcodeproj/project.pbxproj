@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559CF46F24279EC700CBA24E /* CalendarViewController.swift */; };
+		55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */; };
+		55EAD19A2423656000E62419 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD1992423656000E62419 /* Extensions.swift */; };
 		5B49F6EC71D2DAE1FFE10D57 /* Pods_WalletApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D4D71D8F6C7F330572DAA3 /* Pods_WalletApp.framework */; };
 		6305EC7520BC528300AE3989 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305EC7420BC528300AE3989 /* OverviewViewController.swift */; };
 		6305EC7720BC573500AE3989 /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305EC7620BC573500AE3989 /* ExpensesViewController.swift */; };
@@ -34,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		2FF6B8FAC19E7B3BDCFE78FF /* Pods-WalletApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalletApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalletApp/Pods-WalletApp.debug.xcconfig"; sourceTree = "<group>"; };
+		559CF46F24279EC700CBA24E /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
+		55EAD1992423656000E62419 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6305EC7420BC528300AE3989 /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		6305EC7620BC573500AE3989 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		6305EC7820BC5A8200AE3989 /* IncomingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingsViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +106,7 @@
 				63EA934C20BF27D30082F3E7 /* Categories.swift */,
 				638EE76720BBCC4B00943AF0 /* Helpers.swift */,
 				63450D7020C035B10076B2E4 /* Constants.swift */,
+				55EAD1992423656000E62419 /* Extensions.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -126,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				63450D7620C0697D0076B2E4 /* CategoryTableViewCell.swift */,
+				55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */,
 				63DE0EDA21693318000549EB /* CategoryCollectionViewCell.swift */,
 				63A3DB5621878C360067CE57 /* TransactionTableViewCell.swift */,
 			);
@@ -157,6 +165,7 @@
 				63450D6C20C032370076B2E4 /* Dashboard */,
 				6307B170216A8345006A442C /* AddItem */,
 				636444A921628DAC00C77E8D /* TransactionsViewController.swift */,
+				559CF46F24279EC700CBA24E /* CalendarViewController.swift */,
 				639C482E216A1D5D00DC0B6B /* Settings */,
 				63DE0ED9216932EB000549EB /* CustomCells */,
 				639C482D216A1A2B00DC0B6B /* Classes */,
@@ -262,17 +271,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FBF72BA46221B99D85A59243 /* [CP] Check Pods Manifest.lock */ = {
@@ -306,14 +314,17 @@
 				63DE0EDB21693318000549EB /* CategoryCollectionViewCell.swift in Sources */,
 				63450D7320C0373A0076B2E4 /* CategoriesTableViewController.swift in Sources */,
 				63DCB6312162268F005B2D28 /* AnimationManager.swift in Sources */,
+				55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */,
 				63E1D41020BB2F6F00049FC9 /* AddExpenseViewController.swift in Sources */,
 				636444AA21628DAC00C77E8D /* TransactionsViewController.swift in Sources */,
 				63E1D3FB20BB27B500049FC9 /* AppDelegate.swift in Sources */,
 				638EE76820BBCC4B00943AF0 /* Helpers.swift in Sources */,
 				63EA934D20BF27D30082F3E7 /* Categories.swift in Sources */,
+				559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */,
 				63450D6F20C0328E0076B2E4 /* SettingsTableViewController.swift in Sources */,
 				638EE76620BBC8AB00943AF0 /* DashboardViewController.swift in Sources */,
 				6305EC7920BC5A8200AE3989 /* IncomingsViewController.swift in Sources */,
+				55EAD19A2423656000E62419 /* Extensions.swift in Sources */,
 				636444A821625B2900C77E8D /* CustomViewController.swift in Sources */,
 				63450D7720C0697D0076B2E4 /* CategoryTableViewCell.swift in Sources */,
 				63A3DB5721878C360067CE57 /* TransactionTableViewCell.swift in Sources */,
@@ -465,6 +476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7P6AJEE272;
 				INFOPLIST_FILE = WalletApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -484,6 +496,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7P6AJEE272;
 				INFOPLIST_FILE = WalletApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

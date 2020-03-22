@@ -15,7 +15,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     
     func generateCell(categoryName: String) {
-        iconImageView.image = UIImage.init(named: categoryName)
+        iconImageView.image = getImageFor(categoryName)
         nameLabel.text = categoryName
     }
 

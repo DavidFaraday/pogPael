@@ -54,10 +54,11 @@ class CustomTabBarController: UITabBarController {
     
     @objc private func centerButtonAction(sender: UIButton) {
         
-        let dashboardVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddItemView")
+        let addItemVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddItemView")
         
         let vc = self.viewControllers![selectedIndex]
-        vc.present(dashboardVC, animated: true, completion: nil)
+        addItemVC.modalPresentationStyle = .fullScreen
+        vc.present(addItemVC, animated: true, completion: nil)
     }
     
     func hideCenterButton() {
@@ -72,7 +73,7 @@ class CustomTabBarController: UITabBarController {
     // MARK: - Private methods
     
     private func setupMiddleButton() {
-        centerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        centerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
         var centerButtonFrame = centerButton.frame
         centerButtonFrame.origin.y = tabBar.frame.origin.y - centerButtonFrame.height / 2 - 10

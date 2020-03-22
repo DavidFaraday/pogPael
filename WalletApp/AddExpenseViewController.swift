@@ -13,13 +13,11 @@ import CoreData
 class AddExpenseViewController: UIViewController {
     
     //MARK: Containers
-
     @IBOutlet weak var nameViewContainer: UIView!
     @IBOutlet weak var categoryViewContainer: UIView!
     
     
     //MARK: Outlets
-
     @IBOutlet weak var keyboardView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var topViewContainer: UIView!
@@ -35,61 +33,55 @@ class AddExpenseViewController: UIViewController {
     @IBOutlet weak var repeatTextField: UITextField!
     
     
-    //MARK: Calss Vars
+    //MARK: Vars
     var amount: Double = 0.0
     var amountText = ""
     var category = "general"
+    var entryDate = Date()
     
     var isDisplayingCategory = true
+    
+    var expenseToEdit: Expense?
     
     //MARK: ViewLifeCycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.nameViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
-        self.categoryViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
+        updateViewPositions()
     }
     
     override func viewDidLayoutSubviews() {
-        if isDisplayingCategory {
-            self.categoryViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
-        } else {
-            self.nameViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
-            self.categoryViewContainer.frame.origin.y = AnimationManager.screenBounds.maxY + 1
 
-        }
+        updateViewPositions()
     }
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setEntryDate()
+        
+        if expenseToEdit != nil {
+            setupEditingUI()
+        }
+        
+        setupBarButtons()
+
         setupUI()
         createKeyboardButtons()
         updateLabel()
+        addGestureToDateTextField()
     }
 
-
+    private func addGestureToDateTextField() {
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(dateTextFieldTap))
+        dateTextField.addGestureRecognizer(tapGesture)
+        dateTextField.isUserInteractionEnabled = true
+    }
 
     //MARK: IBActions
-    
-    @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
-        
-        isDisplayingCategory = !isDisplayingCategory
-        
-        
-        if sender.title == "Next" {
-            showNameView()
-        } else {
-            saveExpense()
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    @IBAction func cancelButtonPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     
     @IBAction func categorySegmentValueChanged(_ sender: Any) {
         collectionView.reloadData()
@@ -103,15 +95,110 @@ class AddExpenseViewController: UIViewController {
         isDisplayingCategory = true
     }
     
+    @objc func leftBarButtonPressed() {
+        
+        if expenseToEdit == nil {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            deleteExpense()
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
+    @objc func rightBarButtonPressed() {
+        
+        let title = self.navigationItem.rightBarButtonItems?.first?.title
+        
+        if expenseToEdit == nil {
+            //adding
+            isDisplayingCategory = !isDisplayingCategory
+            
+            if title == "Next" {
+                showNameView()
+            } else {
+                createExpense()
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            //editing
+            if title == "Next" {
+                isDisplayingCategory = !isDisplayingCategory
+
+                showNameView()
+            } else {
+                editExpense()
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+
+    }
+    
+    @objc func dateTextFieldTap() {
+        
+        let calendarView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarVC") as! CalendarViewController
+        calendarView.delegate = self
+        
+        self.navigationController?.pushViewController(calendarView, animated: true)
+    }
     
     //MARK: UpdateUI
+    
+    private func updateViewPositions() {
+        if isDisplayingCategory {
+
+            self.categoryViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
+        } else {
+
+            self.nameViewContainer.frame.origin.y = topViewContainer.frame.maxY + 1
+            self.categoryViewContainer.frame.origin.y = AnimationManager.screenBounds.maxY + 1
+
+        }
+    }
+    
+    
+    private func setupEditingUI() {
+        isDisplayingCategory = false
+        categorySegment.isHidden = true
+        amount = expenseToEdit!.amount
+        category = expenseToEdit!.category!.lowercased()
+        nameTextField.text = expenseToEdit!.nameDescription
+        dateTextField.text = expenseToEdit!.date?.longDate()
+        animateCategoryImage(imageName: category)
+    }
+    
+    private func setupBarButtons() {
+        
+        var leftButton: UIBarButtonItem!
+        var rightButton: UIBarButtonItem!
+
+        if expenseToEdit == nil {
+            //adding
+           leftButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.leftBarButtonPressed))
+            
+           rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(self.rightBarButtonPressed))
+
+        } else {
+            //editing
+            leftButton = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(self.leftBarButtonPressed))
+             
+            rightButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.rightBarButtonPressed))
+        }
+        
+        self.navigationItem.leftBarButtonItems = [leftButton]
+        self.navigationItem.rightBarButtonItems = [rightButton]
+    }
+
+    
     private func setupUI() {
         categoryBackgroundView.layer.cornerRadius = categoryBackgroundView.frame.width / 2
     }
 
     func updateLabel() {
         amountLabel.attributedText = formatStringDecimalSize(convertToCurrency(number: amount), mainNumberSize: 30.0, decimalNumberSize: 15.0)
+    }
+    
+    private func setEntryDate() {
+        dateTextField.text = entryDate.longDate()
     }
     
     
@@ -162,8 +249,8 @@ class AddExpenseViewController: UIViewController {
 
     //MARK: Saving Item
     
-    private func saveExpense() {
-        
+    private func createExpense() {
+
         if nameTextField.text != "" && amount != 0.0 {
             let context = AppDelegate.context
             let expense = Expense(context: context)
@@ -171,21 +258,40 @@ class AddExpenseViewController: UIViewController {
             expense.category = category
             expense.isExpense = (categorySegment.selectedSegmentIndex == 0)
             expense.nameDescription = nameTextField.text
-            expense.date = Date() // to be changed later
+            expense.date = entryDate
             expense.shouldRepeat = false //to be changed later
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
-            print("no name or amount")
+            print("no name or amount to add")
         }
         
     }
     
+    private func editExpense() {
 
-    
+        if nameTextField.text != "" && amount != 0.0 {
+            expenseToEdit!.amount = amount
+            expenseToEdit!.category = category
+            expenseToEdit!.isExpense = (categorySegment.selectedSegmentIndex == 0)
+            expenseToEdit!.nameDescription = nameTextField.text
+            expenseToEdit!.date = entryDate
+            expenseToEdit!.shouldRepeat = false //to be changed later
+            
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        } else {
+            print("no name or amount to edit")
+        }
+        
+    }
+
+    private func deleteExpense() {
+        (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.delete(expenseToEdit!)
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
 }
 
-//for choose categoary
+//for choose category
 extension AddExpenseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     
@@ -228,7 +334,7 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
             imageName = IncomeCategories.array[indexPath.row].rawValue
         }
         
-        category = imageName
+        category = imageName.capitalizingFirstLetter()
         animateCategoryImage(imageName: imageName)
     }
     
@@ -369,4 +475,16 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
     }
 
 
+}
+
+
+extension AddExpenseViewController: CalendarViewControllerDelegate {
+    
+    func didSelectDate(_ selectedDate: Date) {
+        isDisplayingCategory = false
+        updateViewPositions()
+        self.entryDate = selectedDate
+        setEntryDate()
+    }
+    
 }

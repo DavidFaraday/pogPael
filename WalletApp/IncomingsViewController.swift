@@ -45,7 +45,7 @@ class IncomingsViewController: UIViewController {
     func reloadData(predicate: NSPredicate? = nil) {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: true) ]
+        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
         
         fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchResultsController.delegate = self
@@ -54,6 +54,7 @@ class IncomingsViewController: UIViewController {
         
         fetchResultsController.fetchRequest.predicate = predicate
         fetchResultsController.fetchRequest.sortDescriptors = [sort]
+        fetchResultsController.fetchRequest.fetchLimit = 10
 
         do {
             try fetchResultsController.performFetch()
@@ -117,6 +118,7 @@ class IncomingsViewController: UIViewController {
         incomingChart.chartDescription?.text = ""
         incomingChart.legend.enabled = false // hides bottom legends
         incomingChart.drawEntryLabelsEnabled = false // hides description labels
+        incomingChart.holeColor = .clear
 
         animateChartWithDelay()
     }
@@ -152,12 +154,12 @@ extension IncomingsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ExpenseTableViewCell
+
         let expense = fetchResultsController.object(at: indexPath) as! Expense
         
-        cell.textLabel?.text = expense.nameDescription
-        cell.detailTextLabel?.text = "\(expense.amount)"
+        cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row))
+
         
         return cell
     }

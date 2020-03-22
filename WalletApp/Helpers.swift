@@ -8,17 +8,37 @@
 
 import Foundation
 import UIKit
+import Charts
 
 func getImageFor(_ categoryName: String) -> UIImage {
-    return UIImage(named: categoryName)!
+    return UIImage(named: categoryName.lowercased())!
 }
 
 
+func ColorFromChart(_ _row: Int) -> UIColor {
+    var row = _row
+    if row > 9 {
+        row = Int.random(in: 0 ..< 9)
+    }
+    return ChartColorTemplates.joyful()[row]
+}
+
+func ColorFromExpenseType(_ isExpense: Bool) -> UIColor {
+
+    return isExpense ? .expenseColor : .incomeColor
+}
+
+func ColorFromAmount(_ amount: Double) -> UIColor {
+
+    return amount >= 0.0 ? .incomeColor : .expenseColor
+}
+
 func convertToCurrency(number: Double) -> String {
+        
     let currencyFormatter = NumberFormatter()
     currencyFormatter.usesGroupingSeparator = true
     currencyFormatter.numberStyle = .currency
-    // localize to your grouping and decimal separator
+    // localized to your grouping and decimal separator
     currencyFormatter.locale = Locale.current
     
     let priceString = currencyFormatter.string(from: NSNumber(value: number))!
@@ -50,23 +70,4 @@ func formatStringDecimalSize(_ stringToFormat: String, mainNumberSize: CGFloat, 
 }
 
 
-extension UIButton {
-    private func imageWithColor(color: UIColor) -> UIImage? {
-        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image
-    }
-    
-    func setBackgroundColor(_ color: UIColor, for state: UIControlState) {
-        self.setBackgroundImage(imageWithColor(color: color), for: state)
-    }
-}
 
