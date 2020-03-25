@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DatePopUpMenuController" customModule="WalletApp" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="13e-hQ-bLg"/>
+                <outlet property="datePicker" destination="wzK-xC-1Qc" id="gNg-FR-BoG"/>
+                <outlet property="datePickerSegmentedController" destination="AYN-cb-NPx" id="IaK-hY-T2w"/>
+                <outlet property="topHandleBar" destination="Hh7-mZ-xTM" id="21m-YB-NAr"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="421"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hh7-mZ-xTM">
+                    <rect key="frame" x="154" y="54" width="106" height="6"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="106" id="C3i-g5-fys"/>
+                        <constraint firstAttribute="height" constant="6" id="Hhm-36-Juz"/>
+                    </constraints>
+                </view>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="AYN-cb-NPx">
+                    <rect key="frame" x="66.5" y="90" width="281" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="31" id="U00-U1-Ysp"/>
+                        <constraint firstAttribute="width" constant="281" id="YCc-Z6-P3D"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Week"/>
+                        <segment title="Month"/>
+                        <segment title="Year"/>
+                    </segments>
+                    <connections>
+                        <action selector="datePickerSegmentedValueChanged:" destination="-1" eventType="valueChanged" id="tXs-WI-U8R"/>
+                    </connections>
+                </segmentedControl>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ea0-6r-Hnv">
+                    <rect key="frame" x="20" y="151" width="374" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzK-xC-1Qc">
+                    <rect key="frame" x="0.0" y="177" width="414" height="120"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="uVg-yK-WJx"/>
+                    </constraints>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="AYN-cb-NPx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3Lp-3W-Yhy"/>
+                <constraint firstItem="Hh7-mZ-xTM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4Zx-kJ-9CB"/>
+                <constraint firstItem="wzK-xC-1Qc" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="AvR-Tg-H12"/>
+                <constraint firstItem="wzK-xC-1Qc" firstAttribute="top" secondItem="Ea0-6r-Hnv" secondAttribute="bottom" constant="5" id="Han-f0-Hfd"/>
+                <constraint firstItem="Ea0-6r-Hnv" firstAttribute="top" secondItem="AYN-cb-NPx" secondAttribute="bottom" constant="30" id="Jae-ei-5lF"/>
+                <constraint firstItem="AYN-cb-NPx" firstAttribute="top" secondItem="Hh7-mZ-xTM" secondAttribute="bottom" constant="30" id="P6p-Iv-NeU"/>
+                <constraint firstItem="wzK-xC-1Qc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="W5K-Dj-3Bg"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Ea0-6r-Hnv" secondAttribute="trailing" constant="20" id="aDH-LU-3iw"/>
+                <constraint firstItem="Hh7-mZ-xTM" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="jdI-4N-vrl"/>
+                <constraint firstItem="Ea0-6r-Hnv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="v7O-qh-xYd"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="27.536231884057973" y="219.97767857142856"/>
+        </view>
+    </objects>
+</document>

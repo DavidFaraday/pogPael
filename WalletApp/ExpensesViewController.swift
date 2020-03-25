@@ -159,7 +159,7 @@ extension ExpensesViewController: UITableViewDataSource {
 
         let expense = fetchResultsController.object(at: indexPath) as! Expense
         
-        cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row))
+        cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row), dateFormatShort: false)
 
         return cell
     }

@@ -87,13 +87,21 @@ class AddExpenseViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @IBAction func imageTaped(_ sender: UITapGestureRecognizer) {
+    @IBAction func amountLabelTaped(_ sender: UITapGestureRecognizer) {
         
         if !isDisplayingCategory {
             showCategoryView()
         }
         isDisplayingCategory = true
+        
+        self.view.endEditing(false)
     }
+    
+    @IBAction func attachImageTaped(_ sender: Any) {
+        //TODO: Show picker
+        print("Attach")
+    }
+    
     
     @objc func leftBarButtonPressed() {
         
@@ -163,6 +171,7 @@ class AddExpenseViewController: UIViewController {
         category = expenseToEdit!.category!.lowercased()
         nameTextField.text = expenseToEdit!.nameDescription
         dateTextField.text = expenseToEdit!.date?.longDate()
+        categorySegment.selectedSegmentIndex = expenseToEdit!.isExpense ? 0 : 1
         animateCategoryImage(imageName: category)
     }
     
@@ -259,7 +268,12 @@ class AddExpenseViewController: UIViewController {
             expense.isExpense = (categorySegment.selectedSegmentIndex == 0)
             expense.nameDescription = nameTextField.text
             expense.date = entryDate
+            expense.dateString = entryDate.longDate()
             expense.shouldRepeat = false //to be changed later
+            expense.weekOfTheYear = String(format: "%i", calendarComponents(entryDate).weekOfYear!)
+            expense.monthOfTheYear = String(format: "%i", calendarComponents(entryDate).month!)
+            expense.year = String(format: "%i", calendarComponents(entryDate).year!)
+            
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
@@ -276,6 +290,11 @@ class AddExpenseViewController: UIViewController {
             expenseToEdit!.isExpense = (categorySegment.selectedSegmentIndex == 0)
             expenseToEdit!.nameDescription = nameTextField.text
             expenseToEdit!.date = entryDate
+            expenseToEdit!.dateString = entryDate.longDate()
+            expenseToEdit!.weekOfTheYear = String(format: "%i", calendarComponents(entryDate).weekOfYear!)
+            expenseToEdit!.monthOfTheYear = String(format: "%i", calendarComponents(entryDate).month!)
+            expenseToEdit!.year = String(format: "%i", calendarComponents(entryDate).year!)
+            
             expenseToEdit!.shouldRepeat = false //to be changed later
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
@@ -335,7 +354,7 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         }
         
         category = imageName.capitalizingFirstLetter()
-        animateCategoryImage(imageName: imageName)
+        animateCategoryImage(imageName: imageName.lowercased())
     }
     
     //MARK: SetupUI

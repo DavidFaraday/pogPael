@@ -32,11 +32,12 @@ class ExpenseTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setupCellWith(_ expense: Expense, backgroundColor: UIColor) {
+    func setupCellWith(_ expense: Expense, backgroundColor: UIColor, dateFormatShort: Bool = true) {
         
         categoryImageView.image = getImageFor(expense.category ?? "")
         nameLabel.text = expense.nameDescription
-        dateLabel.text = expense.date?.longDate()
+        dateLabel.text = dateFormatShort ? expense.date?.shortDate() : expense.date?.longDate()
+
         priceLabel.text = convertToCurrency(number: expense.amount).replacingOccurrences(of: ".00", with: "")
         imageBackgroundView.backgroundColor = backgroundColor
     }

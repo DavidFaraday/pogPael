@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55680A312429E9BD00E90A6F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55680A302429E9BD00E90A6F /* CoreDataManager.swift */; };
+		55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */; };
+		55680A35242A86E400E90A6F /* DatePopUpMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55680A34242A86E400E90A6F /* DatePopUpMenu.xib */; };
+		559183AC2429278200123FD6 /* SortPopUpMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559183AB2429278100123FD6 /* SortPopUpMenuController.swift */; };
+		559183AE242927F100123FD6 /* PopUpMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 559183AD242927F100123FD6 /* PopUpMenu.xib */; };
 		559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559CF46F24279EC700CBA24E /* CalendarViewController.swift */; };
 		55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */; };
 		55EAD19A2423656000E62419 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD1992423656000E62419 /* Extensions.swift */; };
@@ -37,6 +42,11 @@
 
 /* Begin PBXFileReference section */
 		2FF6B8FAC19E7B3BDCFE78FF /* Pods-WalletApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalletApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalletApp/Pods-WalletApp.debug.xcconfig"; sourceTree = "<group>"; };
+		55680A302429E9BD00E90A6F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePopUpMenuController.swift; sourceTree = "<group>"; };
+		55680A34242A86E400E90A6F /* DatePopUpMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePopUpMenu.xib; sourceTree = "<group>"; };
+		559183AB2429278100123FD6 /* SortPopUpMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortPopUpMenuController.swift; sourceTree = "<group>"; };
+		559183AD242927F100123FD6 /* PopUpMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpMenu.xib; sourceTree = "<group>"; };
 		559CF46F24279EC700CBA24E /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		55EAD1992423656000E62419 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -116,6 +126,7 @@
 			children = (
 				63DCB6302162268F005B2D28 /* AnimationManager.swift */,
 				636444A721625B2900C77E8D /* CustomViewController.swift */,
+				55680A302429E9BD00E90A6F /* CoreDataManager.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -162,6 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				63E1D3FA20BB27B500049FC9 /* AppDelegate.swift */,
+				559183AB2429278100123FD6 /* SortPopUpMenuController.swift */,
+				55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */,
 				63450D6C20C032370076B2E4 /* Dashboard */,
 				6307B170216A8345006A442C /* AddItem */,
 				636444A921628DAC00C77E8D /* TransactionsViewController.swift */,
@@ -171,6 +184,8 @@
 				639C482D216A1A2B00DC0B6B /* Classes */,
 				63450D6D20C032530076B2E4 /* Utilities */,
 				63E1D3FE20BB27B500049FC9 /* Main.storyboard */,
+				559183AD242927F100123FD6 /* PopUpMenu.xib */,
+				55680A34242A86E400E90A6F /* DatePopUpMenu.xib */,
 				63E1D40420BB27B600049FC9 /* Assets.xcassets */,
 				63E1D40620BB27B600049FC9 /* LaunchScreen.storyboard */,
 				63E1D40920BB27B600049FC9 /* Info.plist */,
@@ -259,7 +274,9 @@
 			files = (
 				63E1D40820BB27B600049FC9 /* LaunchScreen.storyboard in Resources */,
 				63E1D40520BB27B600049FC9 /* Assets.xcassets in Resources */,
+				55680A35242A86E400E90A6F /* DatePopUpMenu.xib in Resources */,
 				63E1D40020BB27B500049FC9 /* Main.storyboard in Resources */,
+				559183AE242927F100123FD6 /* PopUpMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,9 +333,12 @@
 				63DCB6312162268F005B2D28 /* AnimationManager.swift in Sources */,
 				55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */,
 				63E1D41020BB2F6F00049FC9 /* AddExpenseViewController.swift in Sources */,
+				55680A312429E9BD00E90A6F /* CoreDataManager.swift in Sources */,
 				636444AA21628DAC00C77E8D /* TransactionsViewController.swift in Sources */,
 				63E1D3FB20BB27B500049FC9 /* AppDelegate.swift in Sources */,
+				55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */,
 				638EE76820BBCC4B00943AF0 /* Helpers.swift in Sources */,
+				559183AC2429278200123FD6 /* SortPopUpMenuController.swift in Sources */,
 				63EA934D20BF27D30082F3E7 /* Categories.swift in Sources */,
 				559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */,
 				63450D6F20C0328E0076B2E4 /* SettingsTableViewController.swift in Sources */,

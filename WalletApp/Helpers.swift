@@ -10,6 +10,14 @@ import Foundation
 import UIKit
 import Charts
 
+func calendarComponents(_ ofDate: Date) -> DateComponents {
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.weekOfYear, .month, .year], from: ofDate)
+    return components
+}
+
+
+
 func getImageFor(_ categoryName: String) -> UIImage {
     return UIImage(named: categoryName.lowercased())!
 }

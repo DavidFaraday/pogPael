@@ -22,6 +22,19 @@ class TransactionsViewController: UIViewController {
 
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var sortPopupView: SortPopUpMenuController!
+    var datePopupView: DatePopUpMenuController!
+
+    var isSortPopUpVisible = false
+    var isDatePopUpVisible = false
+
+    var currentYear: Int?
+    var currentMonth: Int?
+    var currentWeek: Int?
+    var currentPredicate: NSPredicate?
+    
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
 
     
     //MARK: View Lifecycle
@@ -35,15 +48,23 @@ class TransactionsViewController: UIViewController {
             customTapBar.showCenterButton()
         }
         
-        reloadData()
-        calculateAmounts()
+//        reloadData()
+//        updateTotalAmountsUI()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchCurrentPeriod()
+//        fetchCurrentPeriod()
+        setupCurrentDate()
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
+        
         fetchAllPeriod()
+        reloadData(predicate: currentPredicate)
+        
+        updateTotalAmountsUI()
+
+        setupPopUpViews()
         tableView.tableFooterView = UIView()
     }
     
@@ -52,7 +73,6 @@ class TransactionsViewController: UIViewController {
     
     private func fetchAllPeriod() {
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
         fetchRequest.sortDescriptors = [ ]
         
         allTimeFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -68,23 +88,43 @@ class TransactionsViewController: UIViewController {
 
     private func fetchCurrentPeriod() {
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "category", ascending: false), NSSortDescriptor(key: "amount", ascending: false) ]
         
         currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
+        
         currentPeriodFetchResultsController.delegate = self
     }
     
-    func reloadData(predicate: NSPredicate? = nil, sortBy: String? = nil) {
+    
+    
+    func reloadData(predicate: NSPredicate? = nil, sortBy: String = "") {
         
-        if sortBy != nil {
-            let sort = NSSortDescriptor(key: sortBy!, ascending: false)
-            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [sort]
+        switch sortBy {
+        case "date":
+            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [
+                                                            NSSortDescriptor(key: "dateString", ascending: false),
+                                                            NSSortDescriptor(key: "amount", ascending: false)
+                                                            ]
+            
+            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "dateString", cacheName: nil)
+
+        case "amount":
+            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
+            
+            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+
+        default:
+            
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: false),
+                                            NSSortDescriptor(key: "amount", ascending: false)
+                                            ]
+            
+            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
+            
         }
 
-        if predicate != nil {
-            currentPeriodFetchResultsController.fetchRequest.predicate = predicate
-        }
+        currentPeriodFetchResultsController.fetchRequest.predicate = predicate
+        currentPeriodFetchResultsController.delegate = self
         
         do {
             try currentPeriodFetchResultsController.performFetch()
@@ -92,9 +132,36 @@ class TransactionsViewController: UIViewController {
             fatalError("Transaction fetch error")
         }
         
+        updateTotalAmountsUI()
         tableView.reloadData()
     }
 
+    //MARK: - IBActions
+    
+    @IBAction func sortButtonPressed(_ sender: Any) {
+        isSortPopUpVisible ? hideSortPopUpView() : showSortPopUpView()
+        isSortPopUpVisible.toggle()
+
+        //hide other view if visible
+        if isDatePopUpVisible {
+            isDatePopUpVisible ? hideDatePopUpView() : showDatePopUpView()
+            isDatePopUpVisible.toggle()
+        }
+    }
+    
+    
+    @IBAction func dateButtonPressed(_ sender: Any) {
+        isDatePopUpVisible ? hideDatePopUpView() : showDatePopUpView()
+        isDatePopUpVisible.toggle()
+
+        //hide other view if visible
+        if isSortPopUpVisible {
+            isSortPopUpVisible ? hideSortPopUpView() : showSortPopUpView()
+            isSortPopUpVisible.toggle()
+        }
+
+    }
+    
 
     
     //MARK: UpdateUI
@@ -110,12 +177,41 @@ class TransactionsViewController: UIViewController {
         thisPeriodLabel.attributedText = formatStringDecimalSize(thisPeriodString, mainNumberSize: 20.0, decimalNumberSize: 10.0)
         thisPeriodLabel.textColor = ColorFromAmount(thisPeriod)
     }
+    
+    
+    //MARK: - SutUp items
+    private func setupCurrentDate() {
+        currentMonth = calendarComponents(Date()).month
+        currentWeek = calendarComponents(Date()).weekOfYear
+        currentYear = calendarComponents(Date()).year
+    }
+
+    private func setupPopUpViews() {
+        
+        sortPopupView = SortPopUpMenuController()
+        sortPopupView.contentView.layer.cornerRadius = 20
+        sortPopupView.delegate = self
+        sortPopupView.frame = CGRect(x: 0, y: self.view.frame.height
+            + 1, width: self.view.frame.width, height: 200)
+                
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        keyWindow!.addSubview(sortPopupView)
+        
+        
+        datePopupView = DatePopUpMenuController()
+        datePopupView.contentView.layer.cornerRadius = 20
+        datePopupView.delegate = self
+        datePopupView.frame = CGRect(x: 0, y: self.view.frame.height
+            + 1, width: self.view.frame.width, height: 280)
+        
+        keyWindow!.addSubview(datePopupView)
+    }
 
     //MARK: - Calculate totals
     
-    private func calculateAmounts() {
+    private func updateTotalAmountsUI() {
         
-        updateUI(total: calculateThisPeriod(), thisPeriod: calculateAllPeriod())
+        updateUI(total: calculateAllPeriod(), thisPeriod: calculateThisPeriod())
     }
     
     private func calculateThisPeriod() -> Double {
@@ -124,6 +220,7 @@ class TransactionsViewController: UIViewController {
         var tempExpense = 0.0
         
         for expense in currentPeriodFetchResultsController.fetchedObjects! {
+
             let tempExp = expense as! Expense
             
             if tempExp.isExpense {
@@ -142,12 +239,14 @@ class TransactionsViewController: UIViewController {
         var tempExpense = 0.0
         
         for expense in allTimeFetchResultsController.fetchedObjects! {
+            
             let tempExp = expense as! Expense
             
             if tempExp.isExpense {
                 tempExpense += tempExp.amount
             } else {
                 tempIncoming += tempExp.amount
+
             }
         }
         
@@ -155,6 +254,36 @@ class TransactionsViewController: UIViewController {
     }
 
 
+    //MARK: - Animations
+    
+    func showSortPopUpView() {
+        UIView.animate(withDuration: 0.3) {
+            self.sortPopupView.frame.origin.y = AnimationManager.screenBounds.maxY - (self.sortPopupView.frame.height - 20)
+        }
+
+    }
+    
+    func hideSortPopUpView() {
+        UIView.animate(withDuration: 0.3) {
+            self.sortPopupView.frame.origin.y = AnimationManager.screenBounds.maxY + 1
+        }
+
+    }
+    
+    func showDatePopUpView() {
+         UIView.animate(withDuration: 0.3) {
+            self.datePopupView.frame.origin.y = AnimationManager.screenBounds.maxY - self.datePopupView.frame.height
+         }
+
+     }
+     
+     func hideDatePopUpView() {
+         UIView.animate(withDuration: 0.3) {
+             self.datePopupView.frame.origin.y = AnimationManager.screenBounds.maxY + 1
+         }
+
+     }
+    
 
 }
 
@@ -162,7 +291,7 @@ extension TransactionsViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
-        calculateAmounts()
+        updateTotalAmountsUI()
         tableView.reloadData()
     }
 }
@@ -171,12 +300,11 @@ extension TransactionsViewController: NSFetchedResultsControllerDelegate {
 extension TransactionsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return currentPeriodFetchResultsController.sections?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     
+
         return currentPeriodFetchResultsController.sections?[section].numberOfObjects ?? 0
     }
     
@@ -225,3 +353,86 @@ extension TransactionsViewController: UITableViewDelegate {
         }
     }
 }
+
+
+extension TransactionsViewController: SortPopupMenuControllerDelegate {
+    
+    func dateButtonPressed() {
+
+        reloadData(predicate: currentPredicate, sortBy: "date")
+
+        hideSortPopUpView()
+        isSortPopUpVisible.toggle()
+    }
+    
+    func amountButtonPressed() {
+
+        reloadData(predicate: currentPredicate, sortBy: "amount")
+
+        hideSortPopUpView()
+        isSortPopUpVisible.toggle()
+    }
+    
+    func categoryButtonPressed() {
+
+        reloadData(predicate: currentPredicate, sortBy: "category")
+        hideSortPopUpView()
+        isSortPopUpVisible.toggle()
+
+    }
+    
+    func sortBackgroundTapped() {
+        hideSortPopUpView()
+        isSortPopUpVisible.toggle()
+    }
+        
+}
+
+
+extension TransactionsViewController: DatePopUpMenuControllerDelegate {
+    
+    func didSelectDateFromPicker(_ month: Int?, year: Int) {
+        
+            
+        if month != nil {
+            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
+
+        } else {
+            currentPredicate = NSPredicate(format: "year = %i ", year)
+
+        }
+        
+        reloadData(predicate: currentPredicate)
+    }
+    
+    
+    func didSelectDateSegment(_ selectedIndex: Int) {
+        
+        switch selectedIndex {
+        case 0:
+            if currentWeek != nil {
+                currentPredicate = NSPredicate(format: "weekOfTheYear = %i", currentWeek!)
+
+            }
+        case 1:
+            
+            if currentYear != nil && currentMonth != nil {
+                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
+
+            }
+
+        default:
+            if currentYear != nil {
+                currentPredicate = NSPredicate(format: "year = %i", currentYear!)
+            }
+        }
+
+        reloadData(predicate: currentPredicate)
+    }
+    
+    func dateBackgroundTapped() {
+        hideDatePopUpView()
+        isDatePopUpVisible.toggle()
+    }
+}
+

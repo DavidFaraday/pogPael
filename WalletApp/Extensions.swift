@@ -67,13 +67,19 @@ extension Date {
     }
 
     
-    func shortDate() -> String {
+//    func shortDate() -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MMM d"
+//        return dateFormatter.string(from: self)
+//    }
+    
+    func longDate() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d"
+        dateFormatter.dateFormat = "dd MMMM yyyy"
         return dateFormatter.string(from: self)
     }
     
-    func longDate() -> String {
+    func shortDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         return dateFormatter.string(from: self)
@@ -98,6 +104,24 @@ extension Date {
     
     func dayNumberOfWeek() -> Int? {
         return Calendar.current.dateComponents([.weekday], from: self).weekday
+    }
+}
+
+extension UIView {
+    func fixInView(_ container: UIView!) -> Void {
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.frame = container.frame
+        
+        container.addSubview(self)
+        NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: container, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
+        
+        NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: container, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
+        
+        NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: container, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
+        
+        NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
     }
 }
 
