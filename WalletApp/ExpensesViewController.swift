@@ -22,7 +22,12 @@ class ExpensesViewController: UIViewController {
     var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var currentPredicate: NSPredicate?
 
+    var currentYear: Int?
+    var currentMonth: Int?
+    var currentWeek: Int?
+    
     //MARK: - View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,9 +39,9 @@ class ExpensesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let predicate = NSPredicate(format: "isExpense == %@", NSNumber(value: true))
-        reloadData(predicate: predicate)
-        calculateAmounts()
+        setupCurrentDate()
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, true))
+        
     }
     
 
@@ -60,6 +65,7 @@ class ExpensesViewController: UIViewController {
             fatalError("income fetch error")
         }
         
+        calculateAmounts()
         tableView.reloadData()
     }
 
@@ -129,7 +135,13 @@ class ExpensesViewController: UIViewController {
         })
     }
 
+    //MARK: - Setup
 
+    private func setupCurrentDate() {
+        currentMonth = calendarComponents(Date()).month
+        currentWeek = calendarComponents(Date()).weekOfYear
+        currentYear = calendarComponents(Date()).year
+    }
 }
 
 extension ExpensesViewController: NSFetchedResultsControllerDelegate {

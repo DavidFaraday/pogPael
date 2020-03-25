@@ -10,12 +10,20 @@ import Foundation
 import UIKit
 import Charts
 
+
+let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+
 func calendarComponents(_ ofDate: Date) -> DateComponents {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.weekOfYear, .month, .year], from: ofDate)
     return components
 }
 
+//func monthNameFrom(_ number: Int) -> String {
+//    print("/////", number)
+//    return monthNames[number]
+//}
 
 
 func getImageFor(_ categoryName: String) -> UIImage {

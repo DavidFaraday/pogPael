@@ -43,7 +43,7 @@ class SortPopUpMenuController: UIView {
     private func commonInit() {
         Bundle.main.loadNibNamed("PopUpMenu", owner: self, options: nil)
         contentView.fixInView(self)
-        topHandleBar.layer.cornerRadius = 5
+        topHandleBar.layer.cornerRadius = 3
         
         let backgroundTap = UITapGestureRecognizer()
         backgroundTap.addTarget(self, action: #selector(self.backgroundTap))

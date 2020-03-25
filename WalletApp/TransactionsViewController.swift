@@ -32,6 +32,7 @@ class TransactionsViewController: UIViewController {
     var currentYear: Int?
     var currentMonth: Int?
     var currentWeek: Int?
+    
     var currentPredicate: NSPredicate?
     
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
@@ -58,6 +59,7 @@ class TransactionsViewController: UIViewController {
 //        fetchCurrentPeriod()
         setupCurrentDate()
         currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
+        setMonthName()
         
         fetchAllPeriod()
         reloadData(predicate: currentPredicate)
@@ -176,6 +178,14 @@ class TransactionsViewController: UIViewController {
         
         thisPeriodLabel.attributedText = formatStringDecimalSize(thisPeriodString, mainNumberSize: 20.0, decimalNumberSize: 10.0)
         thisPeriodLabel.textColor = ColorFromAmount(thisPeriod)
+    }
+    
+    private func setMonthName() {
+        if currentMonth != nil {
+            self.title = monthNames[currentMonth! - 1]
+        } else {
+            self.title = "Pending month"
+        }
     }
     
     
@@ -396,6 +406,8 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
             
         if month != nil {
             currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
+            currentMonth = month
+            setMonthName()
 
         } else {
             currentPredicate = NSPredicate(format: "year = %i ", year)

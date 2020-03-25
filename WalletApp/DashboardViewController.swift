@@ -20,12 +20,18 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var incomeButtonOutlet: UIButton!
     @IBOutlet weak var buttonHolderView: UIView!
     
+    //MARK: - Vars
     var overviewViewController: OverviewViewController? = nil
     var expenseViewController: ExpensesViewController? = nil
     var incomingViewController: IncomingsViewController? = nil
-
     
-    //MARK: ClassVars
+    var datePopupView: DatePopUpMenuController!
+    var isDatePopUpVisible = false
+
+    var currentYear: Int?
+    var currentMonth: Int?
+    var currentWeek: Int?
+
     var currentView = 0
     var lineView = UIView()
     
@@ -42,17 +48,28 @@ class DashboardViewController: UIViewController {
         
         self.expensesView.frame.origin.x = AnimationManager.screenBounds.maxX + 10
         self.incomesView.frame.origin.x = AnimationManager.screenBounds.maxX + 10
+        
+        setupPopUpViews()
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCenterButton()
+//        setupCenterButton()
+        setupCurrentDate()
         setupLineView()
     }
 
     
     //MARK: IBActions
+    
+    @IBAction func calendarBarButtonPressed(_ sender: Any) {
+        isDatePopUpVisible ? hideDatePopUpView() : showDatePopUpView()
+        isDatePopUpVisible.toggle()
+        
+    }
+    
     @IBAction func overviewButtonPressed(_ sender: Any) {
         hideViews(view: 0)
         animateViewIn(view: 0)
@@ -95,8 +112,8 @@ class DashboardViewController: UIViewController {
                 self.expenseViewController?.updateChartWithData()
 
                 self.lineView.frame.origin.x = self.expenseButtonOutlet.frame.origin.x
-                self.incomingViewController?.incomingChart.isHidden = true
 
+                
                 if self.currentView == 0 {
                     //come from right
                     self.expensesView.frame.origin.x = AnimationManager.screenBounds.minX
@@ -160,8 +177,9 @@ class DashboardViewController: UIViewController {
         })
     }
     
-    //MARK: SetupLineView
-    func setupLineView() {
+    
+    //MARK: Setup Views and Data
+    private func setupLineView() {
         
         lineView = UIView(frame: CGRect(x: 0, y: buttonHolderView.frame.height-1, width: incomeButtonOutlet.frame.width, height: 1))
         lineView.backgroundColor = UIColor.lightGray
@@ -170,37 +188,142 @@ class DashboardViewController: UIViewController {
     }
     
 
+    private func setupPopUpViews() {
+        
+        datePopupView = DatePopUpMenuController()
+        datePopupView.contentView.layer.cornerRadius = 20
+        datePopupView.delegate = self
+        datePopupView.frame = CGRect(x: 0, y: self.view.frame.height
+            + 1, width: self.view.frame.width, height: 280)
+        
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        keyWindow?.addSubview(datePopupView)
+    }
+
+    private func updateData(_ month: Int?, year: Int) {
+        
+        
+        var overviewPredicate: NSPredicate!
+        var expensePredicate: NSPredicate!
+        var incomePredicate: NSPredicate!
+
+        if month != nil {
+            overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
+            expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", year, month!, true)
+            
+            incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", year, month!, false)
+
+        } else {
+            overviewPredicate = NSPredicate(format: "year = %i ", year)
+            expensePredicate = NSPredicate(format: "year = %i && isExpense == %i", year, true)
+            incomePredicate = NSPredicate(format: "year = %i && isExpense == %i", year, false)
+        }
+        
+        
+        overviewViewController?.reloadData(predicate: overviewPredicate)
+        overviewViewController?.updateChartWithData()
+
+        expenseViewController?.reloadData(predicate: expensePredicate)
+        expenseViewController?.updateChartWithData()
+        
+        incomingViewController?.reloadData(predicate: incomePredicate)
+        incomingViewController?.updateChartWithData()
+    }
+    
+    private func updateDataFromSegment(_ segmentValue: Int) {
+        
+        
+        var overviewPredicate: NSPredicate!
+        var expensePredicate: NSPredicate!
+        var incomePredicate: NSPredicate!
+
+        switch segmentValue {
+        case 0:
+            
+            if currentWeek != nil {
+
+                overviewPredicate = NSPredicate(format: "weekOfTheYear = %i", currentWeek!)
+                expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, true)
+                incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, false)
+
+            }
+        case 1:
+            
+            if currentYear != nil && currentMonth != nil {
+
+                overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i", currentYear!, currentMonth!)
+                expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i", currentYear!, currentMonth!, true)
+                incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i", currentYear!, currentMonth!, false)
+            }
+            
+        default:
+            
+            if currentYear != nil {
+
+                overviewPredicate = NSPredicate(format: "year = %i ", currentYear!)
+                expensePredicate = NSPredicate(format: "year = %i && isExpense == %i", currentYear!, true)
+                incomePredicate = NSPredicate(format: "year = %i && isExpense == %i", currentYear!, false)
+            }
+        }
+        
+        
+//        overviewViewController?.currentPredicate = overviewPredicate
+        overviewViewController?.reloadData(predicate: overviewPredicate)
+        overviewViewController?.updateChartWithData()
+        
+        expenseViewController?.reloadData(predicate: expensePredicate)
+        expenseViewController?.updateChartWithData()
+        
+        incomingViewController?.reloadData(predicate: incomePredicate)
+        incomingViewController?.updateChartWithData()
+    }
+
+
     //MARK: CustomMiddleButton
     
-    func setupCenterButton() {
-        let centerButton = UIButton(frame: CGRect(x: 0, y: 10, width: 45, height: 45))
-
-        var centerButtonFrame = centerButton.frame
-        centerButtonFrame.origin.y = (view.bounds.height - centerButtonFrame.height) - 2
-        centerButtonFrame.origin.x = view.bounds.width/2 - centerButtonFrame.size.width/2
-        centerButton.frame = centerButtonFrame
-        
-        centerButton.layer.cornerRadius = 35
-        tabBarController?.tabBar.addSubview(centerButton)
-        
-        centerButton.setBackgroundImage(#imageLiteral(resourceName: "general"), for: .normal)
-        centerButton.addTarget(self, action: #selector(centerButtonAction(sender:)), for: .touchUpInside)
-        
-        view.layoutIfNeeded()
-    }
+//    func setupCenterButton() {
+//        let centerButton = UIButton(frame: CGRect(x: 0, y: 10, width: 45, height: 45))
+//
+//        var centerButtonFrame = centerButton.frame
+//        centerButtonFrame.origin.y = (view.bounds.height - centerButtonFrame.height) - 2
+//        centerButtonFrame.origin.x = view.bounds.width/2 - centerButtonFrame.size.width/2
+//        centerButton.frame = centerButtonFrame
+//
+//        centerButton.layer.cornerRadius = 35
+//        tabBarController?.tabBar.addSubview(centerButton)
+//
+//        centerButton.setBackgroundImage(#imageLiteral(resourceName: "general"), for: .normal)
+//        centerButton.addTarget(self, action: #selector(centerButtonAction(sender:)), for: .touchUpInside)
+//
+//        view.layoutIfNeeded()
+//    }
 
     
 
     // MARK: - Centre button Actions
     
-    @objc private func centerButtonAction(sender: UIButton) {
-        self.tabBarController?.selectedIndex = 2
+//    @objc private func centerButtonAction(sender: UIButton) {
+//        self.tabBarController?.selectedIndex = 2
+//    }
+    
+    func showDatePopUpView() {
+        UIView.animate(withDuration: 0.3) {
+           self.datePopupView.frame.origin.y = AnimationManager.screenBounds.maxY - self.datePopupView.frame.height
+        }
+
+    }
+    
+    func hideDatePopUpView() {
+        UIView.animate(withDuration: 0.3) {
+            self.datePopupView.frame.origin.y = AnimationManager.screenBounds.maxY + 1
+        }
+
     }
 
     //MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+
         switch segue.identifier {
         case "overviewSegue":
             self.overviewViewController = segue.destination as? OverviewViewController
@@ -214,6 +337,34 @@ class DashboardViewController: UIViewController {
         }
     }
 
-    
+    //MARK: - Setup
+
+    private func setupCurrentDate() {
+        currentMonth = calendarComponents(Date()).month
+        currentWeek = calendarComponents(Date()).weekOfYear
+        currentYear = calendarComponents(Date()).year
+    }
 
 }
+
+
+extension DashboardViewController: DatePopUpMenuControllerDelegate {
+    
+    func didSelectDateFromPicker(_ month: Int?, year: Int) {
+        
+        updateData(month, year: year)
+    }
+    
+    
+    func didSelectDateSegment(_ selectedIndex: Int) {
+        
+        updateDataFromSegment(selectedIndex)
+
+    }
+    
+    func dateBackgroundTapped() {
+        hideDatePopUpView()
+        isDatePopUpVisible.toggle()
+    }
+}
+

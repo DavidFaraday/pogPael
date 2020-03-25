@@ -26,12 +26,21 @@ class OverviewViewController: UIViewController {
     //MARK: - Vars
     var allExpenses: [Expense] = []
     var allIncomings: [Expense] = []
-    
+
     var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
+
+    var currentYear: Int?
+    var currentMonth: Int?
+    var currentWeek: Int?
     
+    var currentPredicate: NSPredicate?
+
+    
+    //MARK: - View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -46,27 +55,35 @@ class OverviewViewController: UIViewController {
         incomeChart.isHidden = true
         expensesChart.isHidden = true
         
-        fetchItemsFromCoreData()
+        setupCurrentDate()
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
+        //fetchItemsFromCoreData()
         separateExpenses()
     }
     
-    private func fetchItemsFromCoreData() {
+//    func fetchItemsFromCoreData() {
+//
+//        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
+//        fetchRequest.predicate =  NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
+//
+//
+//        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: AppDelegate.context, sectionNameKeyPath: nil, cacheName: nil)
+//        fetchResultsController.delegate = self
+//
+//        do {
+//            try fetchResultsController.performFetch()
+//        } catch {
+//            print("error saving house \(error.localizedDescription)")
+//        }
+//    }
+
+
+    func reloadData(predicate: NSPredicate? = nil) {
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
 
         fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: AppDelegate.context, sectionNameKeyPath: nil, cacheName: nil)
         fetchResultsController.delegate = self
-        
-        do {
-            try fetchResultsController.performFetch()
-        } catch {
-            print("error saving house \(error.localizedDescription)")
-        }
-    }
-
-
-    func reloadData(predicate: NSPredicate? = nil) {
         
         fetchResultsController.fetchRequest.predicate = predicate
 
@@ -77,6 +94,7 @@ class OverviewViewController: UIViewController {
             fatalError("error fetching")
         }
         
+        separateExpenses()
         incomeTableView.reloadData()
         expensesTableView.reloadData()
 
@@ -195,6 +213,15 @@ class OverviewViewController: UIViewController {
             self.incomeChart.animate(xAxisDuration: 0.5, easingOption: ChartEasingOption.easeOutBack)
             self.expensesChart.animate(xAxisDuration: 0.5, easingOption: ChartEasingOption.easeOutBack)
         })
+    }
+    
+    
+    //MARK: - Setup
+
+    private func setupCurrentDate() {
+        currentMonth = calendarComponents(Date()).month
+        currentWeek = calendarComponents(Date()).weekOfYear
+        currentYear = calendarComponents(Date()).year
     }
 
 

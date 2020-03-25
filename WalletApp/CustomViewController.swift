@@ -86,7 +86,8 @@ class CustomTabBarController: UITabBarController {
         view.addSubview(centerButton)
         
         centerButton.setImage(UIImage(named: "plus"), for: .normal)
-
+        centerButton.tintColor = .systemGray
+        
         centerButton.addTarget(self, action: #selector(centerButtonAction(sender:)), for: .touchUpInside)
         
         view.layoutIfNeeded()

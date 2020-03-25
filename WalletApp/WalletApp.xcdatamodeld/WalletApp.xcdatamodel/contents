@@ -6,6 +6,7 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateString" optional="YES" attributeType="String"/>
         <attribute name="dayOfRepeat" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="isExpense" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="monthOfTheYear" optional="YES" attributeType="String"/>
         <attribute name="nameDescription" optional="YES" attributeType="String"/>
@@ -15,6 +16,6 @@
         <attribute name="year" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Expense" positionX="-63" positionY="-18" width="128" height="223"/>
+        <element name="Expense" positionX="-63" positionY="-18" width="128" height="238"/>
     </elements>
 </model>

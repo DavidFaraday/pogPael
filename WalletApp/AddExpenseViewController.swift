@@ -411,9 +411,10 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
             button.setTitle(title, for: .normal)
         } else {
             button.setImage(UIImage(named: "keyboardDelete"), for: .normal)
+            button.tintColor = .label
         }
         
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.lightGray.cgColor
         

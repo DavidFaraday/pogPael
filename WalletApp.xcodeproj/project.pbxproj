@@ -26,7 +26,7 @@
 		636444A821625B2900C77E8D /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636444A721625B2900C77E8D /* CustomViewController.swift */; };
 		636444AA21628DAC00C77E8D /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636444A921628DAC00C77E8D /* TransactionsViewController.swift */; };
 		638EE76620BBC8AB00943AF0 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EE76520BBC8AB00943AF0 /* DashboardViewController.swift */; };
-		638EE76820BBCC4B00943AF0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EE76720BBCC4B00943AF0 /* Helpers.swift */; };
+		638EE76820BBCC4B00943AF0 /* GlobalFuncions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638EE76720BBCC4B00943AF0 /* GlobalFuncions.swift */; };
 		63A3DB5721878C360067CE57 /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3DB5621878C360067CE57 /* TransactionTableViewCell.swift */; };
 		63DCB6312162268F005B2D28 /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DCB6302162268F005B2D28 /* AnimationManager.swift */; };
 		63DE0EDB21693318000549EB /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DE0EDA21693318000549EB /* CategoryCollectionViewCell.swift */; };
@@ -60,7 +60,7 @@
 		636444A721625B2900C77E8D /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		636444A921628DAC00C77E8D /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
 		638EE76520BBC8AB00943AF0 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
-		638EE76720BBCC4B00943AF0 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		638EE76720BBCC4B00943AF0 /* GlobalFuncions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFuncions.swift; sourceTree = "<group>"; };
 		63A3DB5621878C360067CE57 /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		63DCB6302162268F005B2D28 /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		63DE0EDA21693318000549EB /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -91,6 +91,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55D11C47242BABFE00B000FE /* PopUpViews */ = {
+			isa = PBXGroup;
+			children = (
+				559183AB2429278100123FD6 /* SortPopUpMenuController.swift */,
+				55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */,
+				559183AD242927F100123FD6 /* PopUpMenu.xib */,
+				55680A34242A86E400E90A6F /* DatePopUpMenu.xib */,
+			);
+			name = PopUpViews;
+			sourceTree = "<group>";
+		};
+		55D11C48242BAF0800B000FE /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				636444A921628DAC00C77E8D /* TransactionsViewController.swift */,
+			);
+			name = Transactions;
+			sourceTree = "<group>";
+		};
+		55D11C49242BAF4800B000FE /* CDModel */ = {
+			isa = PBXGroup;
+			children = (
+				63E1D40120BB27B500049FC9 /* WalletApp.xcdatamodeld */,
+			);
+			name = CDModel;
+			sourceTree = "<group>";
+		};
+		55D11C4A242BB41A00B000FE /* SecondaryViews */ = {
+			isa = PBXGroup;
+			children = (
+				559CF46F24279EC700CBA24E /* CalendarViewController.swift */,
+			);
+			name = SecondaryViews;
+			sourceTree = "<group>";
+		};
 		6307B170216A8345006A442C /* AddItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				63EA934C20BF27D30082F3E7 /* Categories.swift */,
-				638EE76720BBCC4B00943AF0 /* Helpers.swift */,
+				638EE76720BBCC4B00943AF0 /* GlobalFuncions.swift */,
 				63450D7020C035B10076B2E4 /* Constants.swift */,
 				55EAD1992423656000E62419 /* Extensions.swift */,
 			);
@@ -173,23 +208,20 @@
 			isa = PBXGroup;
 			children = (
 				63E1D3FA20BB27B500049FC9 /* AppDelegate.swift */,
-				559183AB2429278100123FD6 /* SortPopUpMenuController.swift */,
-				55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */,
 				63450D6C20C032370076B2E4 /* Dashboard */,
 				6307B170216A8345006A442C /* AddItem */,
-				636444A921628DAC00C77E8D /* TransactionsViewController.swift */,
-				559CF46F24279EC700CBA24E /* CalendarViewController.swift */,
+				55D11C48242BAF0800B000FE /* Transactions */,
 				639C482E216A1D5D00DC0B6B /* Settings */,
+				55D11C4A242BB41A00B000FE /* SecondaryViews */,
 				63DE0ED9216932EB000549EB /* CustomCells */,
 				639C482D216A1A2B00DC0B6B /* Classes */,
 				63450D6D20C032530076B2E4 /* Utilities */,
+				55D11C47242BABFE00B000FE /* PopUpViews */,
 				63E1D3FE20BB27B500049FC9 /* Main.storyboard */,
-				559183AD242927F100123FD6 /* PopUpMenu.xib */,
-				55680A34242A86E400E90A6F /* DatePopUpMenu.xib */,
 				63E1D40420BB27B600049FC9 /* Assets.xcassets */,
 				63E1D40620BB27B600049FC9 /* LaunchScreen.storyboard */,
 				63E1D40920BB27B600049FC9 /* Info.plist */,
-				63E1D40120BB27B500049FC9 /* WalletApp.xcdatamodeld */,
+				55D11C49242BAF4800B000FE /* CDModel */,
 			);
 			path = WalletApp;
 			sourceTree = "<group>";
@@ -337,7 +369,7 @@
 				636444AA21628DAC00C77E8D /* TransactionsViewController.swift in Sources */,
 				63E1D3FB20BB27B500049FC9 /* AppDelegate.swift in Sources */,
 				55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */,
-				638EE76820BBCC4B00943AF0 /* Helpers.swift in Sources */,
+				638EE76820BBCC4B00943AF0 /* GlobalFuncions.swift in Sources */,
 				559183AC2429278200123FD6 /* SortPopUpMenuController.swift in Sources */,
 				63EA934D20BF27D30082F3E7 /* Categories.swift in Sources */,
 				559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */,

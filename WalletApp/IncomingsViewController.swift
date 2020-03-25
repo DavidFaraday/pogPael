@@ -23,7 +23,11 @@ class IncomingsViewController: UIViewController {
     var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>!
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    var currentPredicate: NSPredicate?
+
+    var currentYear: Int?
+    var currentMonth: Int?
+    var currentWeek: Int?
     
     //MARK: View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -36,9 +40,8 @@ class IncomingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let predicate = NSPredicate(format: "isExpense == %@", NSNumber(value: false))
-        reloadData(predicate: predicate)
-        calculateAmounts()
+        setupCurrentDate()
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, false))
     }
     
     
@@ -62,6 +65,7 @@ class IncomingsViewController: UIViewController {
             fatalError("income fetch error")
         }
         
+        calculateAmounts()
         tableView.reloadData()
     }
 
@@ -131,6 +135,14 @@ class IncomingsViewController: UIViewController {
             self.incomingChart.animate(xAxisDuration: 0.5, easingOption: ChartEasingOption.easeOutBack)
 
         })
+    }
+    
+    //MARK: - Setup
+
+    private func setupCurrentDate() {
+        currentMonth = calendarComponents(Date()).month
+        currentWeek = calendarComponents(Date()).weekOfYear
+        currentYear = calendarComponents(Date()).year
     }
 }
 

@@ -29,7 +29,6 @@ class DatePopUpMenuController: UIView {
     //MARK: - Vars
     var delegate: DatePopUpMenuControllerDelegate?
     
-    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     var monthNumbers: [Int] = []
     var years: [Int] = []
@@ -49,7 +48,7 @@ class DatePopUpMenuController: UIView {
     private func commonInit() {
         Bundle.main.loadNibNamed("DatePopUpMenu", owner: self, options: nil)
         contentView.fixInView(self)
-        topHandleBar.layer.cornerRadius = 5
+        topHandleBar.layer.cornerRadius = 3
         
         let backgroundTap = UITapGestureRecognizer()
         backgroundTap.addTarget(self, action: #selector(self.backgroundTap))
@@ -167,7 +166,7 @@ extension DatePopUpMenuController: UIPickerViewDelegate, UIPickerViewDataSource 
             delegate?.didSelectDateFromPicker(nil, year: year)
 
         } else {
-            let monthName = monthNames[pickerView.selectedRow(inComponent: 0)]
+
             let monthNumber = monthNumbers[pickerView.selectedRow(inComponent: 0)]
             let year = years[pickerView.selectedRow(inComponent: 1)]
             

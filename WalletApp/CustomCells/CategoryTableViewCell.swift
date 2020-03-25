@@ -26,7 +26,7 @@ class CategoryTableViewCell: UITableViewCell {
     }
     
     func generateCell(categoryName: String) {
-        iconImageView.image = UIImage.init(named: categoryName)
+        iconImageView.image = UIImage.init(named: categoryName.lowercased())
         nameLabel.text = categoryName
     }
 
