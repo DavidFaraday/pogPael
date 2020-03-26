@@ -88,14 +88,14 @@ class TransactionsViewController: UIViewController {
 
     }
 
-    private func fetchCurrentPeriod() {
-        
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "category", ascending: false), NSSortDescriptor(key: "amount", ascending: false) ]
-        
-        currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
-        
-        currentPeriodFetchResultsController.delegate = self
-    }
+//    private func fetchCurrentPeriod() {
+//
+//        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "category", ascending: false), NSSortDescriptor(key: "amount", ascending: false) ]
+//
+//        currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
+//
+//        currentPeriodFetchResultsController.delegate = self
+//    }
     
     
     
@@ -127,6 +127,7 @@ class TransactionsViewController: UIViewController {
 
         currentPeriodFetchResultsController.fetchRequest.predicate = predicate
         currentPeriodFetchResultsController.delegate = self
+
         
         do {
             try currentPeriodFetchResultsController.performFetch()
@@ -300,7 +301,21 @@ class TransactionsViewController: UIViewController {
 extension TransactionsViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
+
+        switch type {
+        case .update:
+            print("update")
+        case .insert:
+            print("insert")
+        case .delete:
+            print("delete")
+        case .move:
+            print("move")
+        default:
+                    print("transaction update")
+
+        }
+
         updateTotalAmountsUI()
         tableView.reloadData()
     }

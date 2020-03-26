@@ -85,7 +85,7 @@ class DashboardViewController: UIViewController {
         setupCurrentDate()
         setupLineView()
         setupCustomTitleView()
-        updateTitleLabels()
+        updateTitleLabels(false)
     }
 
     
@@ -268,7 +268,8 @@ class DashboardViewController: UIViewController {
         case 0:
             
             if currentWeek != nil {
-
+                
+                
                 overviewPredicate = NSPredicate(format: "weekOfTheYear = %i", currentWeek!)
                 expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, true)
                 incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, false)
@@ -356,12 +357,19 @@ class DashboardViewController: UIViewController {
     }
     
     //MARK: - UpdateUI
-    private func updateTitleLabels() {
-        let month = currentMonth != nil ? monthNames[currentMonth! - 1] : "Loading..."
-        let year = currentYear != nil ? currentYear! : 2019
+    private func updateTitleLabels(_ yearOnly: Bool) {
         
         titleLabel.text = "Main Account"
-        subTitleLabel.text = month + ", " + "\(year)"
+
+        let year = currentYear != nil ? currentYear! : 0000
+
+        if yearOnly {
+            subTitleLabel.text = "\(year)"
+        } else {
+            let month = currentMonth != nil ? monthNames[currentMonth! - 1] : "___"
+            subTitleLabel.text = month + ", " + "\(year)"
+        }
+        
     }
 
     
@@ -391,16 +399,20 @@ extension DashboardViewController: DatePopUpMenuControllerDelegate {
     func didSelectDateFromPicker(_ month: Int?, year: Int) {
         
         updateData(month, year: year)
-        currentMonth = month
+        
+        if month != nil {
+            currentMonth = month
+        }
+        
         currentYear = year
-        updateTitleLabels()
+        updateTitleLabels(month == nil)
     }
     
     
     func didSelectDateSegment(_ selectedIndex: Int) {
         
         updateDataFromSegment(selectedIndex)
-
+        updateTitleLabels(selectedIndex == 2)
     }
     
     func dateBackgroundTapped() {

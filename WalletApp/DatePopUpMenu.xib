@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,6 +40,7 @@
                         <segment title="Month"/>
                         <segment title="Year"/>
                     </segments>
+                    <color key="tintColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <action selector="datePickerSegmentedValueChanged:" destination="-1" eventType="valueChanged" id="tXs-WI-U8R"/>
                     </connections>
@@ -51,12 +53,13 @@
                 </label>
                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzK-xC-1Qc">
                     <rect key="frame" x="0.0" y="177" width="414" height="120"/>
+                    <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="120" id="uVg-yK-WJx"/>
                     </constraints>
                 </pickerView>
             </subviews>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" name="popUpBackgroundColor"/>
             <constraints>
                 <constraint firstItem="AYN-cb-NPx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3Lp-3W-Yhy"/>
                 <constraint firstItem="Hh7-mZ-xTM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4Zx-kJ-9CB"/>
@@ -74,4 +77,9 @@
             <point key="canvasLocation" x="27.536231884057973" y="219.97767857142856"/>
         </view>
     </objects>
+    <resources>
+        <namedColor name="popUpBackgroundColor">
+            <color red="0.77999997138977051" green="0.77999997138977051" blue="0.80000001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

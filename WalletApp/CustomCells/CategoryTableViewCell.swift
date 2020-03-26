@@ -27,9 +27,12 @@ class CategoryTableViewCell: UITableViewCell {
     }
     
     func generateCell(categoryName: String, isChecked: Bool) {
+        
+        let category = categoryName.lowercased() == "eatingout" ? "eating Out" : categoryName
+
         iconImageView.image = UIImage.init(named: categoryName.lowercased())
-        nameLabel.text = categoryName
-        tickImageView.image = isChecked ? UIImage(named: "checkmark.circle.fill") : UIImage(named: "circle")
+        nameLabel.text = category.capitalizingFirstLetter()
+        tickImageView.image = isChecked ? UIImage(systemName: "checkmark.circle.fill") : UIImage(systemName: "circle")
     }
 
 }

@@ -192,7 +192,7 @@ class AddExpenseViewController: UIViewController {
 
         } else {
             //editing
-            leftButton = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(self.leftBarButtonPressed))
+            leftButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(self.leftBarButtonPressed))
              
             rightButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.rightBarButtonPressed))
         }

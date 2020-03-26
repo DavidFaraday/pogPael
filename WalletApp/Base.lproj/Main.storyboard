@@ -635,7 +635,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" translatesAutoresizingMaskIntoConstraints="NO" id="9s6-Xg-Ghk">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" translatesAutoresizingMaskIntoConstraints="NO" id="9s6-Xg-Ghk">
                                             <rect key="frame" x="329" y="15" width="30" height="30"/>
                                             <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -1732,7 +1732,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="ffp-VK-7Tc"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Account" image="person.3" catalog="system" id="DAP-4l-oTQ"/>
+                    <tabBarItem key="tabBarItem" title="Account" image="person.2" catalog="system" id="DAP-4l-oTQ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTX-s9-XW1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1817,11 +1817,11 @@
     <resources>
         <image name="attachment" width="35" height="35"/>
         <image name="calendar" width="25" height="25"/>
-        <image name="circle.fill" width="17" height="17"/>
+        <image name="circle" width="17" height="17"/>
         <image name="dashboard" width="25" height="25"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="general" width="25" height="25"/>
-        <image name="person.3" catalog="system" width="72" height="35"/>
+        <image name="person.2" catalog="system" width="64" height="40"/>
         <image name="repeat" width="35" height="35"/>
         <image name="sort" width="26" height="19"/>
         <image name="transaction" width="25" height="25"/>

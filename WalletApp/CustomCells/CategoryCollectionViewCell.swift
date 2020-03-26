@@ -17,8 +17,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     
     func generateCell(categoryName: String) {
+        let category = categoryName.lowercased() == "eatingout" ? "eating Out" : categoryName
+
         iconImageView.image = getImageFor(categoryName)
-        nameLabel.text = categoryName
+        nameLabel.text = category.capitalizingFirstLetter()
+        nameLabel.adjustsFontSizeToFitWidth = true
     }
 
     
