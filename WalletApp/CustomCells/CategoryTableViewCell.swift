@@ -13,6 +13,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var tickImageView: UIImageView!
     
     
     override func awakeFromNib() {
@@ -25,9 +26,10 @@ class CategoryTableViewCell: UITableViewCell {
 
     }
     
-    func generateCell(categoryName: String) {
+    func generateCell(categoryName: String, isChecked: Bool) {
         iconImageView.image = UIImage.init(named: categoryName.lowercased())
         nameLabel.text = categoryName
+        tickImageView.image = isChecked ? UIImage(named: "checkmark.circle.fill") : UIImage(named: "circle")
     }
 
 }

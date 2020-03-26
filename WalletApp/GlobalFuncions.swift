@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import Charts
 
+let userDefaults = UserDefaults.standard
+
 
 let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 

@@ -630,23 +630,34 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DqW-HZ-Ndi">
-                                            <rect key="frame" x="54" y="19.5" width="305" height="21"/>
+                                            <rect key="frame" x="54" y="19.5" width="267" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" translatesAutoresizingMaskIntoConstraints="NO" id="9s6-Xg-Ghk">
+                                            <rect key="frame" x="329" y="15" width="30" height="30"/>
+                                            <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="HqH-Jy-o0C"/>
+                                                <constraint firstAttribute="width" constant="30" id="J82-Sr-HLN"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="X9U-zg-uFY" firstAttribute="leading" secondItem="Q7l-IK-odE" secondAttribute="leadingMargin" id="HcW-cM-Vc8"/>
                                         <constraint firstItem="DqW-HZ-Ndi" firstAttribute="leading" secondItem="X9U-zg-uFY" secondAttribute="trailing" constant="8" id="Xg3-N4-4Wr"/>
                                         <constraint firstItem="DqW-HZ-Ndi" firstAttribute="centerY" secondItem="Q7l-IK-odE" secondAttribute="centerY" id="YWR-07-Hky"/>
-                                        <constraint firstItem="DqW-HZ-Ndi" firstAttribute="trailing" secondItem="Q7l-IK-odE" secondAttribute="trailingMargin" id="mkn-fg-38y"/>
+                                        <constraint firstItem="9s6-Xg-Ghk" firstAttribute="leading" secondItem="DqW-HZ-Ndi" secondAttribute="trailing" constant="8" id="iiF-fx-YeI"/>
+                                        <constraint firstItem="9s6-Xg-Ghk" firstAttribute="trailing" secondItem="Q7l-IK-odE" secondAttribute="trailingMargin" id="kdx-at-Dhy"/>
+                                        <constraint firstItem="9s6-Xg-Ghk" firstAttribute="centerY" secondItem="Q7l-IK-odE" secondAttribute="centerY" id="l9W-c9-0cl"/>
                                         <constraint firstItem="X9U-zg-uFY" firstAttribute="centerY" secondItem="Q7l-IK-odE" secondAttribute="centerY" id="shO-Ac-Uya"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="iconImageView" destination="X9U-zg-uFY" id="gt3-Gb-HzB"/>
                                     <outlet property="nameLabel" destination="DqW-HZ-Ndi" id="Tk2-ed-v1A"/>
+                                    <outlet property="tickImageView" destination="9s6-Xg-Ghk" id="957-kE-wv7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -675,9 +686,9 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggf-1a-gOb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1950" y="1775"/>
+            <point key="canvasLocation" x="1949.5999999999999" y="1774.3628185907048"/>
         </scene>
-        <!--Dashboard-->
+        <!--Dashboard View Controller-->
         <scene sceneID="Uoi-rw-646">
             <objects>
                 <viewController storyboardIdentifier="DashboardView" id="8TF-UE-2SK" customClass="DashboardViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -790,7 +801,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bhr-qZ-GqT"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Dashboard" largeTitleDisplayMode="never" id="smc-Ml-isi">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="smc-Ml-isi">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="calendar" id="JIZ-Ft-8KE">
                             <connections>
                                 <action selector="calendarBarButtonPressed:" destination="8TF-UE-2SK" id="hqT-gz-lbr"/>
@@ -1806,6 +1817,7 @@
     <resources>
         <image name="attachment" width="35" height="35"/>
         <image name="calendar" width="25" height="25"/>
+        <image name="circle.fill" width="17" height="17"/>
         <image name="dashboard" width="25" height="25"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="general" width="25" height="25"/>

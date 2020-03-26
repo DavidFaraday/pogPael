@@ -39,6 +39,10 @@ class AddExpenseViewController: UIViewController {
     var category = "general"
     var entryDate = Date()
     
+    var currentIncomeCategories: [String] = []
+    var currentExpenseCategories: [String] = []
+
+    
     var isDisplayingCategory = true
     
     var expenseToEdit: Expense?
@@ -60,13 +64,13 @@ class AddExpenseViewController: UIViewController {
         super.viewDidLoad()
 
         setEntryDate()
-        
+        loadUserDefaults()
+
         if expenseToEdit != nil {
             setupEditingUI()
         }
         
         setupBarButtons()
-
         setupUI()
         createKeyboardButtons()
         updateLabel()
@@ -308,6 +312,14 @@ class AddExpenseViewController: UIViewController {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.delete(expenseToEdit!)
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
+    
+    //MARK: - UserDefaults
+
+    private func loadUserDefaults() {
+        
+        currentIncomeCategories = userDefaults.object(forKey: kINCOMECATEGORIES) as! [String]
+        currentExpenseCategories = userDefaults.object(forKey: kEXPENSECATEGORIES) as! [String]
+    }
 }
 
 //for choose category
@@ -318,9 +330,9 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if categorySegment.selectedSegmentIndex == 0 {
-            return ExpenseCategories.array.count
+            return currentExpenseCategories.count
         }
-        return IncomeCategories.array.count
+        return currentIncomeCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -330,9 +342,9 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         var name = ""
         
         if categorySegment.selectedSegmentIndex == 0 {
-            name = ExpenseCategories.array[indexPath.row].rawValue
+            name = currentExpenseCategories[indexPath.row]
         } else {
-            name = IncomeCategories.array[indexPath.row].rawValue
+            name = currentIncomeCategories[indexPath.row]
         }
         
         cell.generateCell(categoryName: name)
@@ -348,9 +360,9 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         var imageName = ""
         
         if categorySegment.selectedSegmentIndex == 0 {
-            imageName = ExpenseCategories.array[indexPath.row].rawValue
+            imageName = currentExpenseCategories[indexPath.row]
         } else {
-            imageName = IncomeCategories.array[indexPath.row].rawValue
+            imageName = currentIncomeCategories[indexPath.row]
         }
         
         category = imageName.capitalizingFirstLetter()

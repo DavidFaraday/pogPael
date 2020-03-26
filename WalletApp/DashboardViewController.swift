@@ -25,6 +25,25 @@ class DashboardViewController: UIViewController {
     var expenseViewController: ExpensesViewController? = nil
     var incomingViewController: IncomingsViewController? = nil
     
+    let titleLabel: UILabel = {
+        
+        let title = UILabel(frame: CGRect(x: 0, y: 0, width: 140, height: 15))
+        title.textAlignment = .center
+        title.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+
+        return title
+    }()
+    let subTitleLabel: UILabel = {
+        
+        let subTitle = UILabel(frame: CGRect(x: 0, y: 20, width: 140, height: 15))
+        subTitle.textAlignment = .center
+        subTitle.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+
+        return subTitle
+    }()
+    
+    
+    
     var datePopupView: DatePopUpMenuController!
     var isDatePopUpVisible = false
 
@@ -35,7 +54,14 @@ class DashboardViewController: UIViewController {
     var currentView = 0
     var lineView = UIView()
     
+    var firstRun: Bool?
+
+    
     //MARK: ViewLifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        firstRunCheck()
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -56,9 +82,10 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setupCenterButton()
         setupCurrentDate()
         setupLineView()
+        setupCustomTitleView()
+        updateTitleLabels()
     }
 
     
@@ -267,7 +294,6 @@ class DashboardViewController: UIViewController {
         }
         
         
-//        overviewViewController?.currentPredicate = overviewPredicate
         overviewViewController?.reloadData(predicate: overviewPredicate)
         overviewViewController?.updateChartWithData()
         
@@ -276,35 +302,10 @@ class DashboardViewController: UIViewController {
         
         incomingViewController?.reloadData(predicate: incomePredicate)
         incomingViewController?.updateChartWithData()
+        
     }
 
 
-    //MARK: CustomMiddleButton
-    
-//    func setupCenterButton() {
-//        let centerButton = UIButton(frame: CGRect(x: 0, y: 10, width: 45, height: 45))
-//
-//        var centerButtonFrame = centerButton.frame
-//        centerButtonFrame.origin.y = (view.bounds.height - centerButtonFrame.height) - 2
-//        centerButtonFrame.origin.x = view.bounds.width/2 - centerButtonFrame.size.width/2
-//        centerButton.frame = centerButtonFrame
-//
-//        centerButton.layer.cornerRadius = 35
-//        tabBarController?.tabBar.addSubview(centerButton)
-//
-//        centerButton.setBackgroundImage(#imageLiteral(resourceName: "general"), for: .normal)
-//        centerButton.addTarget(self, action: #selector(centerButtonAction(sender:)), for: .touchUpInside)
-//
-//        view.layoutIfNeeded()
-//    }
-
-    
-
-    // MARK: - Centre button Actions
-    
-//    @objc private func centerButtonAction(sender: UIButton) {
-//        self.tabBarController?.selectedIndex = 2
-//    }
     
     func showDatePopUpView() {
         UIView.animate(withDuration: 0.3) {
@@ -344,6 +345,43 @@ class DashboardViewController: UIViewController {
         currentWeek = calendarComponents(Date()).weekOfYear
         currentYear = calendarComponents(Date()).year
     }
+    
+    private func setupCustomTitleView() {
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(subTitleLabel)
+        
+        self.navigationItem.titleView = containerView
+    }
+    
+    //MARK: - UpdateUI
+    private func updateTitleLabels() {
+        let month = currentMonth != nil ? monthNames[currentMonth! - 1] : "Loading..."
+        let year = currentYear != nil ? currentYear! : 2019
+        
+        titleLabel.text = "Main Account"
+        subTitleLabel.text = month + ", " + "\(year)"
+    }
+
+    
+    //MARK: - FirstRunCheck
+    private func firstRunCheck() {
+        
+        firstRun = userDefaults.bool(forKey: kFIRSTRUN)
+        
+        if !firstRun! {
+            
+            let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
+            let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
+
+            userDefaults.set(true, forKey: kFIRSTRUN)
+            userDefaults.set(rawArrayOfExpenses, forKey: kEXPENSECATEGORIES)
+            userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
+
+            userDefaults.synchronize()
+        }
+    }
 
 }
 
@@ -353,6 +391,9 @@ extension DashboardViewController: DatePopUpMenuControllerDelegate {
     func didSelectDateFromPicker(_ month: Int?, year: Int) {
         
         updateData(month, year: year)
+        currentMonth = month
+        currentYear = year
+        updateTitleLabels()
     }
     
     

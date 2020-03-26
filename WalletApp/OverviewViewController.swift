@@ -57,25 +57,10 @@ class OverviewViewController: UIViewController {
         
         setupCurrentDate()
         reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
-        //fetchItemsFromCoreData()
         separateExpenses()
     }
     
-//    func fetchItemsFromCoreData() {
-//
-//        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
-//        fetchRequest.predicate =  NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
-//
-//
-//        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: AppDelegate.context, sectionNameKeyPath: nil, cacheName: nil)
-//        fetchResultsController.delegate = self
-//
-//        do {
-//            try fetchResultsController.performFetch()
-//        } catch {
-//            print("error saving house \(error.localizedDescription)")
-//        }
-//    }
+
 
 
     func reloadData(predicate: NSPredicate? = nil) {
@@ -89,7 +74,6 @@ class OverviewViewController: UIViewController {
 
         do {
             try fetchResultsController.performFetch()
-            print("loading")
         } catch {
             fatalError("error fetching")
         }

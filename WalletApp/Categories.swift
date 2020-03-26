@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ExpenseCategories : String {
+enum ExpenseCategories : String, Codable {
     
     case general
     case shopping

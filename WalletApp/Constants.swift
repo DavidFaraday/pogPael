@@ -10,3 +10,7 @@ import Foundation
 
 //to be edited
 public let kAPPURL = "https://itunes.apple.com/us/app/qchat/id1245294104?ls=1&mt=8"
+
+let kFIRSTRUN = "firstRun"
+let kEXPENSECATEGORIES = "expenseCategories"
+let kINCOMECATEGORIES = "incomeCategories"
