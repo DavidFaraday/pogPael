@@ -203,7 +203,7 @@ class TransactionsViewController: UIViewController {
         sortPopupView.contentView.layer.cornerRadius = 20
         sortPopupView.delegate = self
         sortPopupView.frame = CGRect(x: 0, y: self.view.frame.height
-            + 1, width: self.view.frame.width, height: 200)
+            + 90, width: self.view.frame.width, height: 200)
                 
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         keyWindow!.addSubview(sortPopupView)
@@ -213,7 +213,7 @@ class TransactionsViewController: UIViewController {
         datePopupView.contentView.layer.cornerRadius = 20
         datePopupView.delegate = self
         datePopupView.frame = CGRect(x: 0, y: self.view.frame.height
-            + 1, width: self.view.frame.width, height: 280)
+            + 90, width: self.view.frame.width, height: 280)
         
         keyWindow!.addSubview(datePopupView)
     }

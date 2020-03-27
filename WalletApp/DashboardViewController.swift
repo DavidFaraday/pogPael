@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DashboardViewController: UIViewController {
 
@@ -30,7 +31,9 @@ class DashboardViewController: UIViewController {
         let title = UILabel(frame: CGRect(x: 0, y: 0, width: 140, height: 15))
         title.textAlignment = .center
         title.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-
+        title.textColor = .white
+            
+            
         return title
     }()
     let subTitleLabel: UILabel = {
@@ -38,6 +41,7 @@ class DashboardViewController: UIViewController {
         let subTitle = UILabel(frame: CGRect(x: 0, y: 20, width: 140, height: 15))
         subTitle.textAlignment = .center
         subTitle.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        subTitle.textColor = .white
 
         return subTitle
     }()
@@ -221,7 +225,7 @@ class DashboardViewController: UIViewController {
         datePopupView.contentView.layer.cornerRadius = 20
         datePopupView.delegate = self
         datePopupView.frame = CGRect(x: 0, y: self.view.frame.height
-            + 1, width: self.view.frame.width, height: 280)
+            + 90, width: self.view.frame.width, height: 280)
         
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         keyWindow?.addSubview(datePopupView)
@@ -380,6 +384,8 @@ class DashboardViewController: UIViewController {
         
         if !firstRun! {
             
+            createAccount()
+            
             let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
             let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
 
@@ -391,6 +397,15 @@ class DashboardViewController: UIViewController {
         }
     }
 
+    private func createAccount() {
+        
+        let context = AppDelegate.context
+        let account = Account(context: context)
+        account.id = UUID()
+        account.name = "Main Account"
+        account.isCurrent = true
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
 }
 
 

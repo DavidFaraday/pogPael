@@ -47,6 +47,8 @@ class AddExpenseViewController: UIViewController {
     
     var expenseToEdit: Expense?
     
+    let account = UserAccount.currentAccount()
+
     //MARK: ViewLifeCycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -264,7 +266,8 @@ class AddExpenseViewController: UIViewController {
     
     private func createExpense() {
 
-        if nameTextField.text != "" && amount != 0.0 {
+        if nameTextField.text != "" && amount != 0.0 && account != nil {
+        
             let context = AppDelegate.context
             let expense = Expense(context: context)
             expense.amount = amount
@@ -277,8 +280,8 @@ class AddExpenseViewController: UIViewController {
             expense.weekOfTheYear = String(format: "%i", calendarComponents(entryDate).weekOfYear!)
             expense.monthOfTheYear = String(format: "%i", calendarComponents(entryDate).month!)
             expense.year = String(format: "%i", calendarComponents(entryDate).year!)
-            
-            
+            expense.userId = account!.id
+
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
             print("no name or amount to add")
@@ -288,7 +291,7 @@ class AddExpenseViewController: UIViewController {
     
     private func editExpense() {
 
-        if nameTextField.text != "" && amount != 0.0 {
+        if nameTextField.text != "" && amount != 0.0 && account != nil {
             expenseToEdit!.amount = amount
             expenseToEdit!.category = category
             expenseToEdit!.isExpense = (categorySegment.selectedSegmentIndex == 0)

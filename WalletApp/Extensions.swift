@@ -123,6 +123,52 @@ extension UIView {
         
         NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
     }
+    
+    
+        
+    enum Direction: Int {
+        case topToBottom = 0
+        case bottomToTop
+        case leftToRight
+        case rightToLeft
+    }
+    
+
+    
+    func applyGradient(colors: [Any]?, locations: [NSNumber]? = [0.0, 1.0], direction: Direction = .topToBottom, cornerRadius: CGFloat?) {
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.bounds
+        gradientLayer.colors = colors
+        gradientLayer.locations = locations
+        
+        switch direction {
+        case .topToBottom:
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+            
+        case .bottomToTop:
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
+            
+        case .leftToRight:
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+            
+        case .rightToLeft:
+            gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
+            gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
+        }
+        
+        if cornerRadius != nil {
+            gradientLayer.cornerRadius = cornerRadius!
+            gradientLayer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        }
+
+        
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+
 }
 
 
