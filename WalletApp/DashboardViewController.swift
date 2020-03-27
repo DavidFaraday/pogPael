@@ -363,7 +363,7 @@ class DashboardViewController: UIViewController {
     //MARK: - UpdateUI
     private func updateTitleLabels(_ yearOnly: Bool) {
         
-        titleLabel.text = "Main Account"
+        titleLabel.text = UserAccount.currentAccount() != nil ? UserAccount.currentAccount()!.name : "Main Account"
 
         let year = currentYear != nil ? currentYear! : 0000
 

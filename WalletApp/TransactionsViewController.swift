@@ -37,6 +37,27 @@ class TransactionsViewController: UIViewController {
     
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
 
+    let titleLabel: UILabel = {
+        
+        let title = UILabel(frame: CGRect(x: 0, y: 0, width: 140, height: 15))
+        title.textAlignment = .center
+        title.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        title.textColor = .white
+            
+            
+        return title
+    }()
+    let subTitleLabel: UILabel = {
+        
+        let subTitle = UILabel(frame: CGRect(x: 0, y: 20, width: 140, height: 15))
+        subTitle.textAlignment = .center
+        subTitle.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        subTitle.textColor = .white
+
+        return subTitle
+    }()
+
+    
     
     //MARK: View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -56,15 +77,16 @@ class TransactionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        fetchCurrentPeriod()
         setupCurrentDate()
         currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
-        setMonthName()
         
+        setupCustomTitleView()
+
         fetchAllPeriod()
         reloadData(predicate: currentPredicate)
         
         updateTotalAmountsUI()
+        updateTitleLabels(false)
 
         setupPopUpViews()
         tableView.tableFooterView = UIView()
@@ -87,16 +109,6 @@ class TransactionsViewController: UIViewController {
         }
 
     }
-
-//    private func fetchCurrentPeriod() {
-//
-//        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "category", ascending: false), NSSortDescriptor(key: "amount", ascending: false) ]
-//
-//        currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
-//
-//        currentPeriodFetchResultsController.delegate = self
-//    }
-    
     
     
     func reloadData(predicate: NSPredicate? = nil, sortBy: String = "") {
@@ -181,16 +193,20 @@ class TransactionsViewController: UIViewController {
         thisPeriodLabel.textColor = ColorFromAmount(thisPeriod)
     }
     
-    private func setMonthName() {
-        if currentMonth != nil {
-            self.title = monthNames[currentMonth! - 1]
-        } else {
-            self.title = "Pending month"
-        }
-    }
     
     
     //MARK: - SutUp items
+    
+    private func setupCustomTitleView() {
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(subTitleLabel)
+        
+        self.navigationItem.titleView = containerView
+    }
+
+    
     private func setupCurrentDate() {
         currentMonth = calendarComponents(Date()).month
         currentWeek = calendarComponents(Date()).weekOfYear
@@ -263,6 +279,24 @@ class TransactionsViewController: UIViewController {
         
         return tempIncoming - tempExpense
     }
+    
+    //MARK: - Update UI
+    private func updateTitleLabels(_ yearOnly: Bool) {
+        
+        titleLabel.text = UserAccount.currentAccount() != nil ? UserAccount.currentAccount()!.name : "Main Account"
+
+        let year = currentYear != nil ? currentYear! : 0000
+
+        if yearOnly {
+            subTitleLabel.text = "\(year)"
+        } else {
+            let month = currentMonth != nil ? monthNames[currentMonth! - 1] : "___"
+            subTitleLabel.text = month + ", " + "\(year)"
+        }
+        
+    }
+
+
 
 
     //MARK: - Animations
@@ -408,13 +442,14 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
         if month != nil {
             currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
             currentMonth = month
-            setMonthName()
 
         } else {
             currentPredicate = NSPredicate(format: "year = %i ", year)
-
         }
         
+        currentYear = year
+        
+        updateTitleLabels(month == nil)
         reloadData(predicate: currentPredicate)
     }
     

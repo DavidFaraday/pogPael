@@ -1016,7 +1016,7 @@
                         <viewLayoutGuide key="safeArea" id="Z1U-WK-4KG"/>
                     </view>
                     <navigationItem key="navigationItem" title="Month" id="Tar-sq-mf8">
-                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="NyL-6F-v9t"/>
+                        <barButtonItem key="leftBarButtonItem" image="person" catalog="system" id="NyL-6F-v9t"/>
                         <rightBarButtonItems>
                             <barButtonItem image="calendar" id="G78-XB-bPS">
                                 <connections>
@@ -1765,7 +1765,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Balance = 10000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgK-n4-9eS">
-                                        <rect key="frame" x="8" y="249" width="327" height="19.5"/>
+                                        <rect key="frame" x="8" y="258.5" width="327" height="19.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1795,7 +1795,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="tIh-oN-i50"/>
                                                 </constraints>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="slider.horizontal.3" catalog="system"/>
+                                                <state key="normal" image="menu"/>
                                                 <connections>
                                                     <action selector="optionButtonPressed:" destination="kHP-qN-ReM" eventType="touchUpInside" id="WKb-nb-Ib9"/>
                                                 </connections>
@@ -1816,10 +1816,10 @@
                                 </subviews>
                                 <color key="backgroundColor" name="accountCardColor"/>
                                 <constraints>
-                                    <constraint firstItem="zgK-n4-9eS" firstAttribute="top" secondItem="DyL-ht-xHh" secondAttribute="bottom" constant="14" id="5cl-FE-CBp"/>
                                     <constraint firstAttribute="trailing" secondItem="zgK-n4-9eS" secondAttribute="trailing" constant="8" id="6mb-f9-CIs"/>
                                     <constraint firstItem="uY4-rv-Qau" firstAttribute="top" secondItem="t8s-x3-BI6" secondAttribute="bottom" constant="22" id="8Jl-Rc-Uuk"/>
                                     <constraint firstItem="t8s-x3-BI6" firstAttribute="centerX" secondItem="jQA-iw-9oL" secondAttribute="centerX" id="AMw-e1-ezZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="zgK-n4-9eS" secondAttribute="bottom" constant="22" id="CGy-D8-QTA"/>
                                     <constraint firstItem="t8s-x3-BI6" firstAttribute="leading" secondItem="jQA-iw-9oL" secondAttribute="leading" id="Fc4-V0-KuX"/>
                                     <constraint firstAttribute="trailing" secondItem="DyL-ht-xHh" secondAttribute="trailing" constant="12" id="Hao-wD-UMV"/>
                                     <constraint firstItem="7BF-UL-gvn" firstAttribute="top" secondItem="uY4-rv-Qau" secondAttribute="bottom" constant="9" id="Hq2-jL-RK1"/>
@@ -1968,11 +1968,12 @@
         <image name="dashboard" width="25" height="25"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="general" width="25" height="25"/>
+        <image name="menu" width="30" height="30"/>
+        <image name="person" catalog="system" width="64" height="58"/>
         <image name="person.2" catalog="system" width="64" height="40"/>
         <image name="person.badge.plus" catalog="system" width="64" height="58"/>
         <image name="person.crop.circle" catalog="system" width="64" height="60"/>
         <image name="repeat" width="35" height="35"/>
-        <image name="slider.horizontal.3" catalog="system" width="64" height="50"/>
         <image name="sort" width="26" height="19"/>
         <image name="transaction" width="25" height="25"/>
         <image name="travel" width="25" height="25"/>

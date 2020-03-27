@@ -50,6 +50,29 @@ class AccountsViewController: UIViewController {
     //MARK: - IBActions
     @IBAction func optionButtonPressed(_ sender: Any) {
         
+        let alertController = UIAlertController(title: "Edit Account", message: nil, preferredStyle: .alert)
+        
+        alertController.addTextField { (nameTextField) in
+            
+            nameTextField.placeholder = "Account Name"
+            nameTextField.autocapitalizationType = .words
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { (_) in
+            
+            let account = UserAccount.currentAccount()
+            account?.name = alertController.textFields?.first?.text
+            
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+            self.loadAccountDetails()
+        }))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func addAccountButtonPressed(_ sender: Any) {

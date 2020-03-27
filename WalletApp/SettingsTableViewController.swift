@@ -15,7 +15,6 @@ class SettingsTableViewController: UITableViewController {
         
         tableView.tableFooterView = UIView()
     }
-
     
     //MARK: IBActions
     
