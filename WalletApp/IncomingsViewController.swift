@@ -20,10 +20,12 @@ class IncomingsViewController: UIViewController {
     
     
     //MARK: Vars
-    var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>!
+    var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var currentPredicate: NSPredicate?
+
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
 
     var currentYear: Int?
     var currentMonth: Int?
@@ -34,33 +36,31 @@ class IncomingsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         tableView.tableFooterView = UIView()
+        
+        setupCurrentDate()
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, false))
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCurrentDate()
-        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, false))
+
     }
     
     
     func reloadData(predicate: NSPredicate? = nil) {
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
         
         fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchResultsController.delegate = self
-
-        let sort = NSSortDescriptor(key: "amount", ascending: false)
+        fetchResultsController!.delegate = self
         
-        fetchResultsController.fetchRequest.predicate = predicate
-        fetchResultsController.fetchRequest.sortDescriptors = [sort]
-        fetchResultsController.fetchRequest.fetchLimit = 10
+        fetchResultsController!.fetchRequest.predicate = predicate
+        fetchResultsController!.fetchRequest.fetchLimit = 10
 
         do {
-            try fetchResultsController.performFetch()
+            try fetchResultsController!.performFetch()
         } catch {
             fatalError("income fetch error")
         }
@@ -88,7 +88,7 @@ class IncomingsViewController: UIViewController {
         var total = 0.0
         var dailyAverage = 0.0
         
-        for expense in fetchResultsController.fetchedObjects! {
+        for expense in fetchResultsController!.fetchedObjects! {
             let tempExpense = expense as! Expense
             total += tempExpense.amount
         }
@@ -103,7 +103,7 @@ class IncomingsViewController: UIViewController {
         
         var dataEntries: [PieChartDataEntry] = []
         
-        for expense in fetchResultsController.fetchedObjects! {
+        for expense in fetchResultsController!.fetchedObjects! {
             let tempExpense = expense as! Expense
             
             let tempEntry = PieChartDataEntry(value: tempExpense.amount, label: "")
@@ -150,8 +150,6 @@ extension IncomingsViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
-        print("income update")
-
         calculateAmounts()
         updateChartWithData()
         animateChartWithDelay()
@@ -163,18 +161,26 @@ extension IncomingsViewController: UITableViewDataSource {
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return fetchResultsController.sections?[section].numberOfObjects ?? 0
+        return fetchResultsController?.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ExpenseTableViewCell
 
-        let expense = fetchResultsController.object(at: indexPath) as! Expense
+        let expense = fetchResultsController?.object(at: indexPath) as! Expense
         
         cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row), dateFormatShort: false)
 
         
         return cell
+    }
+}
+
+extension IncomingsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -46,6 +46,11 @@ class OverviewViewController: UIViewController {
 
         incomeTableView.tableFooterView = UIView()
         expensesTableView.tableFooterView = UIView()
+        
+        setupCurrentDate()
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
+        separateExpenses()
+
     }
 
     
@@ -55,9 +60,9 @@ class OverviewViewController: UIViewController {
         incomeChart.isHidden = true
         expensesChart.isHidden = true
         
-        setupCurrentDate()
-        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
-        separateExpenses()
+//        setupCurrentDate()
+//        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
+//        separateExpenses()
     }
     
 
@@ -215,7 +220,7 @@ class OverviewViewController: UIViewController {
 extension OverviewViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        print("overview update")
+
         separateExpenses()
     }
 }
@@ -252,4 +257,12 @@ extension OverviewViewController: UITableViewDataSource {
     
 
 
+}
+
+extension OverviewViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

@@ -49,8 +49,8 @@ class TransactionsViewController: UIViewController {
             customTapBar.showCenterButton()
         }
         
-//        reloadData()
-//        updateTotalAmountsUI()
+        reloadData()
+        updateTotalAmountsUI()
     }
     
     override func viewDidLoad() {
@@ -301,20 +301,6 @@ class TransactionsViewController: UIViewController {
 extension TransactionsViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-
-        switch type {
-        case .update:
-            print("update")
-        case .insert:
-            print("insert")
-        case .delete:
-            print("delete")
-        case .move:
-            print("move")
-        default:
-                    print("transaction update")
-
-        }
 
         updateTotalAmountsUI()
         tableView.reloadData()
