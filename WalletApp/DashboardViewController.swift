@@ -69,6 +69,7 @@ class DashboardViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         hideViews(view: 0)
         animateViewIn(view: 0)
     }
@@ -80,16 +81,15 @@ class DashboardViewController: UIViewController {
         self.incomesView.frame.origin.x = AnimationManager.screenBounds.maxX + 10
         
         setupPopUpViews()
-
+        setupCurrentDate()
+        setupCustomTitleView()
+        updateTitleLabels(false)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCurrentDate()
         setupLineView()
-        setupCustomTitleView()
-        updateTitleLabels(false)
     }
 
     
@@ -239,17 +239,16 @@ class DashboardViewController: UIViewController {
         var incomePredicate: NSPredicate!
 
         if month != nil {
-            overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
-            expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", year, month!, true)
+            overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", year, month!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
             
-            incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", year, month!, false)
+            incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
 
         } else {
-            overviewPredicate = NSPredicate(format: "year = %i ", year)
-            expensePredicate = NSPredicate(format: "year = %i && isExpense == %i", year, true)
-            incomePredicate = NSPredicate(format: "year = %i && isExpense == %i", year, false)
+            overviewPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
         }
-        
         
         overviewViewController?.reloadData(predicate: overviewPredicate)
         overviewViewController?.updateChartWithData()
@@ -273,28 +272,27 @@ class DashboardViewController: UIViewController {
             
             if currentWeek != nil {
                 
-                
-                overviewPredicate = NSPredicate(format: "weekOfTheYear = %i", currentWeek!)
-                expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, true)
-                incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i", currentWeek!, false)
+                overviewPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
 
             }
         case 1:
             
             if currentYear != nil && currentMonth != nil {
 
-                overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i", currentYear!, currentMonth!)
-                expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i", currentYear!, currentMonth!, true)
-                incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i", currentYear!, currentMonth!, false)
+                overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
             }
             
         default:
             
             if currentYear != nil {
 
-                overviewPredicate = NSPredicate(format: "year = %i ", currentYear!)
-                expensePredicate = NSPredicate(format: "year = %i && isExpense == %i", currentYear!, true)
-                incomePredicate = NSPredicate(format: "year = %i && isExpense == %i", currentYear!, false)
+                overviewPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
             }
         }
         
@@ -399,12 +397,7 @@ class DashboardViewController: UIViewController {
 
     private func createAccount() {
         
-        let context = AppDelegate.context
-        let account = Account(context: context)
-        account.id = UUID()
-        account.name = "Main Account"
-        account.isCurrent = true
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        UserAccount.createAccount(name: "Main Account", image: nil)
     }
 }
 

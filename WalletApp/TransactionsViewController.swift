@@ -70,15 +70,19 @@ class TransactionsViewController: UIViewController {
             customTapBar.showCenterButton()
         }
         
-        reloadData()
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+
+        fetchAllPeriod()
+        reloadData(predicate: currentPredicate)
         updateTotalAmountsUI()
+        updateTitleLabels(false)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCurrentDate()
-        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
         
         setupCustomTitleView()
 
@@ -100,6 +104,9 @@ class TransactionsViewController: UIViewController {
         fetchRequest.sortDescriptors = [ ]
         
         allTimeFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        allTimeFetchResultsController.fetchRequest.predicate = NSPredicate(format: "userId = %@", UserAccount.currentAccount()?.id?.uuidString ?? "")
+
         allTimeFetchResultsController.delegate = self
         
         do {
@@ -152,6 +159,15 @@ class TransactionsViewController: UIViewController {
     }
 
     //MARK: - IBActions
+    
+    @IBAction func accountBarButtonPressed(_ sender: Any) {
+        
+        let allAccountsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "allAccountsVC") as! AllAccountsViewController
+        allAccountsVC.delegate = self
+        
+        present(allAccountsVC, animated: true, completion: nil)
+    }
+    
     
     @IBAction func sortButtonPressed(_ sender: Any) {
         isSortPopUpVisible ? hideSortPopUpView() : showSortPopUpView()
@@ -440,11 +456,11 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
         
             
         if month != nil {
-            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", year, month!)
+            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", year, month!, UserAccount.currentAccount()?.id?.uuidString ?? "")
             currentMonth = month
 
         } else {
-            currentPredicate = NSPredicate(format: "year = %i ", year)
+            currentPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id?.uuidString ?? "")
         }
         
         currentYear = year
@@ -459,19 +475,16 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
         switch selectedIndex {
         case 0:
             if currentWeek != nil {
-                currentPredicate = NSPredicate(format: "weekOfTheYear = %i", currentWeek!)
-
+                currentPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id?.uuidString ?? "")
             }
         case 1:
             
             if currentYear != nil && currentMonth != nil {
-                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!)
-
+                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
             }
-
         default:
             if currentYear != nil {
-                currentPredicate = NSPredicate(format: "year = %i", currentYear!)
+                currentPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id?.uuidString ?? "")
             }
         }
 
@@ -484,3 +497,15 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
     }
 }
 
+
+extension TransactionsViewController: AllAccountsViewControllerDelegate {
+    
+    func didSelectAccount() {
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+
+        fetchAllPeriod()
+        reloadData(predicate: currentPredicate)
+        updateTotalAmountsUI()
+        updateTitleLabels(false)
+    }
+}

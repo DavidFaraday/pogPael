@@ -37,7 +37,8 @@ class ExpensesViewController: UIViewController {
         tableView.tableFooterView = UIView()
 
         setupCurrentDate()
-        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, true))
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, true, UserAccount.currentAccount()?.id?.uuidString ?? ""))
+        
     }
 
     

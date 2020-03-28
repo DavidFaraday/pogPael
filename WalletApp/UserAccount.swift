@@ -8,8 +8,24 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class UserAccount {
+    
+    class func createAccount(name: String, image: UIImage?) {
+        
+        let context = AppDelegate.context
+        let account = Account(context: context)
+        account.id = UUID()
+        account.name = name
+        account.isCurrent = true
+        
+        if image != nil {
+            account.image = UIImageJPEGRepresentation(image!, 1.0)
+        }
+        
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
     
     class func currentAccount() -> Account? {
         
@@ -28,5 +44,29 @@ class UserAccount {
         }
         
         return account as? Account
+    }
+    
+    class func changeAccountStatus() {
+        
+        let context = AppDelegate.context
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "isCurrent = %i", true)
+        
+
+        do {
+            let accounts = try context.fetch(fetchRequest)
+            
+            for account in accounts {
+                let tempAccount = account as! Account
+                tempAccount.isCurrent = false
+            }
+            
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+
+        } catch {
+            print("Failed to fetch account")
+        }
     }
 }

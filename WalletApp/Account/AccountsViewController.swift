@@ -34,12 +34,9 @@ class AccountsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super .viewWillAppear(animated)
         
-        account = UserAccount.currentAccount()
-
-        setupUI()
-        loadAccountDetails()
-        loadExpenses()
+        showCurrentAccountDetails()
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,34 +47,19 @@ class AccountsViewController: UIViewController {
     //MARK: - IBActions
     @IBAction func optionButtonPressed(_ sender: Any) {
         
-        let alertController = UIAlertController(title: "Edit Account", message: nil, preferredStyle: .alert)
-        
-        alertController.addTextField { (nameTextField) in
-            
-            nameTextField.placeholder = "Account Name"
-            nameTextField.autocapitalizationType = .words
-        }
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-            
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { (_) in
-            
-            let account = UserAccount.currentAccount()
-            account?.name = alertController.textFields?.first?.text
-            
-            (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            
-            self.loadAccountDetails()
-        }))
-        
-        self.present(alertController, animated: true, completion: nil)
+        performSegue(withIdentifier: "accountToAddAccountSeg", sender: UserAccount.currentAccount())
     }
     
-    @IBAction func addAccountButtonPressed(_ sender: Any) {
+    @IBAction func menuBarButtonItemPressed(_ sender: Any) {
         
+        let allAccountsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "allAccountsVC") as! AllAccountsViewController
+        allAccountsVC.delegate = self
+        
+        present(allAccountsVC, animated: true, completion: nil)
     }
+    
+    
+    
     
     //MARK: - SetupUI
     private func setupUI() {
@@ -103,6 +85,8 @@ class AccountsViewController: UIViewController {
         topBackground.layer.cornerRadius = 10
         topBackground.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }
+
+    //MARK: - FetchCoreData
 
     private func loadAccountDetails() {
         
@@ -139,6 +123,7 @@ class AccountsViewController: UIViewController {
 
     }
     
+    //MARK: - Helpers
     func separateExpenses() {
         
         var totalIncoming = 0.0
@@ -158,6 +143,17 @@ class AccountsViewController: UIViewController {
         
         updateUI(incoming: totalIncoming, expense: totalExpense)
     }
+    
+    private func showCurrentAccountDetails() {
+        account = UserAccount.currentAccount()
+
+        setupUI()
+        loadAccountDetails()
+        loadExpenses()
+    }
+
+    
+    //MARK: - UpdateUI
 
     func updateUI(incoming: Double, expense: Double) {
         
@@ -174,6 +170,23 @@ class AccountsViewController: UIViewController {
         incomesLabel.attributedText = formatStringDecimalSize(incoming, mainNumberSize: 18.0, decimalNumberSize: 10.0)
         expensesLabel.attributedText = formatStringDecimalSize(expense, mainNumberSize: 18.0, decimalNumberSize: 10.0)
     }
+    
+    
+    //MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "accountToAddAccountSeg" {
+            let destinationVC = segue.destination as! AddAccountViewController
+            destinationVC.delegate = self
+            
+
+            if sender is Account {
+                destinationVC.accountToEdit = sender as? Account
+            }
+        }
+        
+    }
+
 
 
 }
@@ -185,4 +198,22 @@ extension AccountsViewController: NSFetchedResultsControllerDelegate {
 
         separateExpenses()
     }
+}
+
+
+extension AccountsViewController: AddAccountViewControllerDelegate {
+    
+    func didCreateAccount() {
+        showCurrentAccountDetails()
+    }
+    
+}
+
+
+extension AccountsViewController: AllAccountsViewControllerDelegate {
+    
+    func didSelectAccount() {
+        showCurrentAccountDetails()
+    }
+
 }
