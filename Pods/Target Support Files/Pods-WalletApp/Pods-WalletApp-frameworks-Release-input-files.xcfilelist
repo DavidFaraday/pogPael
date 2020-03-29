@@ -1,0 +1,8 @@
+${PODS_ROOT}/Target Support Files/Pods-WalletApp/Pods-WalletApp-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
+${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework
+${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/KDCalendar/KDCalendar.framework
+${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework
+${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
