@@ -18,16 +18,6 @@ class SettingsTableViewController: UITableViewController {
     
     //MARK: IBActions
     
-    @IBAction func currenciesButtonPressed(_ sender: Any) {
-        
-        
-    }
-    
-    @IBAction func dateFormatButtonPressed(_ sender: Any) {
-        
-        
-    }
-    
     @IBAction func tellAFriendButtonPressed(_ sender: Any) {
         
         let text = "Hey! Check out this cool WalletApp \(kAPPURL)"
@@ -51,7 +41,7 @@ class SettingsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return section == 1 ? 1 : 3
+        return section == 2 ? 3 : 1
     }
 
     

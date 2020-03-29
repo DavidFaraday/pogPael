@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 import Charts
+import AVFoundation
+
+extension UIDevice {
+    static func vibrate() {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+    }
+}
+
+
 
 extension String {
     func capitalizingFirstLetter() -> String {
@@ -42,7 +51,7 @@ extension UIButton {
         return image
     }
     
-    func setBackgroundColor(_ color: UIColor, for state: UIControlState) {
+    func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
         self.setBackgroundImage(imageWithColor(color: color), for: state)
     }
 }
@@ -188,5 +197,47 @@ extension ChartColorTemplates {
             NSUIColor(red: 106/255.0, green: 150/255.0, blue: 31/255.0, alpha: 1.0),
             NSUIColor(red: 179/255.0, green: 100/255.0, blue: 53/255.0, alpha: 1.0)
         ]
+    }
+}
+
+
+extension UIImage {
+    
+    var isPortrait:  Bool    { return size.height > size.width }
+    var isLandscape: Bool    { return size.width > size.height }
+    var breadth:     CGFloat { return min(size.width, size.height) }
+    var breadthSize: CGSize  { return CGSize(width: breadth, height: breadth) }
+    var breadthRect: CGRect  { return CGRect(origin: .zero, size: breadthSize) }
+    
+    var circleMasked: UIImage? {
+        UIGraphicsBeginImageContextWithOptions(breadthSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        guard let cgImage = cgImage?.cropping(to: CGRect(origin: CGPoint(x: isLandscape ? floor((size.width - size.height) / 2) : 0, y: isPortrait  ? floor((size.height - size.width) / 2) : 0), size: breadthSize)) else { return nil }
+        UIBezierPath(ovalIn: breadthRect).addClip()
+        UIImage(cgImage: cgImage).draw(in: breadthRect)
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
+    
+    
+    func scaleImageToSize(newSize: CGSize) -> UIImage {
+        var scaledImageRect = CGRect.zero
+        
+        let aspectWidth = newSize.width/size.width
+        let aspectheight = newSize.height/size.height
+        
+        let aspectRatio = max(aspectWidth, aspectheight)
+        
+        scaledImageRect.size.width = size.width * aspectRatio;
+        scaledImageRect.size.height = size.height * aspectRatio;
+        scaledImageRect.origin.x = (newSize.width - scaledImageRect.size.width) / 2.0;
+        scaledImageRect.origin.y = (newSize.height - scaledImageRect.size.height) / 2.0;
+        
+        UIGraphicsBeginImageContext(newSize)
+        draw(in: scaledImageRect)
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return scaledImage!
     }
 }

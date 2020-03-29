@@ -12,9 +12,11 @@
 		55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */; };
 		55680A35242A86E400E90A6F /* DatePopUpMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55680A34242A86E400E90A6F /* DatePopUpMenu.xib */; };
 		5573E29D242DEE4E00DA5491 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5573E29C242DEE4E00DA5491 /* AccountsViewController.swift */; };
+		558E4D182430B558008F9E08 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558E4D172430B558008F9E08 /* AVFoundation.framework */; };
 		559183AC2429278200123FD6 /* SortPopUpMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559183AB2429278100123FD6 /* SortPopUpMenuController.swift */; };
 		559183AE242927F100123FD6 /* PopUpMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 559183AD242927F100123FD6 /* PopUpMenu.xib */; };
 		559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559CF46F24279EC700CBA24E /* CalendarViewController.swift */; };
+		55A627E3242FC4950019EE13 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A627E2242FC4950019EE13 /* Notifications.swift */; };
 		55ACDC54242F25DB00875E15 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC53242F25DB00875E15 /* AddAccountViewController.swift */; };
 		55ACDC56242F4DB100875E15 /* AllAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */; };
 		55ACDC58242F505D00875E15 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */; };
@@ -52,9 +54,11 @@
 		55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePopUpMenuController.swift; sourceTree = "<group>"; };
 		55680A34242A86E400E90A6F /* DatePopUpMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePopUpMenu.xib; sourceTree = "<group>"; };
 		5573E29C242DEE4E00DA5491 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
+		558E4D172430B558008F9E08 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		559183AB2429278100123FD6 /* SortPopUpMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortPopUpMenuController.swift; sourceTree = "<group>"; };
 		559183AD242927F100123FD6 /* PopUpMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpMenu.xib; sourceTree = "<group>"; };
 		559CF46F24279EC700CBA24E /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		55A627E2242FC4950019EE13 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		55ACDC53242F25DB00875E15 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsViewController.swift; sourceTree = "<group>"; };
 		55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				558E4D182430B558008F9E08 /* AVFoundation.framework in Frameworks */,
 				63E2E6B520C3D5640036FB3C /* Charts.framework in Frameworks */,
 				5B49F6EC71D2DAE1FFE10D57 /* Pods_WalletApp.framework in Frameworks */,
 			);
@@ -183,6 +188,7 @@
 				636444A721625B2900C77E8D /* CustomViewController.swift */,
 				55680A302429E9BD00E90A6F /* CoreDataManager.swift */,
 				55198AEB242E27450048D348 /* UserAccount.swift */,
+				55A627E2242FC4950019EE13 /* Notifications.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -261,6 +267,7 @@
 		FD1D26788CD23245EAD18F54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				558E4D172430B558008F9E08 /* AVFoundation.framework */,
 				63E2E6B420C3D5640036FB3C /* Charts.framework */,
 				93D4D71D8F6C7F330572DAA3 /* Pods_WalletApp.framework */,
 			);
@@ -380,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55A627E3242FC4950019EE13 /* Notifications.swift in Sources */,
 				63E1D40320BB27B500049FC9 /* WalletApp.xcdatamodeld in Sources */,
 				63450D7120C035B10076B2E4 /* Constants.swift in Sources */,
 				6305EC7720BC573500AE3989 /* ExpensesViewController.swift in Sources */,
@@ -563,8 +571,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosdevschool.WalletApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -583,8 +591,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosdevschool.WalletApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

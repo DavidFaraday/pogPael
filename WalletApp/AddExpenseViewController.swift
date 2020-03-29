@@ -8,16 +8,17 @@
 
 import UIKit
 import CoreData
-
+import Gallery
+import NotificationBannerSwift
 
 class AddExpenseViewController: UIViewController {
     
-    //MARK: Containers
+    //MARK: - Containers
     @IBOutlet weak var nameViewContainer: UIView!
     @IBOutlet weak var categoryViewContainer: UIView!
     
     
-    //MARK: Outlets
+    //MARK: - Outlets
     @IBOutlet weak var keyboardView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var topViewContainer: UIView!
@@ -33,7 +34,7 @@ class AddExpenseViewController: UIViewController {
     @IBOutlet weak var repeatTextField: UITextField!
     
     
-    //MARK: Vars
+    //MARK: - Vars
     var amount: Double = 0.0
     var amountText = ""
     var category = "general"
@@ -42,6 +43,8 @@ class AddExpenseViewController: UIViewController {
     var currentIncomeCategories: [String] = []
     var currentExpenseCategories: [String] = []
 
+    var gallery: GalleryController!
+    var billImage: UIImage?
     
     var isDisplayingCategory = true
     
@@ -49,7 +52,7 @@ class AddExpenseViewController: UIViewController {
     
     let account = UserAccount.currentAccount()
 
-    //MARK: ViewLifeCycle
+    //MARK: - ViewLifeCycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -87,7 +90,7 @@ class AddExpenseViewController: UIViewController {
         dateTextField.isUserInteractionEnabled = true
     }
 
-    //MARK: IBActions
+    //MARK: - IBActions
     
     @IBAction func categorySegmentValueChanged(_ sender: Any) {
         collectionView.reloadData()
@@ -104,8 +107,7 @@ class AddExpenseViewController: UIViewController {
     }
     
     @IBAction func attachImageTaped(_ sender: Any) {
-        //TODO: Show picker
-        print("Attach")
+        showImageGallery()
     }
     
     
@@ -155,7 +157,7 @@ class AddExpenseViewController: UIViewController {
         self.navigationController?.pushViewController(calendarView, animated: true)
     }
     
-    //MARK: UpdateUI
+    //MARK: - UpdateUI
     
     private func updateViewPositions() {
         if isDisplayingCategory {
@@ -234,7 +236,7 @@ class AddExpenseViewController: UIViewController {
         animateCategoryViewOut()
     }
 
-    //MARK: Animation
+    //MARK: - Animation
     func animateCategoryImage(imageName: String) {
         let categoryImage = UIImage(named: imageName)
         
@@ -262,7 +264,7 @@ class AddExpenseViewController: UIViewController {
         }
     }
 
-    //MARK: Saving Item
+    //MARK: - Saving Item
     
     private func createExpense() {
 
@@ -282,11 +284,17 @@ class AddExpenseViewController: UIViewController {
             expense.year = String(format: "%i", calendarComponents(entryDate).year!)
             expense.userId = account!.id
 
+            if billImage != nil {
+                expense.image = billImage!.jpegData(compressionQuality: 1.0)
+            }
+            
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
             print("no name or amount to add")
         }
         
+        showBanner(title: "Item Saved Successfully!")
+        vibrate()
     }
     
     private func editExpense() {
@@ -304,11 +312,18 @@ class AddExpenseViewController: UIViewController {
             
             expenseToEdit!.shouldRepeat = false //to be changed later
             
+            if billImage != nil {
+                expenseToEdit!.image = billImage!.jpegData(compressionQuality: 1.0)
+            }
+            
+            
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
             print("no name or amount to edit")
         }
         
+        showBanner(title: "Item Edited Successfully!")
+        vibrate()
     }
 
     private func deleteExpense() {
@@ -323,57 +338,19 @@ class AddExpenseViewController: UIViewController {
         currentIncomeCategories = userDefaults.object(forKey: kINCOMECATEGORIES) as! [String]
         currentExpenseCategories = userDefaults.object(forKey: kEXPENSECATEGORIES) as! [String]
     }
-}
-
-//for choose category
-extension AddExpenseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    
-    //MARK: CollectionViewDataSource
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    //MARK: - Gallery
+    private func showImageGallery() {
+        self.gallery = GalleryController()
+        self.gallery.delegate = self
+        Config.tabsToShow = [.imageTab, .cameraTab]
+        Config.Camera.imageLimit = 1
+        Config.initialTab = .imageTab
         
-        if categorySegment.selectedSegmentIndex == 0 {
-            return currentExpenseCategories.count
-        }
-        return currentIncomeCategories.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryCollectionViewCell
-        
-        var name = ""
-        
-        if categorySegment.selectedSegmentIndex == 0 {
-            name = currentExpenseCategories[indexPath.row]
-        } else {
-            name = currentIncomeCategories[indexPath.row]
-        }
-        
-        cell.generateCell(categoryName: name)
-        
-        return cell
-    }
-    
-    //MARK: CollectionViewDelegate
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        var imageName = ""
-        
-        if categorySegment.selectedSegmentIndex == 0 {
-            imageName = currentExpenseCategories[indexPath.row]
-        } else {
-            imageName = currentIncomeCategories[indexPath.row]
-        }
-        
-        category = imageName.capitalizingFirstLetter()
-        animateCategoryImage(imageName: imageName.lowercased())
+        self.present(self.gallery, animated: true, completion: nil)
     }
     
     //MARK: SetupUI
-    
     //create keyboard
     private func createKeyboardButtons() {
         let buttonTitlesRow1 = ["7", "8", "9"]
@@ -509,7 +486,64 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         return (decimals != nil && decimals!.count < 2)
     }
 
+    private func showBanner(title: String) {
+         let banner = StatusBarNotificationBanner(title: title, style: .success)
+        banner.show()
+    }
 
+    private func vibrate() {
+        UIDevice.vibrate()
+    }
+
+}
+
+//for choose category
+extension AddExpenseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    
+    //MARK: CollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if categorySegment.selectedSegmentIndex == 0 {
+            return currentExpenseCategories.count
+        }
+        return currentIncomeCategories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryCollectionViewCell
+        
+        var name = ""
+        
+        if categorySegment.selectedSegmentIndex == 0 {
+            name = currentExpenseCategories[indexPath.row]
+        } else {
+            name = currentIncomeCategories[indexPath.row]
+        }
+        
+        cell.generateCell(categoryName: name)
+        
+        return cell
+    }
+    
+    //MARK: CollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        var imageName = ""
+        
+        if categorySegment.selectedSegmentIndex == 0 {
+            imageName = currentExpenseCategories[indexPath.row]
+        } else {
+            imageName = currentIncomeCategories[indexPath.row]
+        }
+        
+        category = imageName.capitalizingFirstLetter()
+        animateCategoryImage(imageName: imageName.lowercased())
+    }
+    
 }
 
 
@@ -522,4 +556,32 @@ extension AddExpenseViewController: CalendarViewControllerDelegate {
         setEntryDate()
     }
     
+}
+
+
+extension AddExpenseViewController: GalleryControllerDelegate {
+    
+    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
+        if images.count > 0 {
+            images.first!.resolve(completion: { (icon) in
+                
+                self.billImage = icon
+            })
+        }
+        
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryControllerDidCancel(_ controller: GalleryController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+
 }

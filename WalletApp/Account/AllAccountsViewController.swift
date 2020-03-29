@@ -35,6 +35,7 @@ class AllAccountsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.tableFooterView = UIView()
     }
     
     
@@ -110,7 +111,7 @@ extension AllAccountsViewController: UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         let context = AppDelegate.context
                 
@@ -119,7 +120,8 @@ extension AllAccountsViewController: UITableViewDelegate {
             let accountToDelete = allAccounts[indexPath.row]
             
             if accountToDelete.isCurrent == true {
-                print("cannot delete current account!")
+                let notifications = NotificationController(_view: self.view)
+                notifications.showNotification(text: "Cannot delete current user!", isError: true)
                 return
             }
             

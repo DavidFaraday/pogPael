@@ -21,7 +21,7 @@ class UserAccount {
         account.isCurrent = true
         
         if image != nil {
-            account.image = UIImageJPEGRepresentation(image!, 1.0)
+            account.image = image!.jpegData(compressionQuality: 1.0)
         }
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()

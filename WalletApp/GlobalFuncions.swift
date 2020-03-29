@@ -70,8 +70,8 @@ func formatStringDecimalSize(_ stringToFormat: String, mainNumberSize: CGFloat, 
     let number = stringToFormat.split(separator: ".").first!
     let decimalPoint = stringToFormat.split(separator: ".").last!
     
-    let numberString = NSAttributedString(string: String(number), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: mainNumberSize)])
-    let decimalString = NSAttributedString(string: String(decimalPoint), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: decimalNumberSize)])
+    let numberString = NSAttributedString(string: String(number), attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: mainNumberSize)])
+    let decimalString = NSAttributedString(string: String(decimalPoint), attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: decimalNumberSize)])
     let dotString = NSAttributedString(string: ".")
         
 

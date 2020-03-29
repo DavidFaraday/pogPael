@@ -10,7 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SortPopUpMenuController" customModule="WalletApp" customModuleProvider="target">
             <connections>
+                <outlet property="amountIconImageView" destination="jnm-8K-0D3" id="A4P-vw-Vxv"/>
+                <outlet property="categoryIconImageView" destination="iIt-NY-Hh3" id="tQV-K3-Nlx"/>
                 <outlet property="contentView" destination="1fp-la-WnK" id="ndO-j1-iQE"/>
+                <outlet property="dateIconImageView" destination="f0m-TH-XEe" id="AZI-g3-MNs"/>
                 <outlet property="topHandleBar" destination="B4I-tO-bP8" id="kcE-1q-eOx"/>
             </connections>
         </placeholder>

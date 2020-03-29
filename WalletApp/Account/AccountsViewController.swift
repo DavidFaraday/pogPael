@@ -95,7 +95,7 @@ class AccountsViewController: UIViewController {
             accountNameLabel.text = account!.name
             
             if account!.image != nil {
-                avatarImageView.image = UIImage(data: account!.image!)
+                avatarImageView.image = UIImage(data: account!.image!)?.circleMasked
             }
         }
     }

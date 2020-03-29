@@ -39,5 +39,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access is required to attach receipts</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Access is required to attach receipts</string>
 </dict>
 </plist>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Gallery
 
 protocol AddAccountViewControllerDelegate {
     func didCreateAccount()
@@ -29,7 +30,8 @@ class AddAccountViewController: UIViewController {
     var accountToEdit: Account?
     
     var delegate: AddAccountViewControllerDelegate?
-    
+    var gallery: GalleryController!
+
     //MARK: - ViewLife Cycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,10 +70,13 @@ class AddAccountViewController: UIViewController {
                 UserAccount.createAccount(name: accountNameTextField.text!, image: avatarImage)
                 
             } else {
+
                 accountToEdit!.name = accountNameTextField.text
-                accountToEdit!.image = avatarImage != nil ? UIImageJPEGRepresentation(avatarImage!, 1.0) : nil
+                accountToEdit!.image = avatarImage != nil ? avatarImage!.jpegData(compressionQuality: 1.0) : nil
             }
             
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+
             delegate?.didCreateAccount()
             self.dismiss(animated: true, completion: nil)
         }
@@ -91,10 +96,8 @@ class AddAccountViewController: UIViewController {
     
     
     @objc func avatarTap() {
-        //TODO: Add image picker
 
-        print("tap")
-        
+        showImageGallery()
     }
     
     
@@ -126,7 +129,8 @@ class AddAccountViewController: UIViewController {
         accountNameTextField.text = accountToEdit!.name
         
         if accountToEdit!.image != nil {
-            avatarImageView.image = UIImage(data: accountToEdit!.image!)
+            avatarImage = UIImage(data: accountToEdit!.image!)
+            avatarImageView.image = avatarImage!.circleMasked
         }
         
     }
@@ -156,6 +160,46 @@ class AddAccountViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTap))
         avatarImageView.addGestureRecognizer(tapGesture)
         
+    }
+
+    //MARK: - Gallery
+    private func showImageGallery() {
+        self.gallery = GalleryController()
+        self.gallery.delegate = self
+        Config.tabsToShow = [.imageTab, .cameraTab]
+        Config.Camera.imageLimit = 1
+        Config.initialTab = .imageTab
+        
+        self.present(self.gallery, animated: true, completion: nil)
+    }
+
+}
+
+
+extension AddAccountViewController: GalleryControllerDelegate {
+    
+    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
+        if images.count > 0 {
+            images.first!.resolve(completion: { (icon) in
+                
+                self.avatarImage = icon
+                self.avatarImageView.image = self.avatarImage!.circleMasked
+            })
+        }
+        
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryControllerDidCancel(_ controller: GalleryController) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
 }

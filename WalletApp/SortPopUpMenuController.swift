@@ -24,6 +24,10 @@ class SortPopUpMenuController: UIView {
     @IBOutlet weak var topHandleBar: UIView!
     @IBOutlet var contentView: UIView!
     
+    @IBOutlet weak var dateIconImageView: UIImageView!
+    @IBOutlet weak var amountIconImageView: UIImageView!
+    @IBOutlet weak var categoryIconImageView: UIImageView!
+    
     
     //MARK: - Vars
     var delegate: SortPopupMenuControllerDelegate?
@@ -45,17 +49,52 @@ class SortPopUpMenuController: UIView {
         contentView.fixInView(self)
         topHandleBar.layer.cornerRadius = 3
         
+        //background
         let backgroundTap = UITapGestureRecognizer()
         backgroundTap.addTarget(self, action: #selector(self.backgroundTap))
         
         contentView.addGestureRecognizer(backgroundTap)
         contentView.isUserInteractionEnabled = true
+        
+        
+        //Date
+        let dateTap = UITapGestureRecognizer()
+        dateTap.addTarget(self, action: #selector(self.dateIconTap))
+        
+        dateIconImageView.isUserInteractionEnabled = true
+        dateIconImageView.addGestureRecognizer(dateTap)
+        
+        //Amount
+        let amountTap = UITapGestureRecognizer()
+        amountTap.addTarget(self, action: #selector(self.amountIconTap))
+        
+        amountIconImageView.isUserInteractionEnabled = true
+        amountIconImageView.addGestureRecognizer(amountTap)
+
+        //Category
+        let categoryTap = UITapGestureRecognizer()
+        categoryTap.addTarget(self, action: #selector(self.categoryIconTap))
+        
+        categoryIconImageView.isUserInteractionEnabled = true
+        categoryIconImageView.addGestureRecognizer(categoryTap)
     }
     
     
     //MARK: - IBActions
     @objc private func backgroundTap() {
         delegate?.sortBackgroundTapped()
+    }
+    
+    @objc private func dateIconTap() {
+        delegate?.dateButtonPressed()
+    }
+    
+    @objc private func amountIconTap() {
+        delegate?.amountButtonPressed()
+    }
+    
+    @objc private func categoryIconTap() {
+        delegate?.categoryButtonPressed()
     }
     
     @IBAction func dateButtonPressed(_ sender: Any) {
