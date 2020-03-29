@@ -45,6 +45,7 @@ class SortPopUpMenuController: UIView {
     }
     
     private func commonInit() {
+        
         Bundle.main.loadNibNamed("PopUpMenu", owner: self, options: nil)
         contentView.fixInView(self)
         topHandleBar.layer.cornerRadius = 3
