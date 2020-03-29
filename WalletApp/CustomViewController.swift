@@ -17,6 +17,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        self.setupMiddleButton()
         self.bringcenterButtonToFront()
     }
     
@@ -35,18 +36,17 @@ class CustomTabBarController: UITabBarController {
         let nav3 = controller3
 
         let accountVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountView")
-        accountVC.tabBarItem = UITabBarItem(title: "Account", image: UIImage(named: "account"), tag: 4)
+        accountVC.tabBarItem = UITabBarItem(title: "Account", image: UIImage(systemName: "person.2"), tag: 4)
         let nav4 = UINavigationController(rootViewController: accountVC)
 
 
         let settingsVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsView")
-        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), tag: 5)
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 5)
         let nav5 = UINavigationController(rootViewController: settingsVC)
 
 
         viewControllers = [nav1, nav2, nav3, nav4, nav5]
 
-        self.setupMiddleButton()
     }
     
     
@@ -75,14 +75,25 @@ class CustomTabBarController: UITabBarController {
     private func setupMiddleButton() {
         centerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
-        var centerButtonFrame = centerButton.frame
-        centerButtonFrame.origin.y = tabBar.frame.origin.y - centerButtonFrame.height / 2 - 10
+        var yPos: CGFloat!
             
-//            view.bounds.height - (centerButtonFrame.height + 10)
-        centerButtonFrame.origin.x = tabBar.frame.width/2 - centerButtonFrame.size.width/2
-        centerButton.frame = centerButtonFrame
+        if UIDevice.current.hasNotch {
+            yPos = self.tabBar.center.y - (centerButton.frame.width / 2 - 7)
+        } else {
+            yPos = self.tabBar.center.y
+
+        }
+
+        centerButton.center = CGPoint(x: self.tabBar.center.x, y: yPos)
         
-        centerButton.layer.cornerRadius = centerButtonFrame.height/2
+
+//        var centerButtonFrame = centerButton.frame
+//        centerButtonFrame.origin.y = tabBar.frame.origin.y - centerButtonFrame.height / 2 - 10
+//
+//        centerButtonFrame.origin.x = tabBar.frame.width/2 - centerButtonFrame.size.width/2
+//        centerButton.frame = centerButtonFrame
+        
+        centerButton.layer.cornerRadius = centerButton.frame.height/2
         view.addSubview(centerButton)
         
         centerButton.setImage(UIImage(named: "plus"), for: .normal)

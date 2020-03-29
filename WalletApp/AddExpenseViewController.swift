@@ -60,7 +60,7 @@ class AddExpenseViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-
+        createKeyboardButtons()
         updateViewPositions()
     }
     
@@ -77,7 +77,6 @@ class AddExpenseViewController: UIViewController {
         
         setupBarButtons()
         setupUI()
-        createKeyboardButtons()
         updateLabel()
         addGestureToDateTextField()
     }
@@ -289,12 +288,16 @@ class AddExpenseViewController: UIViewController {
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+            showBanner(title: "Item Saved Successfully!")
+            vibrate()
+
         } else {
-            print("no name or amount to add")
+            
+            let nc = NotificationController(_view: self.view)
+            nc.showNotification(text: "Name and Amount is required!", isError: true)
         }
         
-        showBanner(title: "Item Saved Successfully!")
-        vibrate()
     }
     
     private func editExpense() {
@@ -318,12 +321,14 @@ class AddExpenseViewController: UIViewController {
             
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+            showBanner(title: "Item Edited Successfully!")
+            vibrate()
         } else {
-            print("no name or amount to edit")
+            let nc = NotificationController(_view: self.view)
+            nc.showNotification(text: "Name and Amount is required!", isError: true)
         }
         
-        showBanner(title: "Item Edited Successfully!")
-        vibrate()
     }
 
     private func deleteExpense() {
@@ -351,8 +356,18 @@ class AddExpenseViewController: UIViewController {
     }
     
     //MARK: SetupUI
+    
+    private func removeKeyboardKeys() {
+        for view in keyboardView.subviews {
+            view.removeFromSuperview()
+        }
+    }
+    
     //create keyboard
     private func createKeyboardButtons() {
+        
+        removeKeyboardKeys()
+        
         let buttonTitlesRow1 = ["7", "8", "9"]
         let buttonTitlesRow2 = ["4", "5", "6"]
         let buttonTitlesRow3 = ["1", "2", "3"]
@@ -372,6 +387,7 @@ class AddExpenseViewController: UIViewController {
         
         for title in buttonTitlesRow2 {
             createButton(xPostion: rowXpos, yPosition: rowYpos, title: title)
+
             rowXpos += keyboardView.frame.width/3
         }
         
