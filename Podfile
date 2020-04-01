@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '13.0'
+# platform :ios, '9.0'
 
 target 'WalletApp' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -9,6 +9,7 @@ pod 'KDCalendar', '~> 1.8.9'
 pod 'Gallery'
 pod 'JGProgressHUD'
 pod 'NotificationBannerSwift'
+pod 'SKPhotoBrowser'
 
   # Pods for WalletApp
 

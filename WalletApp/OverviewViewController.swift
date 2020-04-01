@@ -154,7 +154,7 @@ class OverviewViewController: UIViewController {
             incomingDataEntries.append(tempEntry)
         }
         
-        let incomingChartDataSet = PieChartDataSet(values: incomingDataEntries, label: "")
+        let incomingChartDataSet = PieChartDataSet(entries: incomingDataEntries, label: "")
         incomingChartDataSet.colors = ChartColorTemplates.joyful()
         incomingChartDataSet.drawValuesEnabled = false // hides value labels
         
@@ -176,7 +176,7 @@ class OverviewViewController: UIViewController {
             expenseDataEntries.append(tempEntry)
         }
 
-        let expenseChartDataSet = PieChartDataSet(values: expenseDataEntries, label: "")
+        let expenseChartDataSet = PieChartDataSet(entries: expenseDataEntries, label: "")
         expenseChartDataSet.colors = ChartColorTemplates.joyful()
         expenseChartDataSet.drawValuesEnabled = false // hides value labels
         

@@ -1,7 +1,7 @@
 PODS:
-  - Charts (3.0.5):
-    - Charts/Core (= 3.0.5)
-  - Charts/Core (3.0.5)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
   - Gallery (2.2.2)
   - JGProgressHUD (2.1)
   - KDCalendar (1.8.9):
@@ -11,6 +11,7 @@ PODS:
   - NotificationBannerSwift (3.0.2):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
+  - SKPhotoBrowser (6.1.0)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
@@ -19,27 +20,29 @@ DEPENDENCIES:
   - JGProgressHUD
   - KDCalendar (~> 1.8.9)
   - NotificationBannerSwift
+  - SKPhotoBrowser
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Charts
   trunk:
+    - Charts
     - Gallery
     - JGProgressHUD
     - KDCalendar
     - MarqueeLabel
     - NotificationBannerSwift
+    - SKPhotoBrowser
     - SnapKit
 
 SPEC CHECKSUMS:
-  Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   Gallery: 634ea7d58b93fcb8e787a846febac73ec354e7d9
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   KDCalendar: a587bc486b992d82ef94bd04001fce9baf45e518
   MarqueeLabel: f762aa681ae201f66c1d511858b171f75d83013a
   NotificationBannerSwift: 713e20f21b6105f4a36a00e5d9fa414a930d3d8e
+  SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: f88cfcb2ee66579cbb5083f7bef642f457798db7
+PODFILE CHECKSUM: 35e128e3ba79a4d8ef16546682a6ab58e99155c4
 
-COCOAPODS: 1.9.0
+COCOAPODS: 1.9.1

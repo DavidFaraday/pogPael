@@ -115,7 +115,7 @@ class ExpensesViewController: UIViewController {
         }
         
         
-        let chartDataSet = PieChartDataSet(values: dataEntries, label: "")
+        let chartDataSet = PieChartDataSet(entries: dataEntries, label: "")
         chartDataSet.colors = ChartColorTemplates.joyful()
         chartDataSet.drawValuesEnabled = false // hides value labels
         

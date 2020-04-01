@@ -16,14 +16,16 @@ class CustomTabBarController: UITabBarController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         self.setupMiddleButton()
-        self.bringcenterButtonToFront()
+        self.bringCenterButtonToFront()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        centerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+
         let dashboardVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DashboardView")
         dashboardVC.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "dashboard"), tag: 1)
         let nav1 = UINavigationController(rootViewController: dashboardVC)
@@ -63,17 +65,17 @@ class CustomTabBarController: UITabBarController {
     
     func hideCenterButton() {
         centerButton.isHidden = true
+        sendCenterButtonToBack()
     }
     
     func showCenterButton() {
         centerButton.isHidden = false
-        self.bringcenterButtonToFront()
+        self.bringCenterButtonToFront()
     }
     
     // MARK: - Private methods
     
     private func setupMiddleButton() {
-        centerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
         var yPos: CGFloat!
             
@@ -104,9 +106,14 @@ class CustomTabBarController: UITabBarController {
         view.layoutIfNeeded()
     }
     
-    private func bringcenterButtonToFront() {
+    private func bringCenterButtonToFront() {
         self.view.bringSubviewToFront(self.centerButton)
     }
+    
+    private func sendCenterButtonToBack() {
+        self.view.sendSubviewToBack(self.centerButton)
+    }
+
     
 }
 

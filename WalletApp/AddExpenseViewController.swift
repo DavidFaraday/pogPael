@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Gallery
 import NotificationBannerSwift
+import SKPhotoBrowser
 
 class AddExpenseViewController: UIViewController {
     
@@ -32,6 +33,7 @@ class AddExpenseViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var repeatTextField: UITextField!
+    @IBOutlet weak var attachmentImageView: UIImageView!
     
     
     //MARK: - Vars
@@ -55,7 +57,7 @@ class AddExpenseViewController: UIViewController {
     //MARK: - ViewLifeCycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         updateViewPositions()
     }
     
@@ -68,12 +70,14 @@ class AddExpenseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if expenseToEdit != nil {
+            entryDate = expenseToEdit!.date ?? Date()
+            setupEditingUI()
+        }
+
         setEntryDate()
         loadUserDefaults()
 
-        if expenseToEdit != nil {
-            setupEditingUI()
-        }
         
         setupBarButtons()
         setupUI()
@@ -104,6 +108,11 @@ class AddExpenseViewController: UIViewController {
         
         self.view.endEditing(false)
     }
+    
+    @IBAction func attachmentImageTap(_ sender: Any) {
+        showAttachmentImage(attachmentImageView.image)
+    }
+    
     
     @IBAction func attachImageTaped(_ sender: Any) {
         showImageGallery()
@@ -175,11 +184,15 @@ class AddExpenseViewController: UIViewController {
         isDisplayingCategory = false
         categorySegment.isHidden = true
         amount = expenseToEdit!.amount
-        category = expenseToEdit!.category!.lowercased()
+        category = expenseToEdit!.category!
         nameTextField.text = expenseToEdit!.nameDescription
         dateTextField.text = expenseToEdit!.date?.longDate()
         categorySegment.selectedSegmentIndex = expenseToEdit!.isExpense ? 0 : 1
-        animateCategoryImage(imageName: category)
+        animateCategoryImage(imageName: expenseToEdit!.category!.lowercased())
+        
+        if expenseToEdit!.image != nil {
+            attachmentImageView.image = UIImage(data: expenseToEdit!.image!)
+        }
     }
     
     private func setupBarButtons() {
@@ -234,6 +247,22 @@ class AddExpenseViewController: UIViewController {
 
         animateCategoryViewOut()
     }
+    
+    //MARK: - SKPhotoBrowser
+    
+    private func showAttachmentImage(_ image: UIImage?) {
+        
+        if image != nil {
+            var images = [SKPhoto]()
+            let photo = SKPhoto.photoWithImage(image!)
+            images.append(photo)
+
+            let browser = SKPhotoBrowser(photos: images)
+            browser.initializePageIndex(0)
+            present(browser, animated: true, completion: {})
+        }
+    }
+
 
     //MARK: - Animation
     func animateCategoryImage(imageName: String) {
@@ -582,6 +611,7 @@ extension AddExpenseViewController: GalleryControllerDelegate {
             images.first!.resolve(completion: { (icon) in
                 
                 self.billImage = icon
+                self.attachmentImageView.image = self.billImage
             })
         }
         

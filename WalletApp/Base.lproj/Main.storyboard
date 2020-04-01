@@ -11,7 +11,7 @@
         <!--Add Expense View Controller-->
         <scene sceneID="N4U-oV-Xyi">
             <objects>
-                <viewController storyboardIdentifier="addItemVC" hidesBottomBarWhenPushed="YES" id="gOP-QQ-XaB" customClass="AddExpenseViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addItemVC" hidesBottomBarWhenPushed="YES" id="gOP-QQ-XaB" customClass="AddExpenseViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b7i-jQ-jfb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,31 +86,31 @@
                                                     <outletCollection property="gestureRecognizers" destination="B7A-lX-Ebb" appends="YES" id="tbz-Ev-h1B"/>
                                                 </connections>
                                             </imageView>
-                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pj-w7-Ixl">
-                                                <rect key="frame" x="138.5" y="178.5" width="82" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
+                                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="YoR-dP-2h0">
+                                                <rect key="frame" x="8" y="51" width="343" height="319"/>
+                                                <color key="tintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="ssl-Kl-LMD" appends="YES" id="ey8-Vq-ND7"/>
+                                                    <outletCollection property="gestureRecognizers" destination="ssl-Kl-LMD" appends="YES" id="GJQ-Sj-8wn"/>
                                                 </connections>
-                                            </label>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="qho-vs-Ush" firstAttribute="top" secondItem="yTd-ZN-OSm" secondAttribute="top" constant="8" id="4g6-N0-V6V"/>
+                                            <constraint firstItem="YoR-dP-2h0" firstAttribute="leading" secondItem="yTd-ZN-OSm" secondAttribute="leading" constant="8" id="LKh-GY-C3g"/>
                                             <constraint firstItem="qho-vs-Ush" firstAttribute="leading" secondItem="yTd-ZN-OSm" secondAttribute="leading" constant="8" id="UzQ-U4-bVR"/>
-                                            <constraint firstItem="8pj-w7-Ixl" firstAttribute="centerX" secondItem="yTd-ZN-OSm" secondAttribute="centerX" id="cdp-Fr-W1B"/>
-                                            <constraint firstItem="8pj-w7-Ixl" firstAttribute="centerY" secondItem="yTd-ZN-OSm" secondAttribute="centerY" id="fAM-fJ-54A"/>
+                                            <constraint firstItem="YoR-dP-2h0" firstAttribute="top" secondItem="qho-vs-Ush" secondAttribute="bottom" constant="8" id="VIO-8I-hor"/>
+                                            <constraint firstAttribute="trailing" secondItem="YoR-dP-2h0" secondAttribute="trailing" constant="8" id="YcN-ml-Azg"/>
+                                            <constraint firstAttribute="bottom" secondItem="YoR-dP-2h0" secondAttribute="bottom" constant="8" id="gDd-at-Wcl"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLo-4q-jb8">
                                         <rect key="frame" x="8" y="2" width="359" height="60"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add transaction name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KH1-m5-qbQ">
-                                                <rect key="frame" x="51" y="28" width="300" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <rect key="frame" x="51" y="28" width="300" height="20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                             </textField>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="transaction" translatesAutoresizingMaskIntoConstraints="NO" id="hjY-UE-wYY">
@@ -272,7 +272,7 @@
                                                     <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Cfj-uZ-bxl" customClass="CategoryCollectionViewCell" customModule="WalletApp" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Cfj-uZ-bxl" customClass="CategoryCollectionViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="10" width="80" height="80"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -376,6 +376,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="amountLabel" destination="yPw-LS-KjU" id="D5e-aV-wsH"/>
+                        <outlet property="attachmentImageView" destination="YoR-dP-2h0" id="PRj-0R-uM2"/>
                         <outlet property="categoryBackgroundView" destination="wTw-ZL-6kG" id="Upu-C1-jef"/>
                         <outlet property="categoryImageView" destination="NUL-KM-rFf" id="MiD-Of-13R"/>
                         <outlet property="categorySegment" destination="ymX-K2-bzu" id="ubh-7C-Hxd"/>
@@ -395,9 +396,9 @@
                         <action selector="attachImageTaped:" destination="gOP-QQ-XaB" id="lch-Ml-bpN"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="ssl-Kl-LMD" userLabel="imageLabelGesture">
+                <tapGestureRecognizer id="ssl-Kl-LMD" userLabel="imagePlaceholderGesture">
                     <connections>
-                        <action selector="attachImageTaped:" destination="gOP-QQ-XaB" id="F5R-Hn-2Mu"/>
+                        <action selector="attachmentImageTap:" destination="gOP-QQ-XaB" id="zPo-Uk-rlF"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="1lD-qS-MnQ" userLabel="labelGesture">
@@ -406,12 +407,12 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1260" y="752"/>
+            <point key="canvasLocation" x="1260" y="751.57421289355329"/>
         </scene>
         <!--Settings-->
         <scene sceneID="nDp-gf-N4w">
             <objects>
-                <tableViewController storyboardIdentifier="SettingsView" id="6rB-Lg-Ojw" customClass="SettingsTableViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsView" id="6rB-Lg-Ojw" customClass="SettingsTableViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cqh-nq-Z39">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -560,13 +561,13 @@
         <!--Categories Table View Controller-->
         <scene sceneID="g5G-cM-5sG">
             <objects>
-                <tableViewController id="kL7-Ei-KsS" customClass="CategoriesTableViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="kL7-Ei-KsS" customClass="CategoriesTableViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Aaa-NI-rbA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="MTh-VJ-lBd" customClass="CategoryTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="MTh-VJ-lBd" customClass="CategoryTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MTh-VJ-lBd" id="Q7l-IK-odE">
@@ -643,7 +644,7 @@
         <!--Dashboard View Controller-->
         <scene sceneID="Uoi-rw-646">
             <objects>
-                <viewController storyboardIdentifier="DashboardView" id="8TF-UE-2SK" customClass="DashboardViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardView" id="8TF-UE-2SK" customClass="DashboardViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fRq-C9-WHa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -777,7 +778,7 @@
         <!--Custom Tab Bar Controller-->
         <scene sceneID="aIz-gD-XNe">
             <objects>
-                <tabBarController id="bMV-Pp-C3V" customClass="CustomTabBarController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="bMV-Pp-C3V" customClass="CustomTabBarController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rev-zh-aAZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -797,7 +798,7 @@
         <!--Month-->
         <scene sceneID="Aep-ez-lqj">
             <objects>
-                <viewController storyboardIdentifier="TransactionsView" id="67P-44-rIh" customClass="TransactionsViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionsView" id="67P-44-rIh" customClass="TransactionsViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P7o-aG-eLt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -877,7 +878,7 @@
                                 <rect key="frame" x="0.0" y="94" width="375" height="573"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="BlH-SL-qzV" customClass="TransactionTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="BlH-SL-qzV" customClass="TransactionTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BlH-SL-qzV" id="5W8-ZT-9zg">
@@ -998,7 +999,7 @@
         <!--Overview View Controller-->
         <scene sceneID="2IA-vG-06c">
             <objects>
-                <viewController id="K9q-ca-fMF" customClass="OverviewViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="K9q-ca-fMF" customClass="OverviewViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="62Q-Wb-kdY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1050,7 +1051,7 @@
                                     <constraint firstAttribute="height" constant="155" id="tOW-zf-clK"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="zdF-v6-GqD" customClass="ExpenseTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="zdF-v6-GqD" customClass="ExpenseTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="219" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zdF-v6-GqD" id="f7D-bK-1gq">
@@ -1172,7 +1173,7 @@
                                 <rect key="frame" x="140" y="370" width="219" height="155"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="JZ2-z0-w9y" customClass="ExpenseTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="JZ2-z0-w9y" customClass="ExpenseTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="219" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JZ2-z0-w9y" id="S7V-s2-fsc">
@@ -1314,7 +1315,7 @@
         <!--Expenses View Controller-->
         <scene sceneID="jR7-C2-mq4">
             <objects>
-                <viewController id="KQb-0N-dMQ" customClass="ExpensesViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KQb-0N-dMQ" customClass="ExpensesViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xDL-1n-1gu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1329,7 +1330,7 @@
                                 <rect key="frame" x="0.0" y="167" width="375" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="ztb-ds-oqL" customClass="ExpenseTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="ztb-ds-oqL" customClass="ExpenseTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ztb-ds-oqL" id="J2h-Hg-Zlx">
@@ -1487,7 +1488,7 @@
         <!--Incomings View Controller-->
         <scene sceneID="NQv-IT-dtB">
             <objects>
-                <viewController id="rkh-Jn-ba7" customClass="IncomingsViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rkh-Jn-ba7" customClass="IncomingsViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NSl-a5-1Os">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1496,7 +1497,7 @@
                                 <rect key="frame" x="0.0" y="167" width="375" height="366"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="itO-3u-RZ6" customClass="ExpenseTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="itO-3u-RZ6" customClass="ExpenseTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="itO-3u-RZ6" id="QVu-cg-ERc">
@@ -1651,7 +1652,7 @@
         <!--Calendar View Controller-->
         <scene sceneID="AfJ-fm-dp7">
             <objects>
-                <viewController storyboardIdentifier="CalendarVC" id="WVh-CA-KJm" customClass="CalendarViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CalendarVC" id="WVh-CA-KJm" customClass="CalendarViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JHE-sN-3Hy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1681,7 +1682,7 @@
         <!--Accounts-->
         <scene sceneID="ZzC-ql-1wT">
             <objects>
-                <viewController storyboardIdentifier="AccountView" id="kHP-qN-ReM" customClass="AccountsViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountView" id="kHP-qN-ReM" customClass="AccountsViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hOa-Xt-QIa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1849,7 +1850,7 @@
         <!--Add Account View Controller-->
         <scene sceneID="f6t-yv-pv7">
             <objects>
-                <viewController id="WG7-hk-IRF" customClass="AddAccountViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="WG7-hk-IRF" customClass="AddAccountViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fu0-uz-VJu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1975,7 +1976,7 @@
         <!--All Accounts View Controller-->
         <scene sceneID="T2k-yN-Yv1">
             <objects>
-                <viewController storyboardIdentifier="allAccountsVC" id="OfC-dF-sHm" customClass="AllAccountsViewController" customModule="WalletApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="allAccountsVC" id="OfC-dF-sHm" customClass="AllAccountsViewController" customModule="DWallet_Pro" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gwb-44-aWm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2001,7 +2002,7 @@
                                 <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="GD8-NQ-97u" customClass="AccountTableViewCell" customModule="WalletApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="GD8-NQ-97u" customClass="AccountTableViewCell" customModule="DWallet_Pro" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GD8-NQ-97u" id="BdZ-tj-ZVo">
@@ -2168,6 +2169,7 @@
         <image name="dashboard" width="25" height="25"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="general" width="25" height="25"/>
+        <image name="imagePlaceholder" width="480" height="480"/>
         <image name="menu" width="30" height="30"/>
         <image name="person" catalog="system" width="64" height="58"/>
         <image name="person.2" catalog="system" width="64" height="40"/>
