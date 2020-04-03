@@ -255,8 +255,6 @@ extension OverviewViewController: UITableViewDataSource {
         
         return cell
     }
-    
-
 
 }
 
@@ -265,5 +263,23 @@ extension OverviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        var tempExpense: Expense!
+
+        if tableView == expensesTableView {
+            tempExpense = allExpenses[indexPath.row]
+        } else {
+            tempExpense = allIncomings[indexPath.row]
+        }
+
+        let editVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addItemVC") as! AddExpenseViewController
+        
+        
+        editVc.expenseToEdit = tempExpense
+        
+        let customTapBar = self.tabBarController as! CustomTabBarController
+        customTapBar.hideCenterButton()
+        
+        self.navigationController?.pushViewController(editVc, animated: true)
     }
 }

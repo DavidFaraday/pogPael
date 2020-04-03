@@ -30,6 +30,9 @@ class ExpensesViewController: UIViewController {
     var currentMonth: Int?
     var currentWeek: Int?
     
+    var allGroups: [ExpenseGroup] = []
+
+    
     //MARK: - View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,14 +56,18 @@ class ExpensesViewController: UIViewController {
 
     func reloadData(predicate: NSPredicate? = nil) {
         
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
         
-        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: false),
+                                        NSSortDescriptor(key: "amount", ascending: false)
+                                        ]
+        
+        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
+
+        
         fetchResultsController!.delegate = self
 
         
         fetchResultsController!.fetchRequest.predicate = predicate
-        fetchResultsController!.fetchRequest.fetchLimit = 10
 
         do {
             try fetchResultsController!.performFetch()
@@ -68,6 +75,7 @@ class ExpensesViewController: UIViewController {
             fatalError("income fetch error")
         }
         
+        splitToSection()
         calculateAmounts()
         tableView.reloadData()
     }
@@ -145,6 +153,30 @@ class ExpensesViewController: UIViewController {
         currentWeek = calendarComponents(Date()).weekOfYear
         currentYear = calendarComponents(Date()).year
     }
+    
+    //MARK: - Helpers
+    private func splitToSection() {
+        
+        if fetchResultsController!.sections != nil {
+            var sectionNumber = 0
+            allGroups = []
+            
+            for section in fetchResultsController!.sections! {
+                var sectionTotal = 0.0
+
+                for item in 0..<section.numberOfObjects {
+                    
+                    let indexPath = IndexPath(row: item, section: sectionNumber)
+                    sectionTotal += (fetchResultsController?.object(at: indexPath) as! Expense).amount
+                }
+
+                allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal))
+
+                sectionNumber += 1
+            }
+        }
+    }
+
 }
 
 extension ExpensesViewController: NSFetchedResultsControllerDelegate {
@@ -164,17 +196,17 @@ extension ExpensesViewController: UITableViewDataSource {
     //MARK: TableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return fetchResultsController?.sections?[section].numberOfObjects ?? 0
+
+        return allGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ExpenseTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ExpenseGroupTableViewCell
 
-        let expense = fetchResultsController?.object(at: indexPath) as! Expense
-        
-        cell.setupCellWith(expense, backgroundColor: ColorFromChart(indexPath.row), dateFormatShort: false)
+        let expenseGroup = allGroups[indexPath.row] 
+
+        cell.setupCellWith(expenseGroup, backgroundColor: ColorFromChart(indexPath.row))
 
         return cell
     }
@@ -186,5 +218,15 @@ extension ExpensesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let categoryVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "categoryDetailVC") as! CategoryDetailTableViewController
+        
+        categoryVc.selectedCategoryName = allGroups[indexPath.row].name
+        
+        let customTapBar = self.tabBarController as! CustomTabBarController
+        customTapBar.hideCenterButton()
+        
+        self.navigationController?.pushViewController(categoryVc, animated: true)
+
     }
 }

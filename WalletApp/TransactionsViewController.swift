@@ -63,8 +63,6 @@ class TransactionsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        let predicate = NSPredicate(format: "isExpense == %@", NSNumber(value: false))
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.150) {
             let customTapBar = self.tabBarController as! CustomTabBarController
             customTapBar.showCenterButton()

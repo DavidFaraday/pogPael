@@ -65,6 +65,11 @@ class DashboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         firstRunCheck()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.150) {
+            let customTapBar = self.tabBarController as! CustomTabBarController
+            customTapBar.showCenterButton()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
