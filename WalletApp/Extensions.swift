@@ -152,7 +152,7 @@ extension UIView {
 
     
     func applyGradient(colors: [Any]?, locations: [NSNumber]? = [0.0, 1.0], direction: Direction = .topToBottom, cornerRadius: CGFloat?) {
-        
+
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.bounds
         gradientLayer.colors = colors
@@ -182,7 +182,7 @@ extension UIView {
         }
 
         
-        self.layer.insertSublayer(gradientLayer, at: 0)
+        self.layer.insertSublayer(gradientLayer, at: 1)
     }
 
 }
@@ -195,7 +195,7 @@ extension ChartColorTemplates {
         return [
             NSUIColor(red: 217/255.0, green: 80/255.0, blue: 138/255.0, alpha: 1.0),
             NSUIColor(red: 254/255.0, green: 149/255.0, blue: 7/255.0, alpha: 1.0),
-            NSUIColor(red: 254/255.0, green: 247/255.0, blue: 120/255.0, alpha: 1.0),
+            NSUIColor(red: 140/255.0, green: 234/255.0, blue: 255/255.0, alpha: 1.0),
             NSUIColor(red: 106/255.0, green: 167/255.0, blue: 134/255.0, alpha: 1.0),
             NSUIColor(red: 53/255.0, green: 194/255.0, blue: 209/255.0, alpha: 1.0),
             NSUIColor(red: 193/255.0, green: 37/255.0, blue: 82/255.0, alpha: 1.0),

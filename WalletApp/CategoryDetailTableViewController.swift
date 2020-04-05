@@ -29,6 +29,7 @@ class CategoryDetailTableViewController: UITableViewController {
     var selectedCategoryName: String?
     
     var isSortPopUpVisible = false
+    var forAllPeriod = false
 
     //MARK: - view Lifecycle
     
@@ -43,7 +44,12 @@ class CategoryDetailTableViewController: UITableViewController {
         
         if selectedCategoryName != nil {
             
-            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@ && category = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+            if forAllPeriod {
+                currentPredicate = NSPredicate(format: "userId = %@ && category = %@", UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+            } else {
+                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@ && category = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+            }
+            
 
             reloadData(predicate: currentPredicate)
         }

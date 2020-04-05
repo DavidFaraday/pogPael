@@ -32,7 +32,7 @@ class AddExpenseViewController: UIViewController {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
-    @IBOutlet weak var repeatTextField: UITextField!
+    @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var attachmentImageView: UIImageView!
     
     
@@ -55,6 +55,12 @@ class AddExpenseViewController: UIViewController {
     let account = UserAccount.currentAccount()
 
     //MARK: - ViewLifeCycle
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super .viewWillDisappear(animated)
+        hideKeyboard()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -106,15 +112,17 @@ class AddExpenseViewController: UIViewController {
         }
         isDisplayingCategory = true
         
-        self.view.endEditing(false)
+        hideKeyboard()
     }
     
     @IBAction func attachmentImageTap(_ sender: Any) {
+        hideKeyboard()
         showAttachmentImage(attachmentImageView.image)
     }
     
     
     @IBAction func attachImageTaped(_ sender: Any) {
+        hideKeyboard()
         showImageGallery()
     }
     
@@ -189,6 +197,7 @@ class AddExpenseViewController: UIViewController {
         dateTextField.text = expenseToEdit!.date?.longDate()
         categorySegment.selectedSegmentIndex = expenseToEdit!.isExpense ? 0 : 1
         animateCategoryImage(imageName: expenseToEdit!.category!.lowercased())
+        notesTextView.text = expenseToEdit!.notes
         
         if expenseToEdit!.image != nil {
             attachmentImageView.image = UIImage(data: expenseToEdit!.image!)
@@ -311,7 +320,8 @@ class AddExpenseViewController: UIViewController {
             expense.monthOfTheYear = String(format: "%i", calendarComponents(entryDate).month!)
             expense.year = String(format: "%i", calendarComponents(entryDate).year!)
             expense.userId = account!.id
-
+            expense.notes = notesTextView.text
+            
             if billImage != nil {
                 expense.image = billImage!.jpegData(compressionQuality: 1.0)
             }
@@ -341,6 +351,7 @@ class AddExpenseViewController: UIViewController {
             expenseToEdit!.weekOfTheYear = String(format: "%i", calendarComponents(entryDate).weekOfYear!)
             expenseToEdit!.monthOfTheYear = String(format: "%i", calendarComponents(entryDate).month!)
             expenseToEdit!.year = String(format: "%i", calendarComponents(entryDate).year!)
+            expenseToEdit!.notes = notesTextView.text
             
             expenseToEdit!.shouldRepeat = false //to be changed later
             
@@ -540,6 +551,9 @@ class AddExpenseViewController: UIViewController {
         UIDevice.vibrate()
     }
 
+    private func hideKeyboard() {
+        self.view.endEditing(false)
+    }
 }
 
 //for choose category

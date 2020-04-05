@@ -75,8 +75,10 @@ class DashboardViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        hideViews(view: 0)
-        animateViewIn(view: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.hideViews(view: 0)
+            self.animateViewIn(view: 0)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

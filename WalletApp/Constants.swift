@@ -9,7 +9,10 @@
 import Foundation
 
 //to be edited
-public let kAPPURL = "https://itunes.apple.com/us/app/qchat/id1245294104?ls=1&mt=8"
+public let kAPPURL = "https://apps.apple.com/us/app/piggyb-pro/id1506357057?ls=1"
+public let kFACEBOOKURL = "https://www.facebook.com/IOSDevelopersSchool-1928927010472634"
+
+
 
 let kFIRSTRUN = "firstRun"
 let kEXPENSECATEGORIES = "expenseCategories"

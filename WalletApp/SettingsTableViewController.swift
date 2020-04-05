@@ -20,18 +20,51 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func tellAFriendButtonPressed(_ sender: Any) {
         
-        let text = "Hey! Check out this cool WalletApp \(kAPPURL)"
+        let text = "Hey! Check out this cool money tracker app that I am using, its called PiggyB Pro \(kAPPURL)"
         
         let objectsToShare: [Any] = [text]
         
         let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
-        activityViewController.setValue("Check out this cool WalletApp", forKey: "subject")
+        activityViewController.setValue("Check out this cool app PiggyB Pro", forKey: "subject")
         
         self.present(activityViewController, animated: true, completion: nil)
 
     }
+    
+    @IBAction func rateOnAppStoreButtonPressed(_ sender: Any) {
+        rateApp()
+    }
+    
+    @IBAction func facebookLikeButtonPressed(_ sender: Any) {
+        likeFacebook()
+    }
+    
+    //MARK: - Helpers
+    
+    private func rateApp() {
+        if let url = URL(string: kAPPURL) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+
+    private func likeFacebook() {
+        if let url = URL(string: kFACEBOOKURL) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+
     
     
     // MARK: - Table view data source

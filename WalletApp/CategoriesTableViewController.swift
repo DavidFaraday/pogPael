@@ -22,6 +22,7 @@ class CategoriesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         navigationItem.largeTitleDisplayMode = .never
+        tableView.tableFooterView = UIView()
         loadUserDefaults()
     }
 
@@ -102,7 +103,7 @@ class CategoriesTableViewController: UITableViewController {
             if currentExpenseCategories.contains(ExpenseCategories.array[indexPath.row].rawValue) {
                 //remove
 
-                let indexOfItem = currentExpenseCategories.index(of: ExpenseCategories.array[indexPath.row].rawValue)
+                let indexOfItem = currentExpenseCategories.firstIndex(of: ExpenseCategories.array[indexPath.row].rawValue)
                 
                 if indexOfItem != nil {
                     currentExpenseCategories.remove(at: indexOfItem!)
@@ -118,7 +119,7 @@ class CategoriesTableViewController: UITableViewController {
             
             if currentIncomeCategories.contains(IncomeCategories.array[indexPath.row].rawValue) {
                 //remove
-                let indexOfItem = currentIncomeCategories.index(of: IncomeCategories.array[indexPath.row].rawValue)
+                let indexOfItem = currentIncomeCategories.firstIndex(of: IncomeCategories.array[indexPath.row].rawValue)
                 
                 if indexOfItem != nil {
                     currentIncomeCategories.remove(at: indexOfItem!)
