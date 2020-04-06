@@ -30,6 +30,7 @@ class CategoryDetailTableViewController: UITableViewController {
     
     var isSortPopUpVisible = false
     var forAllPeriod = false
+    var forExpense = false
 
     //MARK: - view Lifecycle
     
@@ -45,9 +46,11 @@ class CategoryDetailTableViewController: UITableViewController {
         if selectedCategoryName != nil {
             
             if forAllPeriod {
-                currentPredicate = NSPredicate(format: "userId = %@ && category = %@", UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+                
+                currentPredicate = NSPredicate(format: "isExpense == %i && userId = %@ && category = %@", forExpense, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+                
             } else {
-                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@ && category = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+                currentPredicate = NSPredicate(format: "isExpense == %i && year = %i && monthOfTheYear = %i && userId = %@ && category = %@", forExpense, currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
             }
             
 

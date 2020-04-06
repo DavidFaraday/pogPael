@@ -38,6 +38,8 @@ class AccountsViewController: UIViewController {
     var showExpense = true
     var showingAccount = true
 
+    var totalIncome: Double!
+    var totalExpense: Double!
 
     //MARK: - ViewLifecycle
     
@@ -54,6 +56,7 @@ class AccountsViewController: UIViewController {
             let customTapBar = self.tabBarController as! CustomTabBarController
             customTapBar.showCenterButton()
         }
+        showCurrentAccountDetails()
 
     }
     
@@ -64,6 +67,7 @@ class AccountsViewController: UIViewController {
         tableView.tableFooterView = UIView()
         showCurrentAccountDetails()
         setupSwipes()
+        setupUI()
     }
     
 
@@ -135,14 +139,15 @@ class AccountsViewController: UIViewController {
         
         categoryDetailView.layer.cornerRadius = 10
 
-        self.categoryTopBackground.applyGradient(colors: [
-            UIColor(named: "gradientStartColor")!.cgColor,
-            UIColor(named: "gradientEndColor")!.cgColor],
-                                         locations: [0.0, 1.0],
-                                         direction: .leftToRight, cornerRadius: 10)
-        
         categoryTopBackground.layer.cornerRadius = 10
         categoryTopBackground.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        
+                self.categoryTopBackground.applyGradient(colors: [
+                    UIColor(named: "gradientStartColor")!.cgColor,
+                    UIColor(named: "gradientEndColor")!.cgColor],
+                                                 locations: [0.0, 1.0],
+                                                 direction: .leftToRight, cornerRadius: 10)
+
     }
     
     private func positionCardViews() {
@@ -214,9 +219,8 @@ class AccountsViewController: UIViewController {
     
     //MARK: - Helpers
     private func separateExpenses() {
-        
-        var totalIncoming = 0.0
-        var totalExpense = 0.0
+        self.totalIncome = 0.0
+        self.totalExpense = 0.0
         
         for expense in fetchResultsController.fetchedObjects! {
             
@@ -225,33 +229,42 @@ class AccountsViewController: UIViewController {
             if tempExpense.isExpense {
                 totalExpense += tempExpense.amount
             } else {
-                totalIncoming += tempExpense.amount
+                totalIncome += tempExpense.amount
             }
             
         }
-        
-        updateUI(incoming: totalIncoming, expense: totalExpense)
+
+        updateTotalLabels()
     }
     
     private func splitToSection(forExpense: Bool) {
         
         if fetchResultsController!.sections != nil {
             var sectionNumber = 0
+            
             allGroups = []
             var tempExpense: Expense!
             
             for section in fetchResultsController!.sections! {
                 var sectionTotal = 0.0
+                var numberOfItems = 0
 
                 for item in 0..<section.numberOfObjects {
                     
                     let indexPath = IndexPath(row: item, section: sectionNumber)
                     tempExpense = fetchResultsController?.object(at: indexPath) as? Expense
-                    sectionTotal += tempExpense.amount
+                    
+                    if tempExpense.isExpense == forExpense {
+
+                        numberOfItems += 1
+                        sectionTotal += tempExpense.amount
+                    }
+
                 }
                 
                 if tempExpense.isExpense == forExpense {
-                    allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal))
+
+                    allGroups.append(ExpenseGroup(name: section.name, itemCount: numberOfItems, totalValue: sectionTotal, percent: percentFromTotal(sectionTotal, isExpense: tempExpense.isExpense)))
                 }
 
                 sectionNumber += 1
@@ -266,7 +279,6 @@ class AccountsViewController: UIViewController {
     private func showCurrentAccountDetails() {
         account = UserAccount.currentAccount()
 
-        setupUI()
         loadAccountDetails()
         loadExpenses()
     }
@@ -283,15 +295,21 @@ class AccountsViewController: UIViewController {
         categoryDetailView.isUserInteractionEnabled = true
         accountBackgroundView.isUserInteractionEnabled = true
     }
+    
+    private func percentFromTotal(_ amount: Double, isExpense: Bool) -> Double {
+
+        guard let tempTotal = isExpense ? totalExpense : totalIncome else { return 0.0 }
+        return (amount * 100) / tempTotal
+    }
 
     
     //MARK: - UpdateUI
 
-    func updateUI(incoming: Double, expense: Double) {
+    func updateTotalLabels() {
         
-        let balance = convertToCurrency(number: incoming - expense)
-        let incoming = convertToCurrency(number: incoming)
-        let expense = convertToCurrency(number: expense)
+        let balance = convertToCurrency(number: totalIncome - totalExpense)
+        let incoming = convertToCurrency(number: totalIncome)
+        let expense = convertToCurrency(number: totalExpense)
         
         let total = NSMutableAttributedString()
         total.append(NSAttributedString(string: "Total Balance = "))
@@ -333,6 +351,9 @@ extension AccountsViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
         separateExpenses()
+        splitToSection(forExpense: showExpense)
+        tableView.reloadData()
+
     }
 }
 
@@ -384,7 +405,8 @@ extension AccountsViewController: UITableViewDelegate {
         
         categoryVc.selectedCategoryName = allGroups[indexPath.row].name
         categoryVc.forAllPeriod = true
-                
+        categoryVc.forExpense = showExpense
+            
         self.navigationController?.pushViewController(categoryVc, animated: true)
 
     }

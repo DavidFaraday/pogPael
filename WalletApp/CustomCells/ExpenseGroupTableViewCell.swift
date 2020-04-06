@@ -16,7 +16,7 @@ class ExpenseGroupTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var itemCountLabel: UILabel!
-    
+    @IBOutlet weak var percentageLabel: UILabel!
     
     
     override func awakeFromNib() {
@@ -39,7 +39,9 @@ class ExpenseGroupTableViewCell: UITableViewCell {
         categoryImageView.image = getImageFor(expenseGroup.name)
         nameLabel.text = expenseGroup.name
         amountLabel.text = convertToCurrency(number: expenseGroup.totalValue).replacingOccurrences(of: ".00", with: "")
-        
+        percentageLabel.text = String(format: "%.2f", expenseGroup.percent).replacingOccurrences(of: ".00", with: "") + "%"
+
+                
         let message = expenseGroup.itemCount > 1 ? "Transactions" : "Transaction"
         
         itemCountLabel.text = "\(expenseGroup.itemCount) " + message

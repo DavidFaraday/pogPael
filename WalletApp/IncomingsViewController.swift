@@ -32,6 +32,7 @@ class IncomingsViewController: UIViewController {
     var currentWeek: Int?
     
     var allGroups: [ExpenseGroup] = []
+    var totalIncome = 0.0
 
     
     //MARK: View Lifecycle
@@ -69,8 +70,8 @@ class IncomingsViewController: UIViewController {
             fatalError("income fetch error")
         }
         
-        splitToSection()
         calculateAmounts()
+        splitToSection()
         tableView.reloadData()
     }
 
@@ -90,17 +91,17 @@ class IncomingsViewController: UIViewController {
     
     func calculateAmounts() {
         
-        var total = 0.0
+        totalIncome = 0.0
         var dailyAverage = 0.0
         
         for expense in fetchResultsController!.fetchedObjects! {
             let tempExpense = expense as! Expense
-            total += tempExpense.amount
+            totalIncome += tempExpense.amount
         }
         
-        dailyAverage = total / 30
+        dailyAverage = totalIncome / 30
         
-        updateUI(total: total, daily: dailyAverage)
+        updateUI(total: totalIncome, daily: dailyAverage)
     }
 
     //MARK: Charts
@@ -166,12 +167,18 @@ class IncomingsViewController: UIViewController {
                     sectionTotal += (fetchResultsController?.object(at: indexPath) as! Expense).amount
                 }
 
-                allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal))
+                allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal, percent: percentFromTotal(sectionTotal)))
 
                 sectionNumber += 1
             }
         }
     }
+    
+    private func percentFromTotal(_ amount: Double) -> Double {
+
+        return (amount * 100) / totalIncome
+    }
+
 
 }
 
@@ -214,7 +221,8 @@ extension IncomingsViewController: UITableViewDelegate {
         let categoryVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "categoryDetailVC") as! CategoryDetailTableViewController
         
         categoryVc.selectedCategoryName = allGroups[indexPath.row].name
-        
+        categoryVc.forExpense = false
+
         let customTapBar = self.tabBarController as! CustomTabBarController
         customTapBar.hideCenterButton()
         

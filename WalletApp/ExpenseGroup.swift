@@ -13,4 +13,5 @@ struct ExpenseGroup {
     let name: String
     let itemCount: Int
     let totalValue: Double
+    let percent: Double
 }

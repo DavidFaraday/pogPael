@@ -31,6 +31,7 @@ class ExpensesViewController: UIViewController {
     var currentWeek: Int?
     
     var allGroups: [ExpenseGroup] = []
+    var totalExpense = 0.0
 
     
     //MARK: - View Lifecycle
@@ -48,9 +49,6 @@ class ExpensesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        setupCurrentDate()
-//        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i", currentYear!, currentMonth!, true))
-        
     }
     
 
@@ -75,8 +73,9 @@ class ExpensesViewController: UIViewController {
             fatalError("income fetch error")
         }
         
-        splitToSection()
         calculateAmounts()
+        splitToSection()
+
         tableView.reloadData()
     }
 
@@ -96,17 +95,17 @@ class ExpensesViewController: UIViewController {
 
     func calculateAmounts() {
         
-        var total = 0.0
+        totalExpense = 0.0
         var dailyAverage = 0.0
         
         for expense in fetchResultsController!.fetchedObjects! {
             let tempExpense = expense as! Expense
-            total += tempExpense.amount
+            totalExpense += tempExpense.amount
         }
         
-        dailyAverage = total / 30
-        
-        updateUI(total: total, daily: dailyAverage)
+        dailyAverage = totalExpense / 30
+
+        updateUI(total: totalExpense, daily: dailyAverage)
     }
     
     //MARK: Charts
@@ -170,12 +169,18 @@ class ExpensesViewController: UIViewController {
                     sectionTotal += (fetchResultsController?.object(at: indexPath) as! Expense).amount
                 }
 
-                allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal))
+                allGroups.append(ExpenseGroup(name: section.name, itemCount: section.numberOfObjects, totalValue: sectionTotal, percent: percentFromTotal(sectionTotal)))
 
                 sectionNumber += 1
             }
         }
     }
+    
+    private func percentFromTotal(_ amount: Double) -> Double {
+
+        return (amount * 100) / totalExpense
+    }
+
 
 }
 
@@ -222,6 +227,7 @@ extension ExpensesViewController: UITableViewDelegate {
         let categoryVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "categoryDetailVC") as! CategoryDetailTableViewController
         
         categoryVc.selectedCategoryName = allGroups[indexPath.row].name
+        categoryVc.forExpense = true
         
         let customTapBar = self.tabBarController as! CustomTabBarController
         customTapBar.hideCenterButton()
