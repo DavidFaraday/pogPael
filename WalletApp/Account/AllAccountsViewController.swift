@@ -70,6 +70,9 @@ class AllAccountsViewController: UIViewController {
     private func setAccountAsCurrent(account: Account) {
         
         account.isCurrent = true
+        
+        CloudManager.sharedManager.saveAccountToCloud(account: account)
+
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 
@@ -120,12 +123,16 @@ extension AllAccountsViewController: UITableViewDelegate {
             let accountToDelete = allAccounts[indexPath.row]
             
             if accountToDelete.isCurrent == true {
+                
                 let notifications = NotificationController(_view: self.view)
                 notifications.showNotification(text: "Cannot delete current user!", isError: true)
                 return
             }
             
             allAccounts.remove(at: indexPath.row)
+            
+            CloudManager.sharedManager.deleteAccountInCloud(account: accountToDelete)
+
             context.delete(accountToDelete)
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             

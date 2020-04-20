@@ -68,15 +68,16 @@ class AddAccountViewController: UIViewController {
             if accountToEdit == nil {
                 UserAccount.changeAccountStatus()
                 UserAccount.createAccount(name: accountNameTextField.text!, image: avatarImage)
-                
             } else {
 
                 accountToEdit!.name = accountNameTextField.text
-                accountToEdit!.image = avatarImage != nil ? avatarImage!.jpegData(compressionQuality: 1.0) : nil
+                accountToEdit!.image = avatarImage != nil ? avatarImage!.jpegData(compressionQuality: 0.5) : nil
+
+                CloudManager.sharedManager.saveAccountToCloud(account: accountToEdit!)
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
-
+            
             delegate?.didCreateAccount()
             self.dismiss(animated: true, completion: nil)
         }
@@ -172,6 +173,7 @@ class AddAccountViewController: UIViewController {
         
         self.present(self.gallery, animated: true, completion: nil)
     }
+    
 
 }
 

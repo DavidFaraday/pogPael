@@ -119,26 +119,30 @@ class TransactionsViewController: UIViewController {
     func reloadData(predicate: NSPredicate? = nil, sortBy: String = "") {
         
         switch sortBy {
-        case "date":
-            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [
-                                                            NSSortDescriptor(key: "dateString", ascending: false),
-                                                            NSSortDescriptor(key: "amount", ascending: false)
-                                                            ]
+        case "category":
+            fetchRequest.sortDescriptors = [
+                NSSortDescriptor(key: "category", ascending: false),
+                NSSortDescriptor(key: "date", ascending: false)
+            ]
             
-            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "dateString", cacheName: nil)
+            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
 
         case "amount":
-            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
+            currentPeriodFetchResultsController.fetchRequest.sortDescriptors = [
+                NSSortDescriptor(key: "amount", ascending: false)
+            ]
             
             currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
 
         default:
             
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: false),
-                                            NSSortDescriptor(key: "amount", ascending: false)
-                                            ]
+
+            fetchRequest.sortDescriptors = [
+                NSSortDescriptor(key: "dateString", ascending: false),
+                NSSortDescriptor(key: "amount", ascending: false)
+            ]
             
-            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category", cacheName: nil)
+            currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "dateString", cacheName: nil)
             
         }
 
@@ -407,7 +411,12 @@ extension TransactionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            context.delete(currentPeriodFetchResultsController.object(at: indexPath) as! NSManagedObject)
+            
+            let expenseToDelete = currentPeriodFetchResultsController.object(at: indexPath) as! Expense
+            
+            CloudManager.sharedManager.deleteExpenseInCloud(expense: expenseToDelete)
+            
+            context.delete(expenseToDelete)
             appDelegate.saveContext()
         }
     }

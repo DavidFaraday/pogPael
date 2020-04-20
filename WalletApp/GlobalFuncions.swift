@@ -12,6 +12,18 @@ import Charts
 
 let userDefaults = UserDefaults.standard
 
+func enableCloudSync() {
+    
+    userDefaults.set(true, forKey: kSYNCTOCLOUD)
+    userDefaults.synchronize()
+}
+
+func disableCloudSync() {
+    
+    userDefaults.set(false, forKey: kSYNCTOCLOUD)
+    userDefaults.synchronize()
+}
+
 
 let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -22,10 +34,6 @@ func calendarComponents(_ ofDate: Date) -> DateComponents {
     return components
 }
 
-//func monthNameFrom(_ number: Int) -> String {
-//    print("/////", number)
-//    return monthNames[number]
-//}
 
 
 func getImageFor(_ categoryName: String) -> UIImage {

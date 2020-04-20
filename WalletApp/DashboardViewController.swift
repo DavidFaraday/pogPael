@@ -64,7 +64,7 @@ class DashboardViewController: UIViewController {
     //MARK: ViewLifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        firstRunCheck()
+//        firstRunCheck()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.150) {
             let customTapBar = self.tabBarController as! CustomTabBarController
@@ -384,12 +384,12 @@ class DashboardViewController: UIViewController {
     
     //MARK: - FirstRunCheck
     private func firstRunCheck() {
-        
+        print("Started/././. ", Date())
         firstRun = userDefaults.bool(forKey: kFIRSTRUN)
         
         if !firstRun! {
             
-            createAccount()
+            checkForAccounts()
             
             let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
             let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
@@ -401,10 +401,48 @@ class DashboardViewController: UIViewController {
             userDefaults.synchronize()
         }
     }
+    
+    private func checkForAccounts() {
+        
+        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "welcomeVC") as! WelcomeViewController
+        
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
+
+        
+//        if fetchAccounts().count == 0 {
+//            print("none", Date())
+//            print("trying again")
+//            checkForAccounts()
+//            //            createAccount()
+//        } else {
+//            print("we got account", Date())
+//        }
+    }
 
     private func createAccount() {
         
-        UserAccount.createAccount(name: "Main Account", image: nil)
+        UserAccount.createAccount(name: "Main ", image: nil)
+    }
+    
+    private func fetchAccounts() -> [Account] {
+        print("fetch ", Date())
+
+        var allAccounts: [Account] = []
+        let context = AppDelegate.context
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
+        fetchRequest.sortDescriptors = []
+        
+
+        do {
+            allAccounts = try context.fetch(fetchRequest) as! [Account]
+            
+        } catch {
+            print("Failed to fetch account")
+        }
+        
+        return allAccounts
     }
 }
 

@@ -136,14 +136,16 @@ class CategoryDetailTableViewController: UITableViewController {
         case "date":
             
             fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "dateString", ascending: false),
-                                                            NSSortDescriptor(key: "amount", ascending: false)
-                                                            ]
+                                             NSSortDescriptor(key: "amount", ascending: false)
+                                            ]
 
             currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "dateString", cacheName: nil)
 
         default:
             
-            fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false) ]
+            fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "amount", ascending: false),
+                                             NSSortDescriptor(key: "date", ascending: false)
+                                            ]
 
             currentPeriodFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
 

@@ -49,6 +49,7 @@ class AddExpenseViewController: UIViewController {
     var billImage: UIImage?
     
     var isDisplayingCategory = true
+    var didChangeReceipt = false
     
     var expenseToEdit: Expense?
     
@@ -309,6 +310,7 @@ class AddExpenseViewController: UIViewController {
         
             let context = AppDelegate.context
             let expense = Expense(context: context)
+            expense.objectId = UUID().uuidString
             expense.amount = amount
             expense.category = category
             expense.isExpense = (categorySegment.selectedSegmentIndex == 0)
@@ -322,11 +324,14 @@ class AddExpenseViewController: UIViewController {
             expense.userId = account!.id
             expense.notes = notesTextView.text
             
+            
             if billImage != nil {
-                expense.image = billImage!.jpegData(compressionQuality: 1.0)
+                expense.image = billImage!.jpegData(compressionQuality: 0.5)
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            
+            CloudManager.sharedManager.saveExpenseToCloud(expense: expense, didChangeReceipt: didChangeReceipt)
             
             showBanner(title: "Item Saved Successfully!")
             vibrate()
@@ -356,12 +361,14 @@ class AddExpenseViewController: UIViewController {
             expenseToEdit!.shouldRepeat = false //to be changed later
             
             if billImage != nil {
-                expenseToEdit!.image = billImage!.jpegData(compressionQuality: 1.0)
+                expenseToEdit!.image = billImage!.jpegData(compressionQuality: 0.5)
             }
             
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
+            CloudManager.sharedManager.saveExpenseToCloud(expense: expenseToEdit!, didChangeReceipt: didChangeReceipt)
+
             showBanner(title: "Item Edited Successfully!")
             vibrate()
         } else {
@@ -372,6 +379,9 @@ class AddExpenseViewController: UIViewController {
     }
 
     private func deleteExpense() {
+        
+        CloudManager.sharedManager.deleteExpenseInCloud(expense: expenseToEdit!)
+        
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.delete(expenseToEdit!)
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
@@ -395,7 +405,7 @@ class AddExpenseViewController: UIViewController {
         self.present(self.gallery, animated: true, completion: nil)
     }
     
-    //MARK: SetupUI
+    //MARK: - SetupUI
     
     private func removeKeyboardKeys() {
         for view in keyboardView.subviews {
@@ -535,7 +545,7 @@ class AddExpenseViewController: UIViewController {
     
     
     
-    //MARK: Helpers
+    //MARK: - Helpers
     
     private func canAddDecimals(numberString: String) -> Bool {
         let decimals = numberString.components(separatedBy: ".").last
@@ -553,14 +563,15 @@ class AddExpenseViewController: UIViewController {
 
     private func hideKeyboard() {
         self.view.endEditing(false)
-    }
+    }    
+
 }
 
 //for choose category
 extension AddExpenseViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     
-    //MARK: CollectionViewDataSource
+    //MARK: - CollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if categorySegment.selectedSegmentIndex == 0 {
@@ -586,7 +597,7 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         return cell
     }
     
-    //MARK: CollectionViewDelegate
+    //MARK: - CollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -624,6 +635,7 @@ extension AddExpenseViewController: GalleryControllerDelegate {
         if images.count > 0 {
             images.first!.resolve(completion: { (icon) in
                 
+                self.didChangeReceipt = true
                 self.billImage = icon
                 self.attachmentImageView.image = self.billImage
             })

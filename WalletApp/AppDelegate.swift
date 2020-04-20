@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import UIKit
+import Firebase
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,8 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return persistantContainer.viewContext
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    var firstRun: Bool?
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
 
         UINavigationBar.appearance().barTintColor = UIColor(named: "navigationBackground")
         UINavigationBar.appearance().backgroundColor = UIColor(named: "navigationBackground")
@@ -38,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.white
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "barUnselectedTintColor") 
         
+        firstRunCheck()
         return true
     }
 
@@ -91,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+
         return container
     }()
 
@@ -109,6 +116,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    
+    //MARK: - FirstRunCheck
+    private func firstRunCheck() {
+        
+        firstRun = userDefaults.bool(forKey: kFIRSTRUN)
+        
+        if !firstRun! {
+            
+            checkForAccounts()
+            
+            let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
+            let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
+            
+            userDefaults.set(true, forKey: kFIRSTRUN)
+            userDefaults.set(false, forKey: kSYNCTOCLOUD)
+            userDefaults.set(rawArrayOfExpenses, forKey: kEXPENSECATEGORIES)
+            userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
+            
+            userDefaults.synchronize()
+        }
+    }
+    
+    private func checkForAccounts() {
+        
+        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "welcomeVC") as! WelcomeViewController
+        
+        
+        self.window?.rootViewController = vc
+    }
+    
 }
 

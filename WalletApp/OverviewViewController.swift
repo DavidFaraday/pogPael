@@ -48,7 +48,7 @@ class OverviewViewController: UIViewController {
         expensesTableView.tableFooterView = UIView()
         
         setupCurrentDate()
-        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? ""))
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? UUID().uuidString))
         
         separateExpenses()
 

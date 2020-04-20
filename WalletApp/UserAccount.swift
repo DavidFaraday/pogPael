@@ -21,10 +21,12 @@ class UserAccount {
         account.isCurrent = true
         
         if image != nil {
-            account.image = image!.jpegData(compressionQuality: 1.0)
+            account.image = image!.jpegData(compressionQuality: 0.5)
         }
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        
+        CloudManager.sharedManager.saveAccountToCloud(account: account)
     }
     
     class func currentAccount() -> Account? {
@@ -61,10 +63,11 @@ class UserAccount {
             for account in accounts {
                 let tempAccount = account as! Account
                 tempAccount.isCurrent = false
+                
+                CloudManager.sharedManager.saveAccountToCloud(account: tempAccount)
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
-
         } catch {
             print("Failed to fetch account")
         }
