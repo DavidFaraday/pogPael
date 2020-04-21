@@ -11,10 +11,6 @@ pod 'JGProgressHUD'
 pod 'NotificationBannerSwift'
 pod 'SKPhotoBrowser'
 
-pod 'Firebase/Core'
-pod 'Firebase/Auth'
-pod 'Firebase/Firestore'
-pod 'Firebase/Storage'
   # Pods for WalletApp
 
 end

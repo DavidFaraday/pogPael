@@ -330,9 +330,7 @@ class AddExpenseViewController: UIViewController {
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            
-            CloudManager.sharedManager.saveExpenseToCloud(expense: expense, didChangeReceipt: didChangeReceipt)
-            
+                        
             showBanner(title: "Item Saved Successfully!")
             vibrate()
 
@@ -364,11 +362,8 @@ class AddExpenseViewController: UIViewController {
                 expenseToEdit!.image = billImage!.jpegData(compressionQuality: 0.5)
             }
             
-            
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
-            CloudManager.sharedManager.saveExpenseToCloud(expense: expenseToEdit!, didChangeReceipt: didChangeReceipt)
-
             showBanner(title: "Item Edited Successfully!")
             vibrate()
         } else {
@@ -379,9 +374,7 @@ class AddExpenseViewController: UIViewController {
     }
 
     private func deleteExpense() {
-        
-        CloudManager.sharedManager.deleteExpenseInCloud(expense: expenseToEdit!)
-        
+                
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext.delete(expenseToEdit!)
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }

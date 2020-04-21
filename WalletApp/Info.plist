@@ -28,6 +28,10 @@
 	<string>The app would like to use your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access is required to attach receipts</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

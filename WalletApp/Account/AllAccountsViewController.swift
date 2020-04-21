@@ -54,16 +54,41 @@ class AllAccountsViewController: UIViewController {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
         fetchRequest.sortDescriptors = []
         
-
+        var fetchedAccounts: [Account] = []
+        var duplicate: [Account] = []
+        
         do {
-            allAccounts = try context.fetch(fetchRequest) as! [Account]
+            fetchedAccounts = try context.fetch(fetchRequest) as! [Account]
             
         } catch {
             print("Failed to fetch account")
         }
+ 
+        if fetchedAccounts.count > 1 {
+            
+            print("filter", fetchedAccounts.count)
+            for account in fetchedAccounts {
+                if !allAccounts.contains(where: {$0.id == account.id }) {
+                    allAccounts.append(account)
+                } else {
+                    duplicate.append(account)
+                }
+            }
+            
+            for item in duplicate {
+                print("deleted, ", item.id?.uuidString)
+
+                context.delete(item)
+            }
+
+        } else {
+            allAccounts = fetchedAccounts
+        }
         
         tableView.reloadData()
     }
+
+
 
     
     //MARK: - Helpers
@@ -71,8 +96,6 @@ class AllAccountsViewController: UIViewController {
         
         account.isCurrent = true
         
-        CloudManager.sharedManager.saveAccountToCloud(account: account)
-
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 
@@ -131,8 +154,6 @@ extension AllAccountsViewController: UITableViewDelegate {
             
             allAccounts.remove(at: indexPath.row)
             
-            CloudManager.sharedManager.deleteAccountInCloud(account: accountToDelete)
-
             context.delete(accountToDelete)
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             

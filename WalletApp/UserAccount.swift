@@ -12,11 +12,11 @@ import UIKit
 
 class UserAccount {
     
-    class func createAccount(name: String, image: UIImage?) {
+    class func createAccount(name: String, image: UIImage?, iD: UUID) {
         
         let context = AppDelegate.context
         let account = Account(context: context)
-        account.id = UUID()
+        account.id = iD
         account.name = name
         account.isCurrent = true
         
@@ -26,7 +26,6 @@ class UserAccount {
         
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
-        CloudManager.sharedManager.saveAccountToCloud(account: account)
     }
     
     class func currentAccount() -> Account? {
@@ -64,7 +63,6 @@ class UserAccount {
                 let tempAccount = account as! Account
                 tempAccount.isCurrent = false
                 
-                CloudManager.sharedManager.saveAccountToCloud(account: tempAccount)
             }
             
             (UIApplication.shared.delegate as! AppDelegate).saveContext()

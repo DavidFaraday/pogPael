@@ -413,9 +413,7 @@ extension TransactionsViewController: UITableViewDelegate {
         if editingStyle == .delete {
             
             let expenseToDelete = currentPeriodFetchResultsController.object(at: indexPath) as! Expense
-            
-            CloudManager.sharedManager.deleteExpenseInCloud(expense: expenseToDelete)
-            
+                        
             context.delete(expenseToDelete)
             appDelegate.saveContext()
         }

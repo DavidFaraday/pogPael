@@ -21,7 +21,6 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidAppear(animated)
         
         updateSyncIndicator()
-        updateLogOutBarButtonItem()
     }
     
     override func viewDidLoad() {
@@ -56,20 +55,9 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func cloudSyncSwitchValueChanged(_ sender: UISwitch) {
-        
-        if sender.isOn && FUser.currentUser() == nil{
-            
-            let loginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "loginView") as! LoginViewController
-            loginVC.delegate = self
-            
-            self.present(loginVC, animated: true, completion: nil)
-        }
-        
+
         updateSettingsInUserDefaults(shouldSync: sender.isOn)
-        
-        if sender.isOn && FUser.currentUser() != nil {
-            syncLocalDbToCloud()
-        }
+
     }
     
     
@@ -97,14 +85,7 @@ class SettingsTableViewController: UITableViewController {
         }
     }
 
-    private func updateLogOutBarButtonItem() {
 
-        if FUser.currentUser() != nil {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(logOutUser))
-        } else {
-            self.navigationItem.rightBarButtonItem = nil
-        }
-    }
     
     private func updateSettingsInUserDefaults(shouldSync: Bool) {
         
@@ -114,76 +95,11 @@ class SettingsTableViewController: UITableViewController {
     
     //MARK: - Update UI
     private func updateSyncIndicator() {
-        
-        if FUser.currentUser() != nil {
+        self.cloudSyncSwitchOutlet.isOn = userDefaults.object(forKey: kSYNCTOCLOUD) as? Bool ?? false
 
-            self.cloudSyncSwitchOutlet.isOn = userDefaults.object(forKey: kSYNCTOCLOUD) as? Bool ?? false
-        } else {
-            self.cloudSyncSwitchOutlet.isOn = false
-        }
     }
 
 
-    //MARK: - LogOut
-    @objc func logOutUser() {
-        FUser.logOutCurrentUser { (error) in
-            
-            if error == nil {
-
-                self.updateLogOutBarButtonItem()
-                self.updateSyncIndicator()
-                
-                self.updateSettingsInUserDefaults(shouldSync: self.cloudSyncSwitchOutlet.isOn)
-            } else {
-                print("Couldn't logout user", error!.localizedDescription)
-            }
-        }
-    }
-
-    //MARK: - CloudUpdate
-    private func syncLocalDbToCloud() {
-
-        CloudManager.sharedManager.uploadAllAccountsToCloud(allAccounts: fetchAllAccounts())
-        CloudManager.sharedManager.uploadAllExpensesToCloud(allExpenses: fetchAllExpenses())
-    }
-    
-    private func fetchAllExpenses() -> [Expense] {
-        
-        var allExpenses: [Expense] = []
-        let context = AppDelegate.context
-
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
-        fetchRequest.sortDescriptors = []
-        
-        do {
-            allExpenses = try context.fetch(fetchRequest) as! [Expense]
-            
-        } catch {
-            print("Failed to fetch account")
-        }
-        
-        return allExpenses
-    }
-    
-    private func fetchAllAccounts() -> [Account] {
-        
-        var allAccounts: [Account] = []
-        
-        let context = AppDelegate.context
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
-        fetchRequest.sortDescriptors = []
-        
-        do {
-            allAccounts = try context.fetch(fetchRequest) as! [Account]
-            
-        } catch {
-            print("Failed to fetch account")
-        }
-        
-        
-        return allAccounts
-    }
 
     
     // MARK: - Table view data source
@@ -218,13 +134,4 @@ class SettingsTableViewController: UITableViewController {
     }
     
 
-}
-
-extension SettingsTableViewController: LoginViewControllerDelegate {
-    
-    func didDismiss() {
-
-        updateSyncIndicator()
-        updateLogOutBarButtonItem()
-    }    
 }

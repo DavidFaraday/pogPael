@@ -382,68 +382,57 @@ class DashboardViewController: UIViewController {
     }
 
     
-    //MARK: - FirstRunCheck
-    private func firstRunCheck() {
-        print("Started/././. ", Date())
-        firstRun = userDefaults.bool(forKey: kFIRSTRUN)
-        
-        if !firstRun! {
-            
-            checkForAccounts()
-            
-            let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
-            let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
-
-            userDefaults.set(true, forKey: kFIRSTRUN)
-            userDefaults.set(rawArrayOfExpenses, forKey: kEXPENSECATEGORIES)
-            userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
-
-            userDefaults.synchronize()
-        }
-    }
-    
-    private func checkForAccounts() {
-        
-        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "welcomeVC") as! WelcomeViewController
-        
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
-
-        
-//        if fetchAccounts().count == 0 {
-//            print("none", Date())
-//            print("trying again")
-//            checkForAccounts()
-//            //            createAccount()
-//        } else {
-//            print("we got account", Date())
+//    //MARK: - FirstRunCheck
+//    private func firstRunCheck() {
+//
+//        firstRun = userDefaults.bool(forKey: kFIRSTRUN)
+//        
+//        if !firstRun! {
+//                        
+//            let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
+//            let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
+//
+//            userDefaults.set(true, forKey: kFIRSTRUN)
+//            userDefaults.set(rawArrayOfExpenses, forKey: kEXPENSECATEGORIES)
+//            userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
+//
+//            userDefaults.synchronize()
 //        }
-    }
-
-    private func createAccount() {
-        
-        UserAccount.createAccount(name: "Main ", image: nil)
-    }
-    
-    private func fetchAccounts() -> [Account] {
-        print("fetch ", Date())
-
-        var allAccounts: [Account] = []
-        let context = AppDelegate.context
-
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
-        fetchRequest.sortDescriptors = []
-        
-
-        do {
-            allAccounts = try context.fetch(fetchRequest) as! [Account]
-            
-        } catch {
-            print("Failed to fetch account")
-        }
-        
-        return allAccounts
-    }
+//    }
+//    
+//    private func checkForAccounts() {
+//        
+//        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "welcomeVC") as! WelcomeViewController
+//        
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: true, completion: nil)
+//
+//    }
+//
+//    private func createAccount() {
+//        
+//        UserAccount.createAccount(name: "Main ", image: nil, iD: UUID(uuidString: "C99CE477-20BE-45E2-9E1C-BDF1F88A6A2A") ?? UUID())
+//    }
+//    
+//    private func fetchAccounts() -> [Account] {
+//        print("fetch ", Date())
+//
+//        var allAccounts: [Account] = []
+//        let context = AppDelegate.context
+//
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
+//        fetchRequest.sortDescriptors = []
+//        
+//
+//        do {
+//            allAccounts = try context.fetch(fetchRequest) as! [Account]
+//            
+//        } catch {
+//            print("Failed to fetch account")
+//        }
+//        
+//        return allAccounts
+//    }
 }
 
 

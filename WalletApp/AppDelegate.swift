@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import UIKit
-import Firebase
 
 
 @UIApplicationMain
@@ -29,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        FirebaseApp.configure()
 
         UINavigationBar.appearance().barTintColor = UIColor(named: "navigationBackground")
         UINavigationBar.appearance().backgroundColor = UIColor(named: "navigationBackground")
@@ -80,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "WalletApp")
+        let container = NSPersistentCloudKitContainer(name: "WalletApp")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -96,6 +94,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            
+            container.viewContext.automaticallyMergesChangesFromParent = true
+            container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+
         })
 
         return container

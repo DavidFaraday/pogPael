@@ -12,7 +12,6 @@
 		5550B9502435A5B700DB8397 /* ExpenseGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5550B94F2435A5B700DB8397 /* ExpenseGroup.swift */; };
 		5550B9522435AC3000DB8397 /* ExpenseGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5550B9512435AC3000DB8397 /* ExpenseGroupTableViewCell.swift */; };
 		5552040B243CF86300F274E4 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5552040A243CF86300F274E4 /* CloudKit.framework */; };
-		55680A312429E9BD00E90A6F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55680A302429E9BD00E90A6F /* CoreDataManager.swift */; };
 		55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */; };
 		55680A35242A86E400E90A6F /* DatePopUpMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55680A34242A86E400E90A6F /* DatePopUpMenu.xib */; };
 		5573E29D242DEE4E00DA5491 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5573E29C242DEE4E00DA5491 /* AccountsViewController.swift */; };
@@ -25,15 +24,7 @@
 		55ACDC56242F4DB100875E15 /* AllAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */; };
 		55ACDC58242F505D00875E15 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */; };
 		55CB707C244456B700AF60C9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CB707B244456B700AF60C9 /* WelcomeViewController.swift */; };
-		55E9590A2449E59900C9CFE5 /* FUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E959092449E59900C9CFE5 /* FUser.swift */; };
-		55E9590D2449E88600C9CFE5 /* FirebaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9590C2449E88600C9CFE5 /* FirebaseReference.swift */; };
-		55E9590F2449F28000C9CFE5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9590E2449F28000C9CFE5 /* LoginViewController.swift */; };
-		55E95913244A0C4200C9CFE5 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E95912244A0C4200C9CFE5 /* Enums.swift */; };
 		55E95917244A10F100C9CFE5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E95916244A10F100C9CFE5 /* GoogleService-Info.plist */; };
-		55E95919244AC85500C9CFE5 /* FirebaseAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E95918244AC85500C9CFE5 /* FirebaseAccount.swift */; };
-		55E9591B244ACE0C00C9CFE5 /* FirebaseExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9591A244ACE0C00C9CFE5 /* FirebaseExpense.swift */; };
-		55E9591D244AD94500C9CFE5 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9591C244AD94500C9CFE5 /* CloudManager.swift */; };
-		55E9593B244D993200C9CFE5 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9593A244D993200C9CFE5 /* Downloader.swift */; };
 		55E9593D244D995400C9CFE5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9593C244D995400C9CFE5 /* Reachability.swift */; };
 		55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */; };
 		55EAD19A2423656000E62419 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD1992423656000E62419 /* Extensions.swift */; };
@@ -69,7 +60,6 @@
 		5550B94F2435A5B700DB8397 /* ExpenseGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGroup.swift; sourceTree = "<group>"; };
 		5550B9512435AC3000DB8397 /* ExpenseGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGroupTableViewCell.swift; sourceTree = "<group>"; };
 		5552040A243CF86300F274E4 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		55680A302429E9BD00E90A6F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		55680A32242A855F00E90A6F /* DatePopUpMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePopUpMenuController.swift; sourceTree = "<group>"; };
 		55680A34242A86E400E90A6F /* DatePopUpMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePopUpMenu.xib; sourceTree = "<group>"; };
 		5573E29C242DEE4E00DA5491 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
@@ -82,15 +72,7 @@
 		55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsViewController.swift; sourceTree = "<group>"; };
 		55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		55CB707B244456B700AF60C9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		55E959092449E59900C9CFE5 /* FUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUser.swift; sourceTree = "<group>"; };
-		55E9590C2449E88600C9CFE5 /* FirebaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseReference.swift; sourceTree = "<group>"; };
-		55E9590E2449F28000C9CFE5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		55E95912244A0C4200C9CFE5 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		55E95916244A10F100C9CFE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		55E95918244AC85500C9CFE5 /* FirebaseAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAccount.swift; sourceTree = "<group>"; };
-		55E9591A244ACE0C00C9CFE5 /* FirebaseExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseExpense.swift; sourceTree = "<group>"; };
-		55E9591C244AD94500C9CFE5 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
-		55E9593A244D993200C9CFE5 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		55E9593C244D995400C9CFE5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		55EAD1992423656000E62419 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -183,18 +165,6 @@
 			name = SecondaryViews;
 			sourceTree = "<group>";
 		};
-		55E9590B2449E76700C9CFE5 /* FirebaseCalsses */ = {
-			isa = PBXGroup;
-			children = (
-				55E959092449E59900C9CFE5 /* FUser.swift */,
-				55E9590C2449E88600C9CFE5 /* FirebaseReference.swift */,
-				55E95918244AC85500C9CFE5 /* FirebaseAccount.swift */,
-				55E9591A244ACE0C00C9CFE5 /* FirebaseExpense.swift */,
-				55E9591C244AD94500C9CFE5 /* CloudManager.swift */,
-			);
-			name = FirebaseCalsses;
-			sourceTree = "<group>";
-		};
 		6307B170216A8345006A442C /* AddItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,8 +191,6 @@
 				638EE76720BBCC4B00943AF0 /* GlobalFuncions.swift */,
 				63450D7020C035B10076B2E4 /* Constants.swift */,
 				55EAD1992423656000E62419 /* Extensions.swift */,
-				55E95912244A0C4200C9CFE5 /* Enums.swift */,
-				55E9593A244D993200C9CFE5 /* Downloader.swift */,
 				55E9593C244D995400C9CFE5 /* Reachability.swift */,
 			);
 			name = Utilities;
@@ -233,7 +201,6 @@
 			children = (
 				63DCB6302162268F005B2D28 /* AnimationManager.swift */,
 				636444A721625B2900C77E8D /* CustomViewController.swift */,
-				55680A302429E9BD00E90A6F /* CoreDataManager.swift */,
 				55198AEB242E27450048D348 /* UserAccount.swift */,
 				55A627E2242FC4950019EE13 /* Notifications.swift */,
 				5550B94F2435A5B700DB8397 /* ExpenseGroup.swift */,
@@ -286,7 +253,6 @@
 			children = (
 				63E1D3FA20BB27B500049FC9 /* AppDelegate.swift */,
 				55CB707B244456B700AF60C9 /* WelcomeViewController.swift */,
-				55E9590E2449F28000C9CFE5 /* LoginViewController.swift */,
 				63450D6C20C032370076B2E4 /* Dashboard */,
 				6307B170216A8345006A442C /* AddItem */,
 				55D11C48242BAF0800B000FE /* Transactions */,
@@ -294,7 +260,6 @@
 				639C482E216A1D5D00DC0B6B /* Settings */,
 				55D11C4A242BB41A00B000FE /* SecondaryViews */,
 				63DE0ED9216932EB000549EB /* CustomCells */,
-				55E9590B2449E76700C9CFE5 /* FirebaseCalsses */,
 				639C482D216A1A2B00DC0B6B /* Classes */,
 				63450D6D20C032530076B2E4 /* Utilities */,
 				55D11C47242BABFE00B000FE /* PopUpViews */,
@@ -451,28 +416,19 @@
 				55CB707C244456B700AF60C9 /* WelcomeViewController.swift in Sources */,
 				63DE0EDB21693318000549EB /* CategoryCollectionViewCell.swift in Sources */,
 				63450D7320C0373A0076B2E4 /* CategoriesTableViewController.swift in Sources */,
-				55E9593B244D993200C9CFE5 /* Downloader.swift in Sources */,
 				63DCB6312162268F005B2D28 /* AnimationManager.swift in Sources */,
-				55E9591D244AD94500C9CFE5 /* CloudManager.swift in Sources */,
-				55E95919244AC85500C9CFE5 /* FirebaseAccount.swift in Sources */,
 				55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */,
-				55E9590D2449E88600C9CFE5 /* FirebaseReference.swift in Sources */,
-				55E9590A2449E59900C9CFE5 /* FUser.swift in Sources */,
 				63E1D41020BB2F6F00049FC9 /* AddExpenseViewController.swift in Sources */,
-				55680A312429E9BD00E90A6F /* CoreDataManager.swift in Sources */,
 				636444AA21628DAC00C77E8D /* TransactionsViewController.swift in Sources */,
 				63E1D3FB20BB27B500049FC9 /* AppDelegate.swift in Sources */,
 				55680A33242A855F00E90A6F /* DatePopUpMenuController.swift in Sources */,
 				5573E29D242DEE4E00DA5491 /* AccountsViewController.swift in Sources */,
-				55E95913244A0C4200C9CFE5 /* Enums.swift in Sources */,
 				638EE76820BBCC4B00943AF0 /* GlobalFuncions.swift in Sources */,
 				559183AC2429278200123FD6 /* SortPopUpMenuController.swift in Sources */,
 				63EA934D20BF27D30082F3E7 /* Categories.swift in Sources */,
 				559CF47024279EC700CBA24E /* CalendarViewController.swift in Sources */,
 				63450D6F20C0328E0076B2E4 /* SettingsTableViewController.swift in Sources */,
-				55E9591B244ACE0C00C9CFE5 /* FirebaseExpense.swift in Sources */,
 				554BC936243718CA00B5C82B /* CategoryDetailTableViewController.swift in Sources */,
-				55E9590F2449F28000C9CFE5 /* LoginViewController.swift in Sources */,
 				55ACDC56242F4DB100875E15 /* AllAccountsViewController.swift in Sources */,
 				638EE76620BBC8AB00943AF0 /* DashboardViewController.swift in Sources */,
 				55ACDC54242F25DB00875E15 /* AddAccountViewController.swift in Sources */,
