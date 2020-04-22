@@ -246,25 +246,25 @@ class AccountsViewController: UIViewController {
             var tempExpense: Expense!
             
             for section in fetchResultsController!.sections! {
+
                 var sectionTotal = 0.0
                 var numberOfItems = 0
 
                 for item in 0..<section.numberOfObjects {
-                    
                     let indexPath = IndexPath(row: item, section: sectionNumber)
                     tempExpense = fetchResultsController?.object(at: indexPath) as? Expense
-                    
-                    if tempExpense.isExpense == forExpense {
 
+                    if tempExpense.isExpense == forExpense {
                         numberOfItems += 1
                         sectionTotal += tempExpense.amount
                     }
-
                 }
-                
-                if tempExpense.isExpense == forExpense {
 
-                    allGroups.append(ExpenseGroup(name: section.name, itemCount: numberOfItems, totalValue: sectionTotal, percent: percentFromTotal(sectionTotal, isExpense: tempExpense.isExpense)))
+                let expGroup = ExpenseGroup(name: section.name, itemCount: numberOfItems, totalValue: sectionTotal, percent: percentFromTotal(sectionTotal, isExpense: forExpense))
+                
+
+                if expGroup.itemCount > 0 {
+                    allGroups.append(expGroup)
                 }
 
                 sectionNumber += 1
