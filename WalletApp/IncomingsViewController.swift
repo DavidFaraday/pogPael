@@ -44,6 +44,7 @@ class IncomingsViewController: UIViewController {
         setupCurrentDate()
         reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id?.uuidString ?? UUID().uuidString))
     }
+
     
     
     override func viewDidLoad() {
@@ -109,11 +110,10 @@ class IncomingsViewController: UIViewController {
         
         var dataEntries: [PieChartDataEntry] = []
         
-        for expense in fetchResultsController!.fetchedObjects! {
-            let tempExpense = expense as! Expense
+        for groupExpense in allGroups {
+                        
+            let tempEntry = PieChartDataEntry(value: groupExpense.totalValue, label: "")
             
-            let tempEntry = PieChartDataEntry(value: tempExpense.amount, label: "")
-
             dataEntries.append(tempEntry)
         }
 

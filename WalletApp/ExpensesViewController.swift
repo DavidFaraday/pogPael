@@ -113,10 +113,9 @@ class ExpensesViewController: UIViewController {
         
         var dataEntries: [PieChartDataEntry] = []
         
-        for expense in fetchResultsController!.fetchedObjects! {
-            let tempExpense = expense as! Expense
-            
-            let tempEntry = PieChartDataEntry(value: tempExpense.amount, label: "")
+        for groupExpense in allGroups {
+                        
+            let tempEntry = PieChartDataEntry(value: groupExpense.totalValue, label: "")
             
             dataEntries.append(tempEntry)
         }
@@ -133,7 +132,7 @@ class ExpensesViewController: UIViewController {
         expensesChart.legend.enabled = false // hides bottom legends
         expensesChart.drawEntryLabelsEnabled = false // hides description labels
         expensesChart.holeColor = .clear
-        
+
         animateChartWithDelay()
     }
 

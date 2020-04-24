@@ -62,10 +62,10 @@ class DashboardViewController: UIViewController {
 
     
     //MARK: ViewLifecycle
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        firstRunCheck()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.150) {
             let customTapBar = self.tabBarController as! CustomTabBarController
             customTapBar.showCenterButton()
@@ -80,10 +80,9 @@ class DashboardViewController: UIViewController {
             self.animateViewIn(view: 0)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         self.expensesView.frame.origin.x = AnimationManager.screenBounds.maxX + 10
         self.incomesView.frame.origin.x = AnimationManager.screenBounds.maxX + 10
         
