@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     var firstRun: Bool?
-
+    var firstRunAfterUpdate: Bool?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
 
@@ -124,11 +125,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func firstRunCheck() {
         
         firstRun = userDefaults.bool(forKey: kFIRSTRUN)
+        firstRunAfterUpdate = userDefaults.bool(forKey: kRUNAFTERUPDATE)
         
         if !firstRun! {
             
             checkForAccounts()
-            
+
             let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
             let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
             
@@ -138,6 +140,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
             
             userDefaults.synchronize()
+            
+        } else if !firstRunAfterUpdate! {
+            
+            userDefaults.set(true, forKey: kRUNAFTERUPDATE)
+            userDefaults.synchronize()
+            checkForAccounts()
         }
     }
     

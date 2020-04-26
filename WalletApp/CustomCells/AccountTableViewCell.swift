@@ -12,7 +12,7 @@ class AccountTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var nameLabel: UILabel!
-    
+    @IBOutlet weak var currentAccountCheckImageView: UIImageView!
     @IBOutlet weak var avatarImageView: UIImageView!
     
     override func awakeFromNib() {
@@ -35,6 +35,7 @@ class AccountTableViewCell: UITableViewCell {
             avatarImageView.image = UIImage(systemName: "person.crop.circle")
         }
         
+        account.isCurrent ? currentAccountCheckImageView.image = UIImage(systemName: "checkmark.circle.fill") : nil
         nameLabel.text = account.name
     }
 

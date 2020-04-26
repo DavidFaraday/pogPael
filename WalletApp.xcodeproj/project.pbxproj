@@ -24,7 +24,6 @@
 		55ACDC56242F4DB100875E15 /* AllAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */; };
 		55ACDC58242F505D00875E15 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */; };
 		55CB707C244456B700AF60C9 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CB707B244456B700AF60C9 /* WelcomeViewController.swift */; };
-		55E95917244A10F100C9CFE5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E95916244A10F100C9CFE5 /* GoogleService-Info.plist */; };
 		55E9593D244D995400C9CFE5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9593C244D995400C9CFE5 /* Reachability.swift */; };
 		55EAD198242363EA00E62419 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */; };
 		55EAD19A2423656000E62419 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAD1992423656000E62419 /* Extensions.swift */; };
@@ -72,7 +71,6 @@
 		55ACDC55242F4DB100875E15 /* AllAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAccountsViewController.swift; sourceTree = "<group>"; };
 		55ACDC57242F505D00875E15 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		55CB707B244456B700AF60C9 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		55E95916244A10F100C9CFE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55E9593C244D995400C9CFE5 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		55EAD197242363EA00E62419 /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		55EAD1992423656000E62419 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 				63E1D40420BB27B600049FC9 /* Assets.xcassets */,
 				63E1D40620BB27B600049FC9 /* LaunchScreen.storyboard */,
 				63E1D40920BB27B600049FC9 /* Info.plist */,
-				55E95916244A10F100C9CFE5 /* GoogleService-Info.plist */,
 				55D11C49242BAF4800B000FE /* CDModel */,
 			);
 			path = WalletApp;
@@ -358,7 +355,6 @@
 				55680A35242A86E400E90A6F /* DatePopUpMenu.xib in Resources */,
 				63E1D40020BB27B500049FC9 /* Main.storyboard in Resources */,
 				559183AE242927F100123FD6 /* PopUpMenu.xib in Resources */,
-				55E95917244A10F100C9CFE5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosdevschool.PiggyB;
 				PRODUCT_NAME = PiggyB;
 				SWIFT_VERSION = 5.0;
@@ -616,7 +612,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosdevschool.PiggyB;
 				PRODUCT_NAME = PiggyB;
 				SWIFT_VERSION = 5.0;

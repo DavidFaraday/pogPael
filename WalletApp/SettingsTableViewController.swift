@@ -11,16 +11,12 @@ import CoreData
 
 class SettingsTableViewController: UITableViewController {
 
-    //MARK: - IBOutlets
-    @IBOutlet weak var cloudSyncSwitchOutlet: UISwitch!
-    
     
     //MARK: - View Lifecycle
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        updateSyncIndicator()
     }
     
     override func viewDidLoad() {
@@ -54,11 +50,6 @@ class SettingsTableViewController: UITableViewController {
         likeFacebook()
     }
     
-    @IBAction func cloudSyncSwitchValueChanged(_ sender: UISwitch) {
-
-        updateSettingsInUserDefaults(shouldSync: sender.isOn)
-
-    }
     
     
     //MARK: - Helpers
@@ -93,23 +84,15 @@ class SettingsTableViewController: UITableViewController {
         userDefaults.synchronize()
     }
     
-    //MARK: - Update UI
-    private func updateSyncIndicator() {
-        self.cloudSyncSwitchOutlet.isOn = userDefaults.object(forKey: kSYNCTOCLOUD) as? Bool ?? false
-
-    }
-
-
-
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return section == 2 ? 3 : 1
+        return section == 1 ? 3 : 1
     }
 
     
@@ -118,8 +101,6 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "General"
-        } else if section == 1 {
-            return "Data Management"
         }
         return ""
     }

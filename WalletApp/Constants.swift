@@ -12,9 +12,12 @@ import Foundation
 public let kAPPURL = "https://apps.apple.com/us/app/piggyb-pro/id1506357057?ls=1"
 public let kFACEBOOKURL = "https://www.facebook.com/IOSDevelopersSchool-1928927010472634"
 
+let kDEFAULTUSERID = "C33A112A-4A36-4385-ABE8-25830DA17CE4"
 
 //Settings
 let kFIRSTRUN = "firstRun"
+let kRUNAFTERUPDATE = "afterUpdateRun"
+
 let kEXPENSECATEGORIES = "expenseCategories"
 let kINCOMECATEGORIES = "incomeCategories"
 let kSYNCTOCLOUD = "syncToCloud"

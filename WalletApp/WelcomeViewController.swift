@@ -15,7 +15,6 @@ class WelcomeViewController: UIViewController {
     
     //MARK: - IBOutlets
     
-    @IBOutlet weak var createNewButtonOutlet: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -29,10 +28,7 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.updateStatusLabel(labelNumber: 0)
 
-        createNewButtonOutlet.layer.cornerRadius = 8
         activityIndicator.startAnimating()
         
         startCheckingForAccounts()
@@ -43,19 +39,20 @@ class WelcomeViewController: UIViewController {
         statusLabel.text = statusLabelStrings[labelNumber]
     }
     
-    @IBAction func createNewButtonPressed(_ sender: Any) {
-        
-        checkForAccount()
-    }
     
     
     private func startCheckingForAccounts() {
         
+        self.updateStatusLabel(labelNumber: 0)
+        self.checkForAccount()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            
-            self.updateStatusLabel(labelNumber: 1)
-            print("......5......")
-            self.checkForAccount()
+            if self.shouldContinue {
+                
+                self.updateStatusLabel(labelNumber: 1)
+                print("......5......")
+                self.checkForAccount()
+            }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
@@ -96,28 +93,98 @@ class WelcomeViewController: UIViewController {
         
         if allAccounts.count > 0 {
             
+            var accountIndex = 1
+            
             for account in allAccounts {
                 
-                if account.id?.uuidString == "C33A112A-4A36-4385-ABE8-25830DA17CE4" {
-                    print("found one")
-                    self.shouldContinue = false
+                print("...", account.name, account.id?.uuidString)
+                
+                if allAccounts.count == 1 {
+                    //we have only 1 account check if its the main
+                    fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                    updateAccountToDefaultId(account: account)
 
-                    goToApp()
+                } else {
+                    //find main account and update ID
+                    
+                    if account.name == "Main Account" {
+                        print("found main account. updating")
+
+                        fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                        updateAccountToDefaultId(account: account)
+                    } else {
+                        
+                        if accountIndex == allAccounts.count {
+                            print("THIS IS LAST ACCOUNT")
+                            fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                            updateAccountToDefaultId(account: account)
+                        }
+                        accountIndex += 1
+                        print("didnt find main account. what to do?")
+                    }
+                    
+                }
+                
+                //we have a default account, go to app
+                if account.id?.uuidString == kDEFAULTUSERID {
+                    print("found default account, going to app")
+                    self.shouldContinue = false
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        //adding a bit delay to make transition work
+                        self.goToApp()
+                    }
                     return
                 }
             }
             
         }
     
-        
+        //didnt find accounts, make new one
         if !shouldContinue {
-            print("fed up")
-            UserAccount.createAccount(name: "Main Account", image: nil, iD: UUID(uuidString: "C33A112A-4A36-4385-ABE8-25830DA17CE4") ?? UUID())
+
+            UserAccount.createAccount(name: "Main Account", image: nil, iD: UUID(uuidString: kDEFAULTUSERID) ?? UUID())
             
             goToApp()
         }
     }
     
+    private func updateAccountToDefaultId(account: Account) {
+        UserAccount.changeAccountStatus()
+        account.id = UUID(uuidString: kDEFAULTUSERID)
+        account.isCurrent = true
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
+    
+    private func fetchAndUpdateExpenses(oldUserId: String){
+
+        let context = AppDelegate.context
+        var allExpenses: [Expense] = []
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "userId = %@", oldUserId)
+
+        do {
+            allExpenses = try context.fetch(fetchRequest) as! [Expense]
+
+        } catch {
+            print("Failed to fetch account")
+        }
+
+        
+        updateExpenseIdsToNew(expenses: allExpenses)
+    }
+    
+    private func updateExpenseIdsToNew(expenses: [Expense]) {
+        
+        for expense in expenses {
+            expense.userId = UUID(uuidString: kDEFAULTUSERID)
+        }
+        
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
+
     
     private func fetchAccounts() -> [Account] {
 
