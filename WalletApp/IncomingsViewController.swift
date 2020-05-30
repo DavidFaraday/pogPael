@@ -42,7 +42,7 @@ class IncomingsViewController: UIViewController {
         tableView.tableFooterView = UIView()
         
         setupCurrentDate()
-        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id?.uuidString ?? UUID().uuidString))
+        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg))
     }
 
     

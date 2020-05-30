@@ -47,10 +47,10 @@ class CategoryDetailTableViewController: UITableViewController {
             
             if forAllPeriod {
                 
-                currentPredicate = NSPredicate(format: "isExpense == %i && userId = %@ && category = %@", forExpense, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+                currentPredicate = NSPredicate(format: "isExpense == %i && userId = %@ && category = %@", forExpense, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg, selectedCategoryName!)
                 
             } else {
-                currentPredicate = NSPredicate(format: "isExpense == %i && year = %i && monthOfTheYear = %i && userId = %@ && category = %@", forExpense, currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "", selectedCategoryName!)
+                currentPredicate = NSPredicate(format: "isExpense == %i && year = %i && monthOfTheYear = %i && userId = %@ && category = %@", forExpense, currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg, selectedCategoryName!)
             }
             
 

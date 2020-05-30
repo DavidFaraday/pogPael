@@ -36,7 +36,13 @@ enum ExpenseCategories : String, Codable {
     case bicycle
     case internet
     case gym
-    
+    case hairdresser
+    case coffee
+    case partner
+    case tv
+    case parking
+    case loan
+    case rent
     
     static var array: [ExpenseCategories] {
         var a: [ExpenseCategories] = []
@@ -93,11 +99,24 @@ enum ExpenseCategories : String, Codable {
         case .internet:
             a.append(.internet); fallthrough
         case .gym:
-            a.append(.gym);
+            a.append(.gym); fallthrough
+        case .hairdresser:
+            a.append(.hairdresser); fallthrough
+        case .coffee:
+            a.append(.coffee); fallthrough
+        case .partner:
+            a.append(.partner); fallthrough
+        case .tv:
+            a.append(.tv); fallthrough
+        case .parking:
+            a.append(.parking); fallthrough
+        case .rent:
+            a.append(.rent); fallthrough
+        case .loan:
+            a.append(.loan);
         }
         return a
     }
-    
     
 }
 
@@ -110,7 +129,13 @@ enum IncomeCategories : String {
     case general
     case gift
     case home
-
+    case bonus
+    case development
+    case insurance
+    case director
+    case rent
+    case online
+    
     static var array: [IncomeCategories] {
         var a: [IncomeCategories] = []
         
@@ -126,12 +151,22 @@ enum IncomeCategories : String {
         case .gift:
             a.append(.gift); fallthrough
         case .home:
-            a.append(.home);
-
+            a.append(.home); fallthrough
+        case .bonus:
+            a.append(.bonus); fallthrough
+        case .development:
+            a.append(.development); fallthrough
+        case .insurance:
+            a.append(.insurance); fallthrough
+        case .director:
+            a.append(.director); fallthrough
+        case .rent:
+            a.append(.rent);fallthrough
+            case .online:
+            a.append(.online);
         return a
         }
     }
-    
 }
 
 

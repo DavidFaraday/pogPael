@@ -15,6 +15,7 @@ class TransactionsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var thisPeriodLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var searchTextfield: UITextField!
     
     //MARK: Class vars
     var currentPeriodFetchResultsController: NSFetchedResultsController<NSFetchRequestResult>!
@@ -68,7 +69,7 @@ class TransactionsViewController: UIViewController {
             customTapBar.showCenterButton()
         }
         
-        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
 
         fetchAllPeriod()
         reloadData(predicate: currentPredicate)
@@ -78,12 +79,13 @@ class TransactionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupCurrentDate()
-        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
         
         setupCustomTitleView()
-
+        setupSearchTextField()
+        
         fetchAllPeriod()
         reloadData(predicate: currentPredicate)
         
@@ -103,7 +105,7 @@ class TransactionsViewController: UIViewController {
         
         allTimeFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
-        allTimeFetchResultsController.fetchRequest.predicate = NSPredicate(format: "userId = %@", UserAccount.currentAccount()?.id?.uuidString ?? "")
+        allTimeFetchResultsController.fetchRequest.predicate = NSPredicate(format: "userId = %@", UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
 
         allTimeFetchResultsController.delegate = self
         
@@ -232,7 +234,7 @@ class TransactionsViewController: UIViewController {
     }
 
     private func setupPopUpViews() {
-        
+
         sortPopupView = SortPopUpMenuController()
         sortPopupView.contentView.layer.cornerRadius = 20
         sortPopupView.delegate = self
@@ -240,8 +242,7 @@ class TransactionsViewController: UIViewController {
             + 90, width: self.view.frame.width, height: 200)
                 
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        keyWindow!.addSubview(sortPopupView)
-        
+
         
         datePopupView = DatePopUpMenuController()
         datePopupView.contentView.layer.cornerRadius = 20
@@ -249,9 +250,26 @@ class TransactionsViewController: UIViewController {
         datePopupView.frame = CGRect(x: 0, y: self.view.frame.height
             + 90, width: self.view.frame.width, height: 280)
         
-        keyWindow!.addSubview(datePopupView)
+        if keyWindow != nil {
+            keyWindow!.addSubview(sortPopupView)
+            keyWindow!.addSubview(datePopupView)
+        }
     }
 
+    private func setupSearchTextField() {
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "magnifyingglass")
+        imageView.tintColor = UIColor.systemGray
+        searchTextfield.leftViewMode = .always
+        searchTextfield.leftView = imageView
+        searchTextfield.delegate = self
+        searchTextfield.clearButtonMode = .always
+    }
+
+    
+
+    
     //MARK: - Calculate totals
     
     private func updateTotalAmountsUI() {
@@ -461,11 +479,11 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
         
             
         if month != nil {
-            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", year, month!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", year, month!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             currentMonth = month
 
         } else {
-            currentPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            currentPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
         }
         
         currentYear = year
@@ -480,16 +498,16 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
         switch selectedIndex {
         case 0:
             if currentWeek != nil {
-                currentPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                currentPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             }
         case 1:
             
             if currentYear != nil && currentMonth != nil {
-                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             }
         default:
             if currentYear != nil {
-                currentPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                currentPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             }
         }
 
@@ -506,11 +524,41 @@ extension TransactionsViewController: DatePopUpMenuControllerDelegate {
 extension TransactionsViewController: AllAccountsViewControllerDelegate {
     
     func didSelectAccount() {
-        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
+        currentPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
 
         fetchAllPeriod()
         reloadData(predicate: currentPredicate)
         updateTotalAmountsUI()
         updateTitleLabels(false)
+    }
+}
+
+
+extension TransactionsViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == searchTextfield {
+            
+            if textField.text != "" {
+                
+                let predicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@ && nameDescription CONTAINS[cd] %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg, textField.text!)
+
+                reloadData(predicate: predicate)
+            }
+            
+            textField.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+
+        reloadData(predicate: currentPredicate)
+
+        textField.text = ""
+        textField.resignFirstResponder()
+        return false
     }
 }

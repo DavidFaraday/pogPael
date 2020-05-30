@@ -96,12 +96,10 @@ class WelcomeViewController: UIViewController {
             var accountIndex = 1
             
             for account in allAccounts {
-                
-                print("...", account.name, account.id?.uuidString)
-                
+                                
                 if allAccounts.count == 1 {
                     //we have only 1 account check if its the main
-                    fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                    fetchAndUpdateExpenses(oldUserId: account.id ?? UUID())
                     updateAccountToDefaultId(account: account)
 
                 } else {
@@ -110,13 +108,13 @@ class WelcomeViewController: UIViewController {
                     if account.name == "Main Account" {
                         print("found main account. updating")
 
-                        fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                        fetchAndUpdateExpenses(oldUserId: account.id ?? UUID())
                         updateAccountToDefaultId(account: account)
                     } else {
                         
                         if accountIndex == allAccounts.count {
                             print("THIS IS LAST ACCOUNT")
-                            fetchAndUpdateExpenses(oldUserId: account.id!.uuidString)
+                            fetchAndUpdateExpenses(oldUserId: account.id ?? UUID())
                             updateAccountToDefaultId(account: account)
                         }
                         accountIndex += 1
@@ -156,14 +154,14 @@ class WelcomeViewController: UIViewController {
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
     
-    private func fetchAndUpdateExpenses(oldUserId: String){
+    private func fetchAndUpdateExpenses(oldUserId: UUID){
 
         let context = AppDelegate.context
         var allExpenses: [Expense] = []
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
         fetchRequest.sortDescriptors = []
-        fetchRequest.predicate = NSPredicate(format: "userId = %@", oldUserId)
+        fetchRequest.predicate = NSPredicate(format: "userId = %@", oldUserId as CVarArg)
 
         do {
             allExpenses = try context.fetch(fetchRequest) as! [Expense]

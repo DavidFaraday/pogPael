@@ -63,7 +63,7 @@ class AccountsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.tableFooterView = UIView()
         showCurrentAccountDetails()
         setupSwipes()
@@ -202,7 +202,7 @@ class AccountsViewController: UIViewController {
             fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: AppDelegate.context, sectionNameKeyPath: "category", cacheName: nil)
             fetchResultsController.delegate = self
             
-            fetchResultsController.fetchRequest.predicate = NSPredicate(format: "userId == %@", account!.id!.uuidString)
+            fetchResultsController.fetchRequest.predicate = NSPredicate(format: "userId == %@", account!.id! as CVarArg)
 
             do {
                 try fetchResultsController.performFetch()

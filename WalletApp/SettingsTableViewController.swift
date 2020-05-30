@@ -110,9 +110,7 @@ class SettingsTableViewController: UITableViewController {
         return 30
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == 0 ? 10 : 0
-    }
+
     
 
 }

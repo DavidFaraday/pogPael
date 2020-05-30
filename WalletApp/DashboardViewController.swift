@@ -246,14 +246,14 @@ class DashboardViewController: UIViewController {
 
         if month != nil {
             overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@", year, month!, UserAccount.currentAccount()?.id?.uuidString ?? "")
-            expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, true, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             
-            incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && isExpense == %i && userId = %@", year, month!, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
 
         } else {
-            overviewPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id?.uuidString ?? "")
-            expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
-            incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
+            overviewPredicate = NSPredicate(format: "year = %i && userId = %@", year, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+            expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, true, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+            incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", year, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
         }
         
         overviewViewController?.reloadData(predicate: overviewPredicate)
@@ -278,27 +278,27 @@ class DashboardViewController: UIViewController {
             
             if currentWeek != nil {
                 
-                overviewPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                overviewPredicate = NSPredicate(format: "weekOfTheYear = %i && userId = %@", currentWeek!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                expensePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, true, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                incomePredicate = NSPredicate(format: "weekOfTheYear = %i && isExpense == %i && userId = %@", currentWeek!, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
 
             }
         case 1:
             
             if currentYear != nil && currentMonth != nil {
 
-                overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                overviewPredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && userId = %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                expensePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, true, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                incomePredicate = NSPredicate(format: "year = %i && monthOfTheYear == %i && isExpense == %i && userId = %@", currentYear!, currentMonth!, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             }
             
         default:
             
             if currentYear != nil {
 
-                overviewPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, true, UserAccount.currentAccount()?.id?.uuidString ?? "")
-                incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, false, UserAccount.currentAccount()?.id?.uuidString ?? "")
+                overviewPredicate = NSPredicate(format: "year = %i && userId = %@", currentYear!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                expensePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, true, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
+                incomePredicate = NSPredicate(format: "year = %i && isExpense == %i && userId = %@", currentYear!, false, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg)
             }
         }
         

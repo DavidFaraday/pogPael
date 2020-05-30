@@ -54,6 +54,7 @@ class AddExpenseViewController: UIViewController {
     var expenseToEdit: Expense?
     
     let account = UserAccount.currentAccount()
+    var selectedCellIndex: IndexPath?
 
     //MARK: - ViewLifeCycle
     
@@ -285,7 +286,6 @@ class AddExpenseViewController: UIViewController {
             self.categoryImageView.image = categoryImage
             self.categoryBackgroundView.transform = CGAffineTransform.identity
         }, completion: nil)
-
     }
     
     private func animateCategoryViewOut() {
@@ -584,7 +584,7 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         } else {
             name = currentIncomeCategories[indexPath.row]
         }
-        
+
         cell.generateCell(categoryName: name)
         
         return cell
@@ -605,8 +605,24 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
         
         category = imageName.capitalizingFirstLetter()
         animateCategoryImage(imageName: imageName.lowercased())
+        
+//        highlightSelectedCell(collectionView: collectionView, indexPath: indexPath)
+//        self.selectedCellIndex = indexPath
     }
     
+    
+    private func highlightSelectedCell(collectionView: UICollectionView, indexPath: IndexPath) {
+        print(".......", selectedCellIndex)
+        if selectedCellIndex != nil && selectedCellIndex != indexPath {
+            let cell = collectionView.cellForItem(at: selectedCellIndex!) as! CategoryCollectionViewCell
+            cell.iconImageView.tintColor = .systemGray
+            cell.nameLabel.textColor = .systemGray
+        }
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+        cell.iconImageView.tintColor = UIColor(named: "collectionCellTintColor")
+        cell.nameLabel.textColor = UIColor(named: "collectionCellTintColor")
+    }
 }
 
 
