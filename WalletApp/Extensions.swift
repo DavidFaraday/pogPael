@@ -34,6 +34,14 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+    
+    func lowercaseFirstLetter() -> String {
+        return prefix(1).lowercased() + dropFirst()
+    }
+
+    mutating func lowercaseFirstLetter() {
+        self = self.lowercaseFirstLetter()
+    }
 }
 
 

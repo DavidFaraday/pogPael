@@ -542,9 +542,10 @@ extension TransactionsViewController: UITextFieldDelegate {
             
             if textField.text != "" {
                 
-                let predicate = NSPredicate(format: "year = %i && monthOfTheYear = %i && userId = %@ && nameDescription CONTAINS[cd] %@", currentYear!, currentMonth!, UserAccount.currentAccount()?.id as CVarArg? ?? UUID() as CVarArg, textField.text!)
-
-                reloadData(predicate: predicate)
+                let searchPredicate = NSPredicate(format: "nameDescription CONTAINS[cd] %@", textField.text!)
+                let combinedPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [currentPredicate!, searchPredicate])
+                
+                reloadData(predicate: combinedPredicate)
             }
             
             textField.resignFirstResponder()

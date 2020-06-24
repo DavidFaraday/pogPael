@@ -39,8 +39,9 @@ class AddExpenseViewController: UIViewController {
     //MARK: - Vars
     var amount: Double = 0.0
     var amountText = ""
-    var category = "general"
+    var categoryName = ""
     var entryDate = Date()
+
     
     var currentIncomeCategories: [String] = []
     var currentExpenseCategories: [String] = []
@@ -54,7 +55,7 @@ class AddExpenseViewController: UIViewController {
     var expenseToEdit: Expense?
     
     let account = UserAccount.currentAccount()
-    var selectedCellIndex: IndexPath?
+    var selectedCellIndex = IndexPath(item: 0, section: 0)
 
     //MARK: - ViewLifeCycle
     
@@ -78,15 +79,16 @@ class AddExpenseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setEntryDate()
+        loadUserDefaults()
+        
+        categoryName = getFirstCategoryName()
+
         if expenseToEdit != nil {
             entryDate = expenseToEdit!.date ?? Date()
             setupEditingUI()
         }
 
-        setEntryDate()
-        loadUserDefaults()
-
-        
         setupBarButtons()
         setupUI()
         updateLabel()
@@ -104,6 +106,9 @@ class AddExpenseViewController: UIViewController {
     //MARK: - IBActions
     
     @IBAction func categorySegmentValueChanged(_ sender: Any) {
+        selectedCellIndex = IndexPath(row: 0, section: 0)
+        categoryName = getFirstCategoryName()
+        animateCategoryImage(imageName: categoryName)
         collectionView.reloadData()
     }
     
@@ -194,7 +199,7 @@ class AddExpenseViewController: UIViewController {
         isDisplayingCategory = false
         categorySegment.isHidden = true
         amount = expenseToEdit!.amount
-        category = expenseToEdit!.category!
+        categoryName = expenseToEdit!.category!
         nameTextField.text = expenseToEdit!.nameDescription
         dateTextField.text = expenseToEdit!.date?.longDate()
         categorySegment.selectedSegmentIndex = expenseToEdit!.isExpense ? 0 : 1
@@ -204,6 +209,8 @@ class AddExpenseViewController: UIViewController {
         if expenseToEdit!.image != nil {
             attachmentImageView.image = UIImage(data: expenseToEdit!.image!)
         }
+        
+        selectCurrentCategory()
     }
     
     private func setupBarButtons() {
@@ -312,7 +319,7 @@ class AddExpenseViewController: UIViewController {
             let expense = Expense(context: context)
             expense.objectId = UUID().uuidString
             expense.amount = amount
-            expense.category = category
+            expense.category = categoryName
             expense.isExpense = (categorySegment.selectedSegmentIndex == 0)
             expense.nameDescription = nameTextField.text
             expense.date = entryDate
@@ -345,8 +352,9 @@ class AddExpenseViewController: UIViewController {
     private func editExpense() {
 
         if nameTextField.text != "" && amount != 0.0 && account != nil {
+
             expenseToEdit!.amount = amount
-            expenseToEdit!.category = category
+            expenseToEdit!.category = categoryName
             expenseToEdit!.isExpense = (categorySegment.selectedSegmentIndex == 0)
             expenseToEdit!.nameDescription = nameTextField.text
             expenseToEdit!.date = entryDate
@@ -558,6 +566,22 @@ class AddExpenseViewController: UIViewController {
         self.view.endEditing(false)
     }    
 
+    private func getFirstCategoryName() -> String {
+         
+        return categorySegment.selectedSegmentIndex == 0 ? currentExpenseCategories[0] : currentIncomeCategories[0]
+    }
+    
+    private func selectCurrentCategory() {
+        if expenseToEdit!.isExpense {
+            let index = currentExpenseCategories.firstIndex(of: categoryName.lowercaseFirstLetter())
+            selectedCellIndex = IndexPath(row: index!, section: 0)
+
+        } else {
+            let index = currentIncomeCategories.firstIndex(of: categoryName.lowercaseFirstLetter())
+            selectedCellIndex = IndexPath(row: index!, section: 0)
+        }
+        collectionView.reloadData()
+    }
 }
 
 //for choose category
@@ -566,11 +590,8 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
     
     //MARK: - CollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if categorySegment.selectedSegmentIndex == 0 {
-            return currentExpenseCategories.count
-        }
-        return currentIncomeCategories.count
+
+        return categorySegment.selectedSegmentIndex == 0 ? currentExpenseCategories.count : currentIncomeCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -585,7 +606,7 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
             name = currentIncomeCategories[indexPath.row]
         }
 
-        cell.generateCell(categoryName: name)
+        cell.generateCell(categoryName: name, selectedCellIndex: selectedCellIndex, indexPath: indexPath)
         
         return cell
     }
@@ -603,26 +624,13 @@ extension AddExpenseViewController: UICollectionViewDataSource, UICollectionView
             imageName = currentIncomeCategories[indexPath.row]
         }
         
-        category = imageName.capitalizingFirstLetter()
+        categoryName = imageName.capitalizingFirstLetter()
         animateCategoryImage(imageName: imageName.lowercased())
-        
-//        highlightSelectedCell(collectionView: collectionView, indexPath: indexPath)
-//        self.selectedCellIndex = indexPath
+
+        self.selectedCellIndex = indexPath
+        collectionView.reloadData()
     }
     
-    
-    private func highlightSelectedCell(collectionView: UICollectionView, indexPath: IndexPath) {
-        print(".......", selectedCellIndex)
-        if selectedCellIndex != nil && selectedCellIndex != indexPath {
-            let cell = collectionView.cellForItem(at: selectedCellIndex!) as! CategoryCollectionViewCell
-            cell.iconImageView.tintColor = .systemGray
-            cell.nameLabel.textColor = .systemGray
-        }
-        
-        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
-        cell.iconImageView.tintColor = UIColor(named: "collectionCellTintColor")
-        cell.nameLabel.textColor = UIColor(named: "collectionCellTintColor")
-    }
 }
 
 

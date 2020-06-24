@@ -37,7 +37,7 @@ func calendarComponents(_ ofDate: Date) -> DateComponents {
 
 
 func getImageFor(_ categoryName: String) -> UIImage {
-    return UIImage(named: categoryName.lowercased())!
+    return UIImage(named: categoryName.lowercased()) ?? UIImage()
 }
 
 
