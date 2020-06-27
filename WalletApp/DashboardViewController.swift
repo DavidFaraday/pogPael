@@ -65,7 +65,7 @@ class DashboardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        firstRunCheck()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.150) {
             let customTapBar = self.tabBarController as! CustomTabBarController
             customTapBar.showCenterButton()
@@ -239,7 +239,6 @@ class DashboardViewController: UIViewController {
 
     private func updateData(_ month: Int?, year: Int) {
         
-        
         var overviewPredicate: NSPredicate!
         var expensePredicate: NSPredicate!
         var incomePredicate: NSPredicate!
@@ -267,7 +266,6 @@ class DashboardViewController: UIViewController {
     }
     
     private func updateDataFromSegment(_ segmentValue: Int) {
-        
         
         var overviewPredicate: NSPredicate!
         var expensePredicate: NSPredicate!
@@ -327,8 +325,8 @@ class DashboardViewController: UIViewController {
         UIView.animate(withDuration: 0.3) {
             self.datePopupView.frame.origin.y = AnimationManager.screenBounds.maxY + 1
         }
-
     }
+    
 
     //MARK: Navigation
     
@@ -337,11 +335,13 @@ class DashboardViewController: UIViewController {
         switch segue.identifier {
         case "overviewSegue":
             self.overviewViewController = segue.destination as? OverviewViewController
+            self.overviewViewController!.delegate = self
         case "expenseSegue":
             self.expenseViewController = segue.destination as? ExpensesViewController
+            self.expenseViewController!.delegate = self
         case "incomingSegue":
             self.incomingViewController = segue.destination as? IncomingsViewController
-
+            self.incomingViewController!.delegate = self
         default:
             break
         }
@@ -381,57 +381,6 @@ class DashboardViewController: UIViewController {
     }
 
     
-//    //MARK: - FirstRunCheck
-//    private func firstRunCheck() {
-//
-//        firstRun = userDefaults.bool(forKey: kFIRSTRUN)
-//        
-//        if !firstRun! {
-//                        
-//            let rawArrayOfExpenses = ExpenseCategories.array.map { $0.rawValue }
-//            let rawArrayOfIncomes = IncomeCategories.array.map { $0.rawValue }
-//
-//            userDefaults.set(true, forKey: kFIRSTRUN)
-//            userDefaults.set(rawArrayOfExpenses, forKey: kEXPENSECATEGORIES)
-//            userDefaults.set(rawArrayOfIncomes, forKey: kINCOMECATEGORIES)
-//
-//            userDefaults.synchronize()
-//        }
-//    }
-//    
-//    private func checkForAccounts() {
-//        
-//        let vc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "welcomeVC") as! WelcomeViewController
-//        
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true, completion: nil)
-//
-//    }
-//
-//    private func createAccount() {
-//        
-//        UserAccount.createAccount(name: "Main ", image: nil, iD: UUID(uuidString: "C99CE477-20BE-45E2-9E1C-BDF1F88A6A2A") ?? UUID())
-//    }
-//    
-//    private func fetchAccounts() -> [Account] {
-//        print("fetch ", Date())
-//
-//        var allAccounts: [Account] = []
-//        let context = AppDelegate.context
-//
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Account")
-//        fetchRequest.sortDescriptors = []
-//        
-//
-//        do {
-//            allAccounts = try context.fetch(fetchRequest) as! [Account]
-//            
-//        } catch {
-//            print("Failed to fetch account")
-//        }
-//        
-//        return allAccounts
-//    }
 }
 
 
@@ -462,3 +411,26 @@ extension DashboardViewController: DatePopUpMenuControllerDelegate {
     }
 }
 
+
+
+extension DashboardViewController: OverviewViewControllerDelegate {
+    func didSelectCellInOverview() {
+        hideDatePopUpView()
+        isDatePopUpVisible.toggle()
+    }
+}
+
+
+extension DashboardViewController: ExpensesViewControllerDelegate {
+    func didSelectCellInOutgoing() {
+        hideDatePopUpView()
+        isDatePopUpVisible.toggle()
+    }
+}
+
+extension DashboardViewController: IncomingsViewControllerDelegate {
+    func didSelectCellInIncoming() {
+        hideDatePopUpView()
+        isDatePopUpVisible.toggle()
+    }
+}

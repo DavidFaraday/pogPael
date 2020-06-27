@@ -10,6 +10,11 @@ import UIKit
 import CoreData
 import Charts
 
+protocol ExpensesViewControllerDelegate {
+    func didSelectCellInOutgoing()
+}
+
+
 class ExpensesViewController: UIViewController {
 
     //MARK: - IBOutlets
@@ -32,6 +37,7 @@ class ExpensesViewController: UIViewController {
     
     var allGroups: [ExpenseGroup] = []
     var totalExpense = 0.0
+    var delegate: ExpensesViewControllerDelegate?
 
     
     //MARK: - View Lifecycle
@@ -222,6 +228,7 @@ extension ExpensesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.didSelectCellInOutgoing()
         
         let categoryVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "categoryDetailVC") as! CategoryDetailTableViewController
         

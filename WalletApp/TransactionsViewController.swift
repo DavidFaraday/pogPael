@@ -37,6 +37,7 @@ class TransactionsViewController: UIViewController {
     var currentPredicate: NSPredicate?
     
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
+    var allGroups: [ExpenseGroup] = []
 
     let titleLabel: UILabel = {
         
@@ -275,6 +276,7 @@ class TransactionsViewController: UIViewController {
     private func updateTotalAmountsUI() {
         
         updateUI(total: calculateAllPeriod(), thisPeriod: calculateThisPeriod())
+        splitToSection()
     }
     
     private func calculateThisPeriod() -> Double {
@@ -314,6 +316,36 @@ class TransactionsViewController: UIViewController {
         }
         
         return tempIncoming - tempExpense
+    }
+    
+    
+    private func splitToSection() {
+        
+        if currentPeriodFetchResultsController!.sections != nil {
+            var sectionNumber = 0
+
+            allGroups = []
+            var tempExpense: Expense!
+            
+            for section in currentPeriodFetchResultsController!.sections! {
+
+                var sectionTotal = 0.0
+
+                for item in 0..<section.numberOfObjects {
+                    let indexPath = IndexPath(row: item, section: sectionNumber)
+                    tempExpense = currentPeriodFetchResultsController?.object(at: indexPath) as? Expense
+
+                    sectionTotal += tempExpense.amount
+                }
+
+                let expGroup = ExpenseGroup(name: section.name, itemCount: 0, totalValue: sectionTotal, percent: 0.0)
+                
+                allGroups.append(expGroup)
+
+                sectionNumber += 1
+            }
+            
+        }
     }
     
     //MARK: - Update UI
@@ -365,7 +397,17 @@ class TransactionsViewController: UIViewController {
 
      }
     
-
+    private func hidePopUpViews() {
+        if isDatePopUpVisible {
+            hideDatePopUpView()
+            isDatePopUpVisible.toggle()
+        }
+        
+        if isSortPopUpVisible {
+            hideSortPopUpView()
+            isSortPopUpVisible.toggle()
+        }
+    }
 }
 
 extension TransactionsViewController: NSFetchedResultsControllerDelegate {
@@ -403,10 +445,32 @@ extension TransactionsViewController: UITableViewDataSource {
 
 extension TransactionsViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        return self.currentPeriodFetchResultsController.sections?[section].name ?? ""
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: tableView.frame.width, height: 30.0))
+        headerView.backgroundColor = UIColor(named: "navigationBackground")
+        
+        let titleLabel = UILabel(frame: CGRect(x: 10, y: 0, width: 200, height: 30))
+
+        titleLabel.text = allGroups[section].name.capitalizingFirstLetter()
+        
+        
+        let totalLabel = UILabel(frame: CGRect(x: tableView.frame.width - 130, y: 0, width: 120, height: 30))
+
+        totalLabel.textAlignment = .right
+        totalLabel.text = "Total: " + convertToCurrency(number: allGroups[section].totalValue).replacingOccurrences(of: ".00", with: "")
+
+        headerView.addSubview(titleLabel)
+        headerView.addSubview(totalLabel)
+        
+        return headerView
+    }
+    
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
@@ -417,6 +481,8 @@ extension TransactionsViewController: UITableViewDelegate {
         
         let customTapBar = self.tabBarController as! CustomTabBarController
         customTapBar.hideCenterButton()
+        
+        hidePopUpViews()
         
         self.navigationController?.pushViewController(editVc, animated: true)
     }

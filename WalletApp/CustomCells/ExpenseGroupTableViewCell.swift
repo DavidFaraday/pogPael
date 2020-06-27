@@ -37,7 +37,7 @@ class ExpenseGroupTableViewCell: UITableViewCell {
     func setupCellWith(_ expenseGroup: ExpenseGroup, backgroundColor: UIColor) {
         
         categoryImageView.image = getImageFor(expenseGroup.name)
-        nameLabel.text = expenseGroup.name
+        nameLabel.text = expenseGroup.name.capitalizingFirstLetter()
         amountLabel.text = convertToCurrency(number: expenseGroup.totalValue).replacingOccurrences(of: ".00", with: "")
         percentageLabel.text = String(format: "%.2f", expenseGroup.percent).replacingOccurrences(of: ".00", with: "") + "%"
 

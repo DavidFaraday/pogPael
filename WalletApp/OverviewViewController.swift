@@ -10,6 +10,10 @@ import UIKit
 import CoreData
 import Charts
 
+protocol OverviewViewControllerDelegate {
+    func didSelectCellInOverview()
+}
+
 class OverviewViewController: UIViewController {
 
     //MARK: - IBOUtlets
@@ -38,7 +42,7 @@ class OverviewViewController: UIViewController {
     var currentWeek: Int?
     
     var currentPredicate: NSPredicate?
-
+    var delegate: OverviewViewControllerDelegate?
     
     //MARK: - View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -60,10 +64,6 @@ class OverviewViewController: UIViewController {
 
         incomeChart.isHidden = true
         expensesChart.isHidden = true
-        
-//        setupCurrentDate()
-//        reloadData(predicate: NSPredicate(format: "year = %i && monthOfTheYear = %i", currentYear!, currentMonth!))
-//        separateExpenses()
     }
     
 
@@ -263,6 +263,7 @@ extension OverviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.didSelectCellInOverview()
         
         var tempExpense: Expense!
 

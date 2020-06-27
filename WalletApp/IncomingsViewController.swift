@@ -10,6 +10,11 @@ import UIKit
 import CoreData
 import Charts
 
+
+protocol IncomingsViewControllerDelegate {
+    func didSelectCellInIncoming()
+}
+
 class IncomingsViewController: UIViewController {
 
     //MARK: IBOutlets
@@ -33,6 +38,7 @@ class IncomingsViewController: UIViewController {
     
     var allGroups: [ExpenseGroup] = []
     var totalIncome = 0.0
+    var delegate: IncomingsViewControllerDelegate?
 
     
     //MARK: View Lifecycle
@@ -217,7 +223,8 @@ extension IncomingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        delegate?.didSelectCellInIncoming()
+
         let categoryVc = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "categoryDetailVC") as! CategoryDetailTableViewController
         
         categoryVc.selectedCategoryName = allGroups[indexPath.row].name
