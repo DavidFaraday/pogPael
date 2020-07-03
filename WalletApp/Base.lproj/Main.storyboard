@@ -527,6 +527,27 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="f0h-WJ-l9f">
+                                        <rect key="frame" x="0.0" y="260" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f0h-WJ-l9f" id="AQV-p0-rrp">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7Z-wA-yMC">
+                                                    <rect key="frame" x="16" y="13.5" width="343" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="h7Z-wA-yMC" firstAttribute="leading" secondItem="AQV-p0-rrp" secondAttribute="leadingMargin" id="BLN-sO-i8k"/>
+                                                <constraint firstItem="h7Z-wA-yMC" firstAttribute="trailing" secondItem="AQV-p0-rrp" secondAttribute="trailingMargin" id="f6s-RC-rxv"/>
+                                                <constraint firstItem="h7Z-wA-yMC" firstAttribute="centerY" secondItem="AQV-p0-rrp" secondAttribute="centerY" id="oxy-AG-C8z"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -536,10 +557,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="Ma4-ZC-tF4"/>
+                    <connections>
+                        <outlet property="appVersionLabel" destination="h7Z-wA-yMC" id="Wzg-O6-0g4"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bbb-hM-wUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1142" y="2401"/>
+            <point key="canvasLocation" x="1141.5999999999999" y="2400.4497751124441"/>
         </scene>
         <!--Categories Table View Controller-->
         <scene sceneID="g5G-cM-5sG">

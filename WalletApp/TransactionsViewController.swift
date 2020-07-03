@@ -175,6 +175,7 @@ class TransactionsViewController: UIViewController {
     
     
     @IBAction func sortButtonPressed(_ sender: Any) {
+        dismissKeyboard()
         isSortPopUpVisible ? hideSortPopUpView() : showSortPopUpView()
         isSortPopUpVisible.toggle()
 
@@ -187,6 +188,7 @@ class TransactionsViewController: UIViewController {
     
     
     @IBAction func dateButtonPressed(_ sender: Any) {
+        dismissKeyboard()
         isDatePopUpVisible ? hideDatePopUpView() : showDatePopUpView()
         isDatePopUpVisible.toggle()
 
@@ -408,6 +410,10 @@ class TransactionsViewController: UIViewController {
             isSortPopUpVisible.toggle()
         }
     }
+    
+    private func dismissKeyboard() {
+        self.view.endEditing(false)
+    }
 }
 
 extension TransactionsViewController: NSFetchedResultsControllerDelegate {
@@ -459,9 +465,10 @@ extension TransactionsViewController: UITableViewDelegate {
         titleLabel.text = allGroups[section].name.capitalizingFirstLetter()
         
         
-        let totalLabel = UILabel(frame: CGRect(x: tableView.frame.width - 130, y: 0, width: 120, height: 30))
-
+        let totalLabel = UILabel(frame: CGRect(x: tableView.frame.width - 150, y: 0, width: 140, height: 30))
+        
         totalLabel.textAlignment = .right
+        totalLabel.adjustsFontSizeToFitWidth = true
         totalLabel.text = "Total: " + convertToCurrency(number: allGroups[section].totalValue).replacingOccurrences(of: ".00", with: "")
 
         headerView.addSubview(titleLabel)
@@ -601,6 +608,10 @@ extension TransactionsViewController: AllAccountsViewControllerDelegate {
 
 
 extension TransactionsViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        hidePopUpViews()
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
